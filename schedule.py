@@ -1,7 +1,6 @@
 import pulp
 from collections import defaultdict
 
-# Parse games from games.txt
 def parse_games(file_path):
     all_games = []
     divisional_games = defaultdict(list)
@@ -19,22 +18,16 @@ def parse_games(file_path):
             elif line and section == "divisional_games":
                 team1, team2 = line.split(" vs. ")
                 divisional_games[team1].append(team2)
-                # Add divisional games to all_games
                 all_games.append((team1, team2))
     return all_games, divisional_games
 
-# Generate schedule using pulp
 def generate_schedule(all_games, divisional_games, weeks=18):
-    # Create the problem
     prob = pulp.LpProblem("NFL_Schedule", pulp.LpMaximize)
 
-    # Variables: x[game, week] = 1 if game is scheduled in week
+    # x[game, week] = 1 if game is scheduled in week
     x = pulp.LpVariable.dicts("GameWeek", 
                                ((game, week) for game in all_games for week in range(1, weeks + 1)),
                                cat="Binary")
-
-    # Objective: Maximize the number of scheduled games
-    prob += pulp.lpSum(x[game, week] for game in all_games for week in range(1, weeks + 1))
 
     # Constraint: Each game is scheduled exactly once
     for game in all_games:
@@ -54,8 +47,8 @@ def generate_schedule(all_games, divisional_games, weeks=18):
     divisional_game_set = set((team1, team2) for team1, opponents in divisional_games.items() for team2 in opponents)
     prob += pulp.lpSum(x[game, 18] for game in all_games if game not in divisional_game_set) == 0
 
-    # Constraint: Eagles vs. Commanders must be the first game in Week 1
-    kickoff_game = ("Eagles", "Commanders")
+    # Constraint: Eagles vs. Cowboys (kickoff game) must be the first game in Week 1
+    kickoff_game = ("Eagles", "Cowboys")
     if kickoff_game in all_games:
         prob += x[kickoff_game, 1] == 1
 
@@ -89,7 +82,6 @@ def generate_schedule(all_games, divisional_games, weeks=18):
                     x[game, week] + x[reverse_game, week + 1]
                 ) <= 1
 
-    # Solve the problem
     prob.solve()
 
     # Extract the schedule
@@ -106,7 +98,6 @@ def generate_schedule(all_games, divisional_games, weeks=18):
 
     return schedule
 
-# Main function
 if __name__ == "__main__":
     games_file = "/home/parinr/nfl-schedule-maker/games.txt"
     all_games, divisional_games = parse_games(games_file)

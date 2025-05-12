@@ -1,5 +1,5 @@
 import random
-from teams import teams
+from opponents import teams
 
 team_names = [
     "Bears", "Lions", "Packers", "Vikings",
@@ -14,15 +14,13 @@ team_names = [
 
 def rand_team(division):
     start_index = division * 4
-    if start_index >= len(team_names):
-        return ""  # Invalid division
     return random.choice(team_names[start_index:start_index + 4])
 
 def main():
     all_games = set()  # Store games as pairs of teams
     divisional_games = []  # Separate list for divisional games
 
-    # Add games from teams.py
+    # Add games from opponents.py
     for team in teams:
         for home_opponent in team["home"]:
             all_games.add((team["name"], home_opponent))
