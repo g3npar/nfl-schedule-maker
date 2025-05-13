@@ -51,10 +51,12 @@ def generate_schedule(all_games, divisional_games, weeks=18):
     known_games = {
         ("Eagles", "Cowboys"): 1,
         ("Chargers", "Chiefs"): 1,
+        ("Steelers", "Vikings"): 4,
         ("Browns", "Vikings"): 5,
         ("Jets", "Broncos"): 6,
         ("Jaguars", "Rams"): 7,
         ("Colts", "Falcons"): 10,
+        ("Packers", "Eagles"): 10,
         ("Dolphins", "Commanders"): 11,
         ("Eagles", "Bears"): 13,
         ("Commanders", "Eagles"): 16,
