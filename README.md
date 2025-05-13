@@ -5,9 +5,9 @@ Instructions:
 2. Install Pulp into your Python Virtual Environment.
 3. Run the program via:
 ```
-python schedule.py
+python scheduler.py
 ```
-4. It can take up to a minute, but your new schedule will be outputted in schedule.txt.
+4. It can take up to a minute, but your new schedule will be outputted in prediction.txt.
 
 Better constraints and more functionality coming soon.
 
