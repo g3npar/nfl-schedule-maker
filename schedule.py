@@ -111,9 +111,10 @@ if __name__ == "__main__":
     all_games, divisional_games = parse_games(games_file)
     schedule = generate_schedule(all_games, divisional_games)
 
-    # Write the schedule to schedule.txt with game numbering
-    output_file = "/home/parinr/nfl-schedule-maker/schedule.txt"
+    # Write the schedule to prediction.txt with game numbering
+    output_file = "/home/parinr/nfl-schedule-maker/prediction.txt"
     with open(output_file, "w") as f:
+        f.write("2025 NFL Schedule Prediction:\n\n")
         for week in sorted(schedule.keys()):  # Ensure weeks are in order
             f.write(f"Week {week}:\n")
             for i, game in enumerate(schedule[week], start=1):
