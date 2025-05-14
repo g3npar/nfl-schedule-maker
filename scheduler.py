@@ -86,6 +86,10 @@ def generate_schedule(all_games, divisional_games, previous_schedule, previous_b
                 pulp.lpSum(x[game, week + 2] for game in all_games if game[1] == team)
             ) <= 2
 
+    # Constraint: At least 13 games must be scheduled each week
+    for week in range(1, weeks + 1):
+        prob += pulp.lpSum(x[game, week] for game in all_games) >= 13
+
     # Constraint: No team plays the same opponent in consecutive weeks
     for game in all_games:
         team1, team2 = game
@@ -101,6 +105,7 @@ def generate_schedule(all_games, divisional_games, previous_schedule, previous_b
         for game in games:
             if game in all_games:
                 prob += x[game, week] == 0
+                prob += x[game[::-1], week] == 0  # Reverse game
 
     # Constraint: Prevent teams with a Week 5 bye in 2024 from having a Week 5 bye in 2025
     if previous_byes and 5 in previous_byes:
