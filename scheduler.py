@@ -21,7 +21,7 @@ def parse_games(file_path):
                 all_games.append((team1, team2))
     return all_games, divisional_games
 
-def generate_schedule(all_games, divisional_games, weeks=18):
+def generate_schedule(all_games, divisional_games, previous_schedule, previous_byes, weeks=18):
     prob = pulp.LpProblem("NFL_Schedule", pulp.LpMaximize)
 
     # x[game, week] = 1 if game is scheduled in week
@@ -66,7 +66,6 @@ def generate_schedule(all_games, divisional_games, weeks=18):
     for game, week in known_games.items():
         prob += x[game, week] == 1
 
-
     # Constraint: Lions and Cowboys must host games in Week 13
     for host_team in ["Lions", "Cowboys"]:
         prob += pulp.lpSum(x[game, 13] for game in all_games if game[0] == host_team) == 1
@@ -97,6 +96,17 @@ def generate_schedule(all_games, divisional_games, weeks=18):
                     x[game, week] + x[reverse_game, week + 1]
                 ) <= 1
 
+    # Constraint: No team has the same game in the same week as the previous year
+    for week, games in previous_schedule.items():
+        for game in games:
+            if game in all_games:
+                prob += x[game, week] == 0
+
+    # Constraint: Prevent teams with a Week 5 bye in 2024 from having a Week 5 bye in 2025
+    if previous_byes and 5 in previous_byes:
+        for team in previous_byes[5]:
+            prob += pulp.lpSum(x[game, 5] for game in all_games if team in game) >= 1
+
     prob.solve()
 
     # Extract the schedule
@@ -110,15 +120,39 @@ def generate_schedule(all_games, divisional_games, weeks=18):
 
 if __name__ == "__main__":
     games_file = "/home/parinr/nfl-schedule-maker/games.txt"
+    previous_file = "/home/parinr/nfl-schedule-maker/previous.txt"
+
     all_games, divisional_games = parse_games(games_file)
-    schedule = generate_schedule(all_games, divisional_games)
+
+    # Parse the previous schedule
+    previous_schedule = defaultdict(list)
+    previous_byes = defaultdict(list)
+    with open(previous_file, "r") as f:
+        lines = f.readlines()
+        current_week = None
+        for line in lines:
+            line = line.strip()
+            if line.startswith("Week"):
+                current_week = int(line.split()[1][:-1])
+            elif line and current_week:
+                teams = line.split(". ")[1].split(" vs. ")
+                previous_schedule[current_week].append(tuple(teams))
+                # Identify teams with byes (not playing in the week)
+                all_teams = set(team for game in previous_schedule[current_week] for team in game)
+                for team in all_teams:
+                    if all(team not in game for game in previous_schedule[current_week]):
+                        previous_byes[current_week].append(team)
+
+    schedule = generate_schedule(all_games, divisional_games, previous_schedule, previous_byes)
 
     # Write the schedule to prediction.txt with game numbering
     output_file = "/home/parinr/nfl-schedule-maker/prediction.txt"
     with open(output_file, "w") as f:
-        f.write("2025 NFL Schedule Prediction:\n\n")
+        f.write("2025 NFL Schedule:\n\n")
         for week in sorted(schedule.keys()):  # Ensure weeks are in order
             f.write(f"Week {week}:\n")
             for i, game in enumerate(schedule[week], start=1):
                 f.write(f"  {i}. {game[0]} vs. {game[1]}\n")
+            f.write("\n")
+    print(f"Schedule successfully generated.")
 
