@@ -62,6 +62,7 @@ def generate_schedule(all_games, divisional_games, previous_schedule, previous_b
         ("Commanders", "Eagles"): 16,
         ("Bears", "Packers"): 16,
         ("Chiefs", "Broncos"): 17,
+        ("Vikings", "Lions"): 17,
     }
     for game, week in known_games.items():
         prob += x[game, week] == 1
