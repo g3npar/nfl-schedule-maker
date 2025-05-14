@@ -47,26 +47,6 @@ def generate_schedule(all_games, divisional_games, previous_schedule, previous_b
     divisional_game_set = set((team1, team2) for team1, opponents in divisional_games.items() for team2 in opponents)
     prob += pulp.lpSum(x[game, 18] for game in all_games if game not in divisional_game_set) == 0
 
-    # Constraint: Currently known games must be scheduled in their respective weeks
-    known_games = {
-        ("Eagles", "Cowboys"): 1,
-        ("Chargers", "Chiefs"): 1,
-        ("Steelers", "Vikings"): 4,
-        ("Browns", "Vikings"): 5,
-        ("Jets", "Broncos"): 6,
-        ("Jaguars", "Rams"): 7,
-        ("Colts", "Falcons"): 10,
-        ("Packers", "Eagles"): 10,
-        ("Dolphins", "Commanders"): 11,
-        ("Eagles", "Bears"): 13,
-        ("Commanders", "Eagles"): 16,
-        ("Bears", "Packers"): 16,
-        ("Chiefs", "Broncos"): 17,
-        ("Vikings", "Lions"): 17,
-    }
-    for game, week in known_games.items():
-        prob += x[game, week] == 1
-
     # Constraint: Lions and Cowboys must host games in Week 13
     for host_team in ["Lions", "Cowboys"]:
         prob += pulp.lpSum(x[game, 13] for game in all_games if game[0] == host_team) == 1
