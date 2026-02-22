@@ -11,4 +11,4 @@ python scheduler.py
 
 Better constraints and more functionality coming soon.
 
-Note: This script currently only generates schedules based on 2025 matchups.
+Note: This script currently only generates schedules based on 2026 matchups.

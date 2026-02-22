@@ -1,0 +1,310 @@
+2026 NFL Schedule:
+
+Week 1:
+  1. Commanders vs. Texans
+  2. Saints vs. Raiders
+  3. Seahawks vs. Chiefs
+  4. Colts vs. Cowboys
+  5. Lions vs. Titans
+  6. Eagles vs. Panthers
+  7. Ravens vs. Jaguars
+  8. Steelers vs. Falcons
+  9. Giants vs. Cardinals
+  10. Bears vs. Buccaneers
+  11. Vikings vs. Packers
+  12. 49ers vs. Rams
+  13. Browns vs. Bengals
+  14. Chargers vs. Broncos
+  15. Bills vs. Patriots
+  16. Dolphins vs. Jets
+
+Week 2:
+  1. Bengals vs. Saints
+  2. Cowboys vs. Titans
+  3. Buccaneers vs. Chargers
+  4. Broncos vs. Seahawks
+  5. Bills vs. Chiefs
+  6. Cardinals vs. Eagles
+  7. Rams vs. Packers
+  8. Raiders vs. Dolphins
+  9. Falcons vs. Ravens
+  10. 49ers vs. Commanders
+  11. Panthers vs. Bears
+  12. Colts vs. Giants
+  13. Lions vs. Vikings
+  14. Steelers vs. Browns
+  15. Patriots vs. Jets
+  16. Texans vs. Jaguars
+
+Week 3:
+  1. Packers vs. Texans
+  2. Panthers vs. Lions
+  3. Dolphins vs. Bengals
+  4. Seahawks vs. Bears
+  5. Vikings vs. Falcons
+  6. Giants vs. 49ers
+  7. Titans vs. Steelers
+  8. Commanders vs. Rams
+  9. Patriots vs. Broncos
+  10. Chiefs vs. Cardinals
+  11. Eagles vs. Cowboys
+  12. Buccaneers vs. Saints
+  13. Ravens vs. Browns
+  14. Raiders vs. Chargers
+  15. Jets vs. Bills
+  16. Jaguars vs. Colts
+
+Week 4:
+  1. Bears vs. Jets
+  2. Browns vs. Panthers
+  3. Saints vs. Steelers
+  4. Bills vs. Ravens
+  5. Eagles vs. Texans
+  6. Bengals vs. Chiefs
+  7. Chargers vs. Patriots
+  8. 49ers vs. Raiders
+  9. Colts vs. Dolphins
+  10. Vikings vs. Commanders
+  11. Cardinals vs. Broncos
+  12. Packers vs. Lions
+  13. Rams vs. Seahawks
+  14. Cowboys vs. Giants
+  15. Falcons vs. Buccaneers
+  16. Jaguars vs. Titans
+
+Week 5:
+  1. Steelers vs. Colts
+  2. Jets vs. Packers
+  3. Titans vs. Browns
+  4. Ravens vs. Chargers
+  5. Broncos vs. Jaguars
+  6. Saints vs. Vikings
+  7. Lions vs. Giants
+  8. Falcons vs. Bears
+  9. Chiefs vs. 49ers
+  10. Texans vs. Bengals
+  11. Rams vs. Cardinals
+  12. Cowboys vs. Eagles
+  13. Panthers vs. Buccaneers
+  14. Patriots vs. Bills
+
+Week 6:
+  1. Browns vs. Texans
+  2. Commanders vs. Falcons
+  3. Broncos vs. Bills
+  4. Raiders vs. Titans
+  5. Buccaneers vs. Packers
+  6. Eagles vs. Seahawks
+  7. Panthers vs. Ravens
+  8. Patriots vs. Vikings
+  9. Giants vs. Saints
+  10. Bears vs. Lions
+  11. 49ers vs. Cardinals
+  12. Steelers vs. Bengals
+  13. Chiefs vs. Chargers
+  14. Jets vs. Dolphins
+  15. Colts vs. Jaguars
+
+Week 7:
+  1. Giants vs. Browns
+  2. Seahawks vs. Patriots
+  3. Rams vs. Chiefs
+  4. Bills vs. Bears
+  5. Cardinals vs. Raiders
+  6. Ravens vs. Saints
+  7. Jaguars vs. Steelers
+  8. Dolphins vs. Lions
+  9. Packers vs. Cowboys
+  10. Vikings vs. Colts
+  11. Commanders vs. Eagles
+  12. Falcons vs. Panthers
+  13. Titans vs. Texans
+
+Week 8:
+  1. Cowboys vs. Ravens
+  2. Vikings vs. Panthers
+  3. Patriots vs. Raiders
+  4. Jaguars vs. Eagles
+  5. Seahawks vs. Giants
+  6. Colts vs. Bengals
+  7. Cardinals vs. Commanders
+  8. Buccaneers vs. Rams
+  9. Chiefs vs. Jets
+  10. Falcons vs. 49ers
+  11. Saints vs. Packers
+  12. Lions vs. Bears
+  13. Browns vs. Steelers
+  14. Broncos vs. Chargers
+  15. Dolphins vs. Bills
+
+Week 9:
+  1. Texans vs. Bills
+  2. Lions vs. Buccaneers
+  3. Jets vs. Broncos
+  4. 49ers vs. Dolphins
+  5. Bengals vs. Titans
+  6. Panthers vs. Seahawks
+  7. Chargers vs. Cardinals
+  8. Rams vs. Cowboys
+  9. Eagles vs. Colts
+  10. Bears vs. Vikings
+  11. Commanders vs. Giants
+  12. Saints vs. Falcons
+  13. Steelers vs. Ravens
+  14. Raiders vs. Chiefs
+
+Week 10:
+  1. Buccaneers vs. Browns
+  2. Chargers vs. Jets
+  3. Chiefs vs. Patriots
+  4. Ravens vs. Titans
+  5. Eagles vs. Rams
+  6. Steelers vs. Texans
+  7. Giants vs. Jaguars
+  8. Falcons vs. Bengals
+  9. Dolphins vs. Bears
+  10. Cardinals vs. Lions
+  11. Packers vs. Vikings
+  12. Seahawks vs. 49ers
+  13. Cowboys vs. Commanders
+  14. Panthers vs. Saints
+  15. Raiders vs. Broncos
+
+Week 11:
+  1. Texans vs. Ravens
+  2. Rams vs. Chargers
+  3. Titans vs. Jets
+  4. 49ers vs. Eagles
+  5. Commanders vs. Colts
+  6. Browns vs. Raiders
+  7. Bills vs. Lions
+  8. Bears vs. Jaguars
+  9. Packers vs. Panthers
+  10. Cardinals vs. Seahawks
+  11. Giants vs. Cowboys
+  12. Saints vs. Buccaneers
+  13. Bengals vs. Steelers
+  14. Broncos vs. Chiefs
+  15. Dolphins vs. Patriots
+
+Week 12:
+  1. Eagles vs. Steelers
+  2. 49ers vs. Broncos
+  3. Ravens vs. Buccaneers
+  4. Raiders vs. Bills
+  5. Patriots vs. Packers
+  6. Cowboys vs. Cardinals
+  7. Panthers vs. Bengals
+  8. Jets vs. Browns
+  9. Vikings vs. Dolphins
+  10. Falcons vs. Chiefs
+  11. Jaguars vs. Commanders
+  12. Lions vs. Saints
+  13. Chargers vs. Texans
+  14. Seahawks vs. Rams
+  15. Colts vs. Titans
+
+Week 13:
+  1. Bears vs. Patriots
+  2. Lions vs. Jets
+  3. Rams vs. Bills
+  4. Commanders vs. Seahawks
+  5. Dolphins vs. Chargers
+  6. Cowboys vs. 49ers
+  7. Packers vs. Falcons
+  8. Saints vs. Browns
+  9. Buccaneers vs. Vikings
+  10. Eagles vs. Giants
+  11. Bengals vs. Ravens
+  12. Broncos vs. Raiders
+  13. Texans vs. Colts
+  14. Titans vs. Jaguars
+
+Week 14:
+  1. Panthers vs. Broncos
+  2. Chiefs vs. Colts
+  3. Bills vs. Chargers
+  4. Seahawks vs. Cowboys
+  5. Jets vs. Vikings
+  6. Browns vs. Falcons
+  7. Bengals vs. Jaguars
+  8. Raiders vs. Rams
+  9. Buccaneers vs. Steelers
+  10. Bears vs. Packers
+  11. Cardinals vs. 49ers
+  12. Giants vs. Commanders
+  13. Patriots vs. Dolphins
+  14. Texans vs. Titans
+
+Week 15:
+  1. Steelers vs. Panthers
+  2. Saints vs. Cardinals
+  3. Titans vs. Eagles
+  4. Cowboys vs. Buccaneers
+  5. Commanders vs. Bengals
+  6. Broncos vs. Dolphins
+  7. Packers vs. Bills
+  8. Rams vs. Giants
+  9. Falcons vs. Lions
+  10. Jaguars vs. Patriots
+  11. Jets vs. Raiders
+  12. Vikings vs. Bears
+  13. 49ers vs. Seahawks
+  14. Browns vs. Ravens
+  15. Chargers vs. Chiefs
+  16. Colts vs. Texans
+
+Week 16:
+  1. Raiders vs. Seahawks
+  2. Chargers vs. 49ers
+  3. Jaguars vs. Browns
+  4. Giants vs. Titans
+  5. Dolphins vs. Chiefs
+  6. Bears vs. Saints
+  7. Cardinals vs. Jets
+  8. Texans vs. Cowboys
+  9. Patriots vs. Steelers
+  10. Bengals vs. Buccaneers
+  11. Vikings vs. Bills
+  12. Colts vs. Ravens
+  13. Broncos vs. Rams
+  14. Lions vs. Packers
+  15. Eagles vs. Commanders
+  16. Panthers vs. Falcons
+
+Week 17:
+  1. 49ers vs. Vikings
+  2. Cowboys vs. Jaguars
+  3. Texans vs. Giants
+  4. Steelers vs. Broncos
+  5. Packers vs. Dolphins
+  6. Titans vs. Commanders
+  7. Lions vs. Patriots
+  8. Bears vs. Eagles
+  9. Browns vs. Colts
+  10. Seahawks vs. Chargers
+  11. Cardinals vs. Rams
+  12. Saints vs. Panthers
+  13. Buccaneers vs. Falcons
+  14. Ravens vs. Bengals
+  15. Chiefs vs. Raiders
+  16. Bills vs. Jets
+
+Week 18:
+  1. Packers vs. Bears
+  2. Vikings vs. Lions
+  3. Rams vs. 49ers
+  4. Seahawks vs. Cardinals
+  5. Giants vs. Eagles
+  6. Commanders vs. Cowboys
+  7. Falcons vs. Saints
+  8. Buccaneers vs. Panthers
+  9. Ravens vs. Steelers
+  10. Bengals vs. Browns
+  11. Chiefs vs. Broncos
+  12. Chargers vs. Raiders
+  13. Bills vs. Dolphins
+  14. Jets vs. Patriots
+  15. Jaguars vs. Texans
+  16. Titans vs. Colts
+

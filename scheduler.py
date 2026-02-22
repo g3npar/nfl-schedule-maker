@@ -47,9 +47,14 @@ def generate_schedule(all_games, divisional_games, previous_schedule, previous_b
     divisional_game_set = set((team1, team2) for team1, opponents in divisional_games.items() for team2 in opponents)
     prob += pulp.lpSum(x[game, 18] for game in all_games if game not in divisional_game_set) == 0
 
-    # Constraint: Lions and Cowboys must host games in Week 13
+    # Constraint: Lions and Cowboys must host games in Week 12 (Thanksgiving)
     for host_team in ["Lions", "Cowboys"]:
-        prob += pulp.lpSum(x[game, 13] for game in all_games if game[0] == host_team) == 1
+        prob += pulp.lpSum(x[game, 12] for game in all_games if game[0] == host_team) == 1
+
+    # Constraint: 49ers (at home) vs Rams must be in Week 1
+    niners_rams_game = ("49ers", "Rams")
+    if niners_rams_game in all_games:
+        prob += x[niners_rams_game, 1] == 1
 
     # Constraint: No team has more than 2 consecutive home or away games
     for team in teams:
@@ -88,7 +93,7 @@ def generate_schedule(all_games, divisional_games, previous_schedule, previous_b
                 prob += x[game, week] == 0
                 prob += x[game[::-1], week] == 0  # Reverse game
 
-    # Constraint: Prevent teams with a Week 5 bye in 2024 from having a Week 5 bye in 2025
+    # Constraint: Prevent teams with a Week 5 bye in 2025 from having a Week 5 bye in 2026
     if previous_byes and 5 in previous_byes:
         for team in previous_byes[5]:
             prob += pulp.lpSum(x[game, 5] for game in all_games if team in game) >= 1
@@ -134,7 +139,7 @@ if __name__ == "__main__":
     # Write the schedule to prediction.txt with game numbering
     output_file = "/home/parinr/nfl-schedule-maker/prediction.txt"
     with open(output_file, "w") as f:
-        f.write("2025 NFL Schedule:\n\n")
+        f.write("2026 NFL Schedule:\n\n")
         for week in sorted(schedule.keys()):  # Ensure weeks are in order
             f.write(f"Week {week}:\n")
             for i, game in enumerate(schedule[week], start=1):

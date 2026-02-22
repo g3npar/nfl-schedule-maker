@@ -1,162 +1,162 @@
 teams = [
     {
         "name": "Bills",
-        "home": ["Ravens", "Bengals", "Saints", "Buccaneers", "Chiefs", "Eagles"],
-        "away": ["Falcons", "Panthers", "Browns", "Steelers", "Texans"]
+        "home": ["Ravens", "Lions", "Bears", "Chiefs", "Chargers"],
+        "away": ["Broncos", "Raiders", "Texans", "Packers", "Vikings", "Rams"]
     },
     {
         "name": "Dolphins",
-        "home": ["Ravens", "Bengals", "Saints", "Buccaneers", "Chargers", "Commanders"],
-        "away": ["Falcons", "Panthers", "Browns", "Steelers", "Colts"]
+        "home": ["Bengals", "Lions", "Bears", "Chiefs", "Chargers"],
+        "away": ["Broncos", "Raiders", "Colts", "Packers", "Vikings", "49ers"]
     },
     {
         "name": "Jets",
-        "home": ["Falcons", "Panthers", "Browns", "Steelers", "Broncos", "Cowboys"],
-        "away": ["Ravens", "Bengals", "Saints", "Buccaneers", "Jaguars"]
+        "home": ["Browns", "Packers", "Vikings", "Broncos", "Raiders"],
+        "away": ["Chiefs", "Chargers", "Titans", "Lions", "Bears", "Cardinals"]
     },
     {
         "name": "Patriots",
-        "home": ["Falcons", "Panthers", "Browns", "Steelers", "Raiders", "Giants"],
-        "away": ["Ravens", "Bengals", "Saints", "Buccaneers", "Titans"]
+        "home": ["Steelers", "Packers", "Vikings", "Broncos", "Raiders"],
+        "away": ["Chiefs", "Chargers", "Jaguars", "Lions", "Bears", "Seahawks"]
     },
     {
         "name": "Ravens",
-        "home": ["Bears", "Lions", "Patriots", "Jets", "Texans", "Rams"],
-        "away": ["Bills", "Packers", "Dolphins", "Vikings", "Chiefs"]
+        "home": ["Jaguars", "Titans", "Chargers", "Saints", "Buccaneers"],
+        "away": ["Texans", "Colts", "Bills", "Falcons", "Panthers", "Cowboys"]
     },
     {
         "name": "Steelers",
-        "home": ["Bills", "Packers", "Vikings", "Dolphins", "Colts", "Seahawks"],
-        "away": ["Bears", "Lions", "Patriots", "Jets", "Chargers"]
+        "home": ["Texans", "Colts", "Broncos", "Falcons", "Panthers"],
+        "away": ["Jaguars", "Titans", "Patriots", "Saints", "Buccaneers", "Eagles"]
     },
     {
         "name": "Bengals",
-        "home": ["Bears", "Lions", "Patriots", "Jets", "Jaguars", "Cardinals"],
-        "away": ["Bills", "Packers", "Dolphins", "Vikings", "Broncos"]
+        "home": ["Jaguars", "Titans", "Chiefs", "Saints", "Buccaneers"],
+        "away": ["Texans", "Colts", "Dolphins", "Falcons", "Panthers", "Commanders"]
     },
     {
         "name": "Browns",
-        "home": ["Bills", "Packers", "Dolphins", "Vikings", "Titans", "49ers"],
-        "away": ["Bears", "Lions", "Patriots", "Jets", "Raiders"]
+        "home": ["Texans", "Colts", "Raiders", "Falcons", "Panthers"],
+        "away": ["Jaguars", "Titans", "Jets", "Saints", "Buccaneers", "Giants"]
     },
     {
         "name": "Texans",
-        "home": ["Cardinals", "Broncos", "Raiders", "49ers", "Bills", "Buccaneers"],
-        "away": ["Chiefs", "Chargers", "Rams", "Seahawks", "Ravens"]
+        "home": ["Ravens", "Bengals", "Bills", "Cowboys", "Giants"],
+        "away": ["Browns", "Steelers", "Chargers", "Eagles", "Commanders", "Packers"]
     },
     {
         "name": "Colts",
-        "home": ["Cardinals", "Broncos", "Raiders", "49ers", "Dolphins", "Falcons"],
-        "away": ["Chiefs", "Chargers", "Rams", "Seahawks", "Steelers"]
+        "home": ["Ravens", "Bengals", "Dolphins", "Cowboys", "Giants"],
+        "away": ["Browns", "Steelers", "Chiefs", "Eagles", "Commanders", "Vikings"]
     },
     {
         "name": "Jaguars",
-        "home": ["Chiefs", "Chargers", "Rams", "Seahawks", "Jets", "Panthers"],
-        "away": ["Cardinals", "Broncos", "Raiders", "49ers", "Bengals"]
+        "home": ["Browns", "Steelers", "Patriots", "Eagles", "Commanders"],
+        "away": ["Ravens", "Bengals", "Broncos", "Cowboys", "Giants", "Bears"]
     },
     {
         "name": "Titans",
-        "home": ["Chiefs", "Chargers", "Rams", "Seahawks", "Patriots", "Saints"],
-        "away": ["Cardinals", "Broncos", "Raiders", "49ers", "Browns"]
+        "home": ["Browns", "Steelers", "Jets", "Eagles", "Commanders"],
+        "away": ["Ravens", "Bengals", "Raiders", "Cowboys", "Giants", "Lions"]
     },
     {
         "name": "Chiefs",
-        "home": ["Texans", "Colts", "Eagles", "Commanders", "Ravens", "Lions"],
-        "away": ["Cowboys", "Jaguars", "Giants", "Titans", "Bills"]
+        "home": ["Patriots", "Jets", "Colts", "Cardinals", "49ers"],
+        "away": ["Bills", "Dolphins", "Bengals", "Rams", "Seahawks", "Falcons"]
     },
     {
         "name": "Chargers",
-        "home": ["Texans", "Colts", "Eagles", "Commanders", "Steelers", "Vikings"],
-        "away": ["Cowboys", "Jaguars", "Giants", "Titans", "Dolphins"]
+        "home": ["Patriots", "Jets", "Texans", "Cardinals", "49ers"],
+        "away": ["Bills", "Dolphins", "Ravens", "Rams", "Seahawks", "Buccaneers"]
     },
     {
         "name": "Broncos",
-        "home": ["Cowboys", "Jaguars", "Giants", "Titans", "Bengals", "Packers"],
-        "away": ["Texans", "Colts", "Eagles", "Commanders", "Jets"]
+        "home": ["Bills", "Dolphins", "Jaguars", "Rams", "Seahawks"],
+        "away": ["Patriots", "Jets", "Steelers", "Cardinals", "49ers", "Panthers"]
     },
     {
         "name": "Raiders",
-        "home": ["Cowboys", "Jaguars", "Giants", "Titans", "Browns", "Bears"],
-        "away": ["Texans", "Colts", "Eagles", "Commanders", "Patriots"]
+        "home": ["Bills", "Dolphins", "Titans", "Rams", "Seahawks"],
+        "away": ["Patriots", "Jets", "Browns", "Cardinals", "49ers", "Saints"]
     },
     {
         "name": "Eagles",
-        "home": ["Bears", "Broncos", "Lions", "Raiders", "Rams"],
-        "away": ["Packers", "Chiefs", "Chargers", "Vikings", "Bills", "Buccaneers"]
+        "home": ["Rams", "Seahawks", "Panthers", "Texans", "Colts", "Steelers"],
+        "away": ["Cardinals", "49ers", "Bears", "Jaguars", "Titans"]
     },
     {
         "name": "Commanders",
-        "home": ["Bears", "Broncos", "Lions", "Raiders", "Seahawks"],
-        "away": ["Packers", "Chiefs", "Chargers", "Vikings", "Dolphins", "Falcons"]
+        "home": ["Rams", "Seahawks", "Falcons", "Texans", "Colts", "Bengals"],
+        "away": ["Cardinals", "49ers", "Vikings", "Jaguars", "Titans"]
     },
     {
         "name": "Cowboys",
-        "home": ["Packers", "Chiefs", "Chargers", "Vikings", "Cardinals"],
-        "away": ["Bears", "Broncos", "Lions", "Raiders", "Jets", "Panthers"]
+        "home": ["Cardinals", "49ers", "Buccaneers", "Jaguars", "Titans", "Ravens"],
+        "away": ["Rams", "Seahawks", "Packers", "Texans", "Colts"]
     },
     {
         "name": "Giants",
-        "home": ["Packers", "Chiefs", "Chargers", "Vikings", "49ers"],
-        "away": ["Bears", "Broncos", "Lions", "Raiders", "Patriots", "Saints"]
+        "home": ["Cardinals", "49ers", "Saints", "Jaguars", "Titans", "Browns"],
+        "away": ["Rams", "Seahawks", "Lions", "Texans", "Colts"]
     },
     {
         "name": "Lions",
-        "home": ["Browns", "Cowboys", "Giants", "Steelers", "Buccaneers"],
-        "away": ["Ravens", "Bengals", "Eagles", "Commanders", "Chiefs", "Rams"]
+        "home": ["Saints", "Buccaneers", "Giants", "Patriots", "Jets", "Titans"],
+        "away": ["Falcons", "Panthers", "Cardinals", "Bills", "Dolphins"]
     },
     {
         "name": "Vikings",
-        "home": ["Ravens", "Bengals", "Eagles", "Commanders", "Falcons"],
-        "away": ["Browns", "Cowboys", "Giants", "Steelers", "Chargers", "Seahawks"]
+        "home": ["Falcons", "Panthers", "Commanders", "Bills", "Dolphins", "Colts"],
+        "away": ["Saints", "Buccaneers", "49ers", "Patriots", "Jets"]
     },
     {
         "name": "Packers",
-        "home": ["Ravens", "Bengals", "Eagles", "Commanders", "Panthers"],
-        "away": ["Browns", "Cowboys", "Giants", "Steelers", "Broncos", "Cardinals"]
+        "home": ["Falcons", "Panthers", "Cowboys", "Bills", "Dolphins", "Texans"],
+        "away": ["Saints", "Buccaneers", "Rams", "Patriots", "Jets"]
     },
     {
         "name": "Bears",
-        "home": ["Browns", "Cowboys", "Giants", "Steelers", "Saints"],
-        "away": ["Ravens", "Bengals", "Eagles", "Commanders", "Raiders", "49ers"]
+        "home": ["Saints", "Buccaneers", "Eagles", "Patriots", "Jets", "Jaguars"],
+        "away": ["Falcons", "Panthers", "Seahawks", "Bills", "Dolphins"]
     },
     {
         "name": "Buccaneers",
-        "home": ["Cardinals", "Patriots", "Jets", "49ers", "Eagles"],
-        "away": ["Bills", "Rams", "Dolphins", "Seahawks", "Texans", "Lions"]
+        "home": ["Packers", "Vikings", "Rams", "Browns", "Steelers", "Chargers"],
+        "away": ["Bears", "Lions", "Cowboys", "Ravens", "Bengals"]
     },
     {
         "name": "Falcons",
-        "home": ["Bills", "Rams", "Dolphins", "Seahawks", "Commanders"],
-        "away": ["Cardinals", "Patriots", "Jets", "49ers", "Colts", "Vikings"]
+        "home": ["Bears", "Lions", "49ers", "Ravens", "Bengals", "Chiefs"],
+        "away": ["Packers", "Vikings", "Commanders", "Browns", "Steelers"]
     },
     {
         "name": "Panthers",
-        "home": ["Bills", "Rams", "Dolphins", "Seahawks", "Cowboys"],
-        "away": ["Cardinals", "Patriots", "Jets", "49ers", "Jaguars", "Packers"]
+        "home": ["Bears", "Lions", "Seahawks", "Ravens", "Bengals", "Broncos"],
+        "away": ["Packers", "Vikings", "Eagles", "Browns", "Steelers"]
     },
     {
         "name": "Saints",
-        "home": ["Cardinals", "Patriots", "Jets", "49ers", "Giants"],
-        "away": ["Bills", "Dolphins", "Rams", "Seahawks", "Titans", "Bears"]
+        "home": ["Packers", "Vikings", "Cardinals", "Browns", "Steelers", "Raiders"],
+        "away": ["Bears", "Lions", "Giants", "Ravens", "Bengals"]
     },
     {
         "name": "Rams",
-        "home": ["Texans", "Colts", "Saints", "Buccaneers", "Lions"],
-        "away": ["Falcons", "Panthers", "Jaguars", "Titans", "Ravens", "Eagles"]
+        "home": ["Cowboys", "Giants", "Packers", "Chiefs", "Chargers", "Bills"],
+        "away": ["Eagles", "Commanders", "Buccaneers", "Broncos", "Raiders"]
     },
     {
         "name": "Seahawks",
-        "home": ["Texans", "Colts", "Saints", "Buccaneers", "Vikings"],
-        "away": ["Falcons", "Panthers", "Jaguars", "Titans", "Steelers", "Commanders"]
+        "home": ["Cowboys", "Giants", "Bears", "Chiefs", "Chargers", "Patriots"],
+        "away": ["Eagles", "Commanders", "Panthers", "Broncos", "Raiders"]
     },
     {
         "name": "Cardinals",
-        "home": ["Falcons", "Panthers", "Jaguars", "Titans", "Packers"],
-        "away": ["Texans", "Colts", "Saints", "Buccaneers", "Bengals", "Cowboys"]
+        "home": ["Eagles", "Commanders", "Lions", "Broncos", "Raiders", "Jets"],
+        "away": ["Cowboys", "Giants", "Saints", "Chiefs", "Chargers"]
     },
     {
         "name": "49ers",
-        "home": ["Falcons", "Panthers", "Jaguars", "Titans", "Bears"],
-        "away": ["Texans", "Colts", "Saints", "Buccaneers", "Browns", "Giants"]
+        "home": ["Eagles", "Commanders", "Vikings", "Broncos", "Raiders", "Dolphins"],
+        "away": ["Cowboys", "Giants", "Falcons", "Chiefs", "Chargers"]
     }
 ]
