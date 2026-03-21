@@ -1,0 +1,69 @@
+2025 NFL Season Records (Regular Season):
+
+AFC East:
+  Patriots         14-3
+  Bills            12-5
+  Dolphins          7-10
+  Jets              3-14
+
+AFC North:
+  Steelers         10-7
+  Ravens            8-9
+  Bengals           6-11
+  Browns            4-13
+
+AFC South:
+  Jaguars          13-4
+  Texans           12-5
+  Colts             8-9
+  Titans            3-14
+
+AFC West:
+  Broncos          14-3
+  Chargers         11-6
+  Chiefs            6-11
+  Raiders           3-14
+
+NFC East:
+  Eagles           11-6
+  Cowboys           7-9-1
+  Commanders        5-12
+  Giants            4-13
+
+NFC North:
+  Bears            11-6
+  Packers           9-7-1
+  Lions             9-8
+  Vikings           9-8
+
+NFC South:
+  Buccaneers        8-9
+  Falcons           8-9
+  Panthers          8-9
+  Saints            6-11
+
+NFC West:
+  Seahawks         14-3
+  Rams             12-5
+  49ers            12-5
+  Cardinals         3-14
+
+Playoffs:
+  AFC #1 Seed: Broncos (14-3)
+  AFC #2 Seed: Patriots (14-3)
+  AFC #3 Seed: Jaguars (13-4)
+  AFC #4 Seed: Steelers (10-7)
+  AFC #5 Seed: Texans (12-5)      [Wild Card]
+  AFC #6 Seed: Bills (12-5)       [Wild Card]
+  AFC #7 Seed: Chargers (11-6)    [Wild Card]
+
+  NFC #1 Seed: Seahawks (14-3)
+  NFC #2 Seed: Bears (11-6)
+  NFC #3 Seed: Eagles (11-6)
+  NFC #4 Seed: Panthers (8-9)
+  NFC #5 Seed: Rams (12-5)        [Wild Card]
+  NFC #6 Seed: 49ers (12-5)       [Wild Card]
+  NFC #7 Seed: Packers (9-7-1)    [Wild Card]
+
+Super Bowl LX Champion: Seattle Seahawks
+  Seahawks def. Patriots 29-13

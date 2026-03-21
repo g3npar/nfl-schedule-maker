@@ -39,11 +39,11 @@ def main():
     with open("games.txt", "w") as out_file:
         out_file.write("All Games:\n")
         for game in all_games:
-            out_file.write(f"{game[0]} vs. {game[1]}\n")
+            out_file.write(f"{game[1]} @ {game[0]}\n")
 
         out_file.write("\nDivisional Games:\n")
         for game in divisional_games:
-            out_file.write(f"{game[0]} vs. {game[1]}\n")
+            out_file.write(f"{game[1]} @ {game[0]}\n")
 
 if __name__ == "__main__":
     main()
