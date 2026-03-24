@@ -214,15 +214,15 @@ Week 12:
 Week 13:
   Cowboys @ Colts                      8:15 PM ET (Thursday Night Football)
   Eagles @ Giants                      1:00 PM ET
-  Ravens @ Browns                      1:00 PM ET
-  Saints @ Bengals                     1:00 PM ET
+  Ravens @ Browns                      4:05 PM ET
+  Saints @ Bengals                     4:25 PM ET
   Commanders @ Titans                  1:00 PM ET
   Jets @ Lions                         1:00 PM ET
   Steelers @ Jaguars                   1:00 PM ET
   Panthers @ Falcons                   1:00 PM ET
-  Rams @ Buccaneers                    4:05 PM ET
+  Rams @ Buccaneers                    1:00 PM ET
   Chiefs @ Raiders                     4:05 PM ET
-  Patriots @ Seahawks                  4:25 PM ET
+  Patriots @ Seahawks                  1:00 PM ET
   Bears @ Bills                        8:20 PM ET (Sunday Night Football)
   Cardinals @ 49ers                    8:15 PM ET (Monday Night Football in Mexico)
   Bye: Broncos, Chargers, Dolphins, Packers, Texans, Vikings
@@ -248,9 +248,9 @@ Week 14:
 Week 15:
   Ravens @ Panthers                    8:15 PM ET (Thursday Night Football)
   Jaguars @ Bears                      1:00 PM ET
-  Jets @ Cardinals                     4:05 PM ET
+  Jets @ Cardinals                     1:00 PM ET
   Giants @ Eagles                      1:00 PM ET
-  Chiefs @ Dolphins                    1:00 PM ET
+  Chiefs @ Dolphins                    4:05 PM ET
   Titans @ Colts                       1:00 PM ET
   Vikings @ Lions                      1:00 PM ET
   Packers @ Saints                     1:00 PM ET
