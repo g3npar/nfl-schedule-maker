@@ -239,9 +239,23 @@ def generate_html(team, schedule, bye_weeks):
     tr.divisional td {{ font-weight: bold; }}
     .opponent {{ text-align: left; }}
     .opp-name {{ color: {primary}; }}
+    .back-btn {{
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 16px;
+      background: {primary};
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border-bottom: 3px solid {secondary};
+    }}
+    .back-btn:hover {{ filter: brightness(1.15); }}
   </style>
 </head>
 <body>
+  <a class="back-btn" href="../index.html">← All Teams</a>
   <h2>2026 {team} Schedule</h2>
   <table>
     <thead>
