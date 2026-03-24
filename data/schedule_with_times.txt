@@ -128,11 +128,11 @@ Week 8:
   Colts @ Jaguars                      8:15 PM ET (Thursday Night Football)
   Commanders @ Cowboys                 9:30 AM ET (Rio de Janeiro, Brazil)
   Vikings @ Patriots                   1:00 PM ET
-  Steelers @ Titans                    4:05 PM ET
+  Steelers @ Titans                    1:00 PM ET
   Lions @ Dolphins                     1:00 PM ET
   Browns @ Giants                      1:00 PM ET
   Cardinals @ Chiefs                   1:00 PM ET
-  Saints @ Falcons                     1:00 PM ET
+  Saints @ Falcons                     4:05 PM ET
   Bills @ Raiders                      1:00 PM ET
   Buccaneers @ Bengals                 1:00 PM ET
   Seahawks @ 49ers                     4:25 PM ET
@@ -230,11 +230,11 @@ Week 13:
 Week 14:
   Seahawks @ Eagles                    8:15 PM ET (Thursday Night Football)
   Bears @ Vikings                      1:00 PM ET
-  Browns @ Jets                        1:00 PM ET
+  Browns @ Jets                        4:25 PM ET
   Dolphins @ Patriots                  1:00 PM ET
   Bengals @ Steelers                   1:00 PM ET
   Raiders @ Cardinals                  4:05 PM ET
-  Colts @ Chiefs                       4:25 PM ET
+  Colts @ Chiefs                       1:00 PM ET
   Texans @ Commanders                  1:00 PM ET
   Falcons @ Buccaneers                 1:00 PM ET
   Saints @ Panthers                    1:00 PM ET
@@ -266,16 +266,16 @@ Week 15:
 Week 16:
   Browns @ Titans                      8:15 PM ET (Thursday Night Football)
   Panthers @ Vikings                   1:00 PM ET
-  Steelers @ Bengals                   1:00 PM ET
+  Steelers @ Bengals                   4:25 PM ET
   Giants @ Commanders                  1:00 PM ET
   Texans @ Colts                       1:00 PM ET
   Jets @ Dolphins                      1:00 PM ET
   Cardinals @ Rams                     4:05 PM ET
   Saints @ Ravens                      1:00 PM ET
   Buccaneers @ Bears                   1:00 PM ET
-  Patriots @ Chargers                  4:05 PM ET
-  Seahawks @ Raiders                   1:00 PM ET
-  Broncos @ Chiefs                     4:25 PM ET
+  Patriots @ Chargers                  1:00 PM ET
+  Seahawks @ Raiders                   4:05 PM ET
+  Broncos @ Chiefs                     1:00 PM ET
   Eagles @ Jaguars                     4:30 PM ET (Christmas Day Afternoon Football)
   49ers @ Cowboys                      8:20 PM ET (Sunday Night Football)
   Bills @ Packers                      8:20 PM ET (Christmas Day Night Football)
