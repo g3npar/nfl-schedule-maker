@@ -14,6 +14,18 @@ NFL_TEAMS = [
     "Vikings", "49ers",
 ]
 
+_DIVISION_GROUPS = [
+    {"Bears", "Lions", "Packers", "Vikings"},
+    {"Cardinals", "Rams", "Seahawks", "49ers"},
+    {"Cowboys", "Eagles", "Giants", "Commanders"},
+    {"Falcons", "Panthers", "Saints", "Buccaneers"},
+    {"Ravens", "Bengals", "Browns", "Steelers"},
+    {"Broncos", "Chiefs", "Raiders", "Chargers"},
+    {"Bills", "Dolphins", "Patriots", "Jets"},
+    {"Jaguars", "Texans", "Titans", "Colts"},
+]
+DIVISIONS = {team: div for div in _DIVISION_GROUPS for team in div}
+
 # Primary and secondary colors for each NFL team
 TEAM_COLORS = {
     "Bears":      {"primary": "#0B162A", "secondary": "#C83803"},
@@ -63,7 +75,7 @@ WEEK_SUNDAYS = {
     "Week 9":  date(2026, 11, 8),
     "Week 10": date(2026, 11, 15),
     "Week 11": date(2026, 11, 22),
-    "Week 12": date(2026, 11, 29),   # Sunday after Thanksgiving (Thu Nov 26)
+    "Week 12": date(2026, 11, 29),
     "Week 13": date(2026, 12, 6),
     "Week 14": date(2026, 12, 13),
     "Week 15": date(2026, 12, 20),
@@ -82,8 +94,6 @@ def get_game_date(week: str, time_str: str) -> str:
 
     # Special fixed dates
     if "thanksgiving" in t:
-        # Thanksgiving is always the 4th Thursday of November
-        # Week 12 Sunday is Nov 27 → Thursday is Nov 26 (Sunday - 1... actually Thu = Sun - 3)
         return (sunday - timedelta(days=3)).strftime("%B %-d")
 
     if "christmas" in t:
@@ -92,30 +102,20 @@ def get_game_date(week: str, time_str: str) -> str:
     if "friday" in t:
         return (sunday - timedelta(days=2)).strftime("%B %-d")
 
-    if "thursday" in t or "thursday night" in t:
+    if "thursday" in t:
         return (sunday - timedelta(days=3)).strftime("%B %-d")
 
     if "monday" in t:
         return (sunday + timedelta(days=1)).strftime("%B %-d")
 
-    # International games: listed with a city (e.g. "London, UK", "Munich, Germany")
-    # They kick off Saturday morning ET (or very early Sunday), but are played on Sunday local time.
-    # The NFL schedules them on Sunday on the official calendar, so keep Sunday.
-    # However some are listed as Saturday-equivalent; we treat them as Sunday unless noted.
-    international_keywords = [
-        "london", "munich", "melbourne", "madrid", "paris",
-        "mexico city", "rio de janeiro", "sao paulo",
-    ]
-    if any(kw in t for kw in international_keywords):
-        # These games are played on Sunday (local time) but may have an early ET kickoff.
-        # Display them as Sunday.
-        return sunday.strftime("%B %-d")
-
-    # Default: Sunday
+    # International games and all other Sunday games fall through to the same date.
     return sunday.strftime("%B %-d")
 
+def _hex_to_rgb(h: str) -> tuple:
+    h = h.lstrip("#")
+    return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+
 def get_team_schedule(team_name):
-    # Find the canonical team name (case-insensitive match)
     matched = next((t for t in NFL_TEAMS if t.lower() == team_name.strip().lower()), None)
     if not matched:
         close = [t for t in NFL_TEAMS if team_name.strip().lower() in t.lower()]
@@ -160,21 +160,19 @@ def generate_html(team, schedule, bye_weeks):
     primary = colors["primary"]
     secondary = colors["secondary"]
     rows = ""
-    week_nums_seen = set()
 
+    bye_set = set(bye_weeks)
     all_weeks = sorted(
-        set([r[0] for r in schedule] + bye_weeks),
-        key=lambda w: int(re.search(r"\d+", w).group())
+        {r[0] for r in schedule} | bye_set,
+        key=lambda w: int(w.split()[1])
     )
-
     game_map = {r[0]: r for r in schedule}
 
     for week in all_weeks:
-        week_num = re.search(r"\d+", week).group()
-        row_class = "bye-row" if week in bye_weeks else ""
+        week_num = week.split()[1]
 
-        if week in bye_weeks:
-            bye_date = WEEK_SUNDAYS.get(week, None)
+        if week in bye_set:
+            bye_date = WEEK_SUNDAYS.get(week)
             date_str = bye_date.strftime("%B %-d") if bye_date else "TBD"
             rows += f"""
         <tr class="bye-row">
@@ -186,19 +184,16 @@ def generate_html(team, schedule, bye_weeks):
             _, is_away, opponent, time = game_map[week]
             date_str = get_game_date(week, time)
             at_prefix = "at " if is_away else ""
+            div_class = "divisional" if opponent in DIVISIONS.get(team, ()) else ""
             rows += f"""
-        <tr>
+        <tr class="{div_class}">
           <td>{week_num}</td>
           <td>{date_str}</td>
           <td class="opponent">{at_prefix}<span class="opp-name">{opponent}</span></td>
           <td>{time}</td>
         </tr>"""
 
-    # Compute a lightened tint of the primary color for alternating rows
-    def hex_to_rgb(h):
-        h = h.lstrip("#")
-        return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
-    r, g, b = hex_to_rgb(primary)
+    r, g, b = _hex_to_rgb(primary)
     tint = f"rgba({r},{g},{b},0.08)"
 
     html = f"""<!DOCTYPE html>
@@ -241,8 +236,9 @@ def generate_html(team, schedule, bye_weeks):
     tr:nth-child(even) {{ background-color: {tint}; }}
     tr:nth-child(odd)  {{ background-color: #ffffff; }}
     tr.bye-row td {{ background-color: #f0f0f0; color: #888; }}
+    tr.divisional td {{ font-weight: bold; }}
     .opponent {{ text-align: left; }}
-    .opp-name {{ color: {primary}; font-weight: bold; }}
+    .opp-name {{ color: {primary}; }}
   </style>
 </head>
 <body>
@@ -275,14 +271,16 @@ if __name__ == "__main__":
     if sys.argv[1] == "--all":
         out_dir = "schedules"
         os.makedirs(out_dir, exist_ok=True)
+        # Pre-parse the schedule file once, then generate HTML for every team.
+        all_data = {team: get_team_schedule(team) for team in NFL_TEAMS}
         generated = []
         for team in sorted(NFL_TEAMS):
-            schedule, bye_weeks, result = get_team_schedule(team)
+            schedule, bye_weeks, result = all_data[team]
             if schedule is None:
                 print(f"Warning: could not build schedule for {team}")
                 continue
             html = generate_html(result, schedule, bye_weeks)
-            filename = os.path.join(out_dir, f"{result.replace(' ', '_')}_schedule.html")
+            filename = os.path.join(out_dir, f"{result}_schedule.html")
             with open(filename, "w") as f:
                 f.write(html)
             generated.append(filename)
@@ -304,7 +302,7 @@ if __name__ == "__main__":
     html = generate_html(result, schedule, bye_weeks)
     out_dir = "schedules"
     os.makedirs(out_dir, exist_ok=True)
-    filename = os.path.join(out_dir, f"{result.replace(' ', '_')}_schedule.html")
+    filename = os.path.join(out_dir, f"{result}_schedule.html")
     with open(filename, "w") as f:
         f.write(html)
     print(f"Schedule saved to {filename}")
