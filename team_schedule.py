@@ -205,7 +205,7 @@ def generate_html(team, schedule, bye_weeks):
     body {{
       font-family: Arial, sans-serif;
       max-width: 800px;
-      margin: 40px auto;
+      margin: 16px auto;
       background: #f9f9f9;
       color: #333;
     }}
