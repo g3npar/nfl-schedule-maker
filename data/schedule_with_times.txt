@@ -1,8 +1,8 @@
 2026 NFL Schedule with Kickoff Times:
 
 Week 1:
-  Bears @ Seahawks                     8:20 PM ET (Thursday Kickoff Game)
-  49ers @ Rams                         8:15 PM ET (Melbourne, Australia)
+  Bears @ Seahawks                     8:20 PM ET (Wednesday Kickoff Game)
+  49ers @ Rams                         8:35 PM ET (Thursday Night Football in Melbourne)
   Jaguars @ Bengals                    1:00 PM ET
   Cowboys @ Texans                     1:00 PM ET
   Falcons @ Saints                     1:00 PM ET

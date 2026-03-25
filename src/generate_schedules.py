@@ -143,6 +143,9 @@ def get_game_date(week: str, time_str: str) -> str:
 
     if "monday" in t:
         return (sunday + timedelta(days=1)).strftime("%B %-d")
+    
+    if "wednesday" in t:
+        return (sunday - timedelta(days=4)).strftime("%B %-d")
 
     # International games and all other Sunday games fall through to the same date.
     return sunday.strftime("%B %-d")
