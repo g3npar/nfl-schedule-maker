@@ -1,9 +1,3 @@
-"""
-primetime_counts.py
-Reads schedule_with_times.txt and prints a breakdown of primetime appearances
-per team: total, TNF, SNF, MNF, Thanksgiving, and Christmas.
-"""
-
 import re
 from collections import defaultdict
 
@@ -59,7 +53,6 @@ mnf    = defaultdict(int)
 tday   = defaultdict(int)
 xmas   = defaultdict(int)
 
-# Initialize all teams at 0
 for team in ALL_TEAMS:
     total[team] = 0
 

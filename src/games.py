@@ -17,25 +17,22 @@ def rand_team(division):
     return random.choice(team_names[start_index:start_index + 4])
 
 def main():
-    all_games = set()  # Store games as pairs of teams
-    divisional_games = []  # Separate list for divisional games
+    all_games = set()
+    divisional_games = []
 
-    # Add games from opponents.py
     for team in teams:
         for home_opponent in team["home"]:
             all_games.add((team["name"], home_opponent))
         for away_opponent in team["away"]:
             all_games.add((away_opponent, team["name"]))
 
-    # Generate divisional games
-    for division in range(8):  # 8 divisions
+    for division in range(8):
         division_teams = team_names[division * 4:(division + 1) * 4]
         for i, team1 in enumerate(division_teams):
             for j, team2 in enumerate(division_teams):
                 if i != j:
                     divisional_games.append((team1, team2))
 
-    # Write all games to data/games.txt
     with open("data/games.txt", "w") as out_file:
         out_file.write("All Games:\n")
         for game in all_games:
