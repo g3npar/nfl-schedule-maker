@@ -24,7 +24,7 @@ Week 2:
   Buccaneers @ Falcons                 1:00 PM ET
   Browns @ Jaguars                     1:00 PM ET
   Cardinals @ Giants                   1:00 PM ET
-  Chargers @ Chiefs                    4:25 PM ET
+  Chiefs @ Broncos                     4:25 PM ET
   Titans @ Ravens                      1:00 PM ET
   Saints @ Bears                       1:00 PM ET
   Packers @ Vikings                    1:00 PM ET
@@ -178,7 +178,7 @@ Week 10:
 
 Week 11:
   Chargers @ Rams                      8:15 PM ET (Thursday Night Football)
-  Colts @ Commanders                   9:30 AM ET (London, UK)
+  Colts @ Commanders                   1:00 PM ET
   Buccaneers @ Ravens                  1:00 PM ET
   Vikings @ Saints                     1:00 PM ET
   Jaguars @ Titans                     1:00 PM ET
@@ -235,7 +235,7 @@ Week 14:
   Bengals @ Steelers                   1:00 PM ET
   Raiders @ Cardinals                  4:05 PM ET
   Colts @ Chiefs                       1:00 PM ET
-  Texans @ Commanders                  1:00 PM ET
+  Texans @ Commanders                  9:30 PM ET (London, UK)
   Falcons @ Buccaneers                 1:00 PM ET
   Saints @ Panthers                    1:00 PM ET
   Lions @ Packers                      1:00 PM ET
@@ -275,7 +275,7 @@ Week 16:
   Browns @ Titans                      1:00 PM ET
   Patriots @ Chargers                  1:00 PM ET
   Seahawks @ Raiders                   4:05 PM ET
-  Broncos @ Chiefs                     1:00 PM ET
+  Chiefs @ Broncos                     1:00 PM ET
   Eagles @ Jaguars                     1:00 PM ET (Christmas Day)
   49ers @ Cowboys                      8:20 PM ET (Sunday Night Football)
   Bills @ Packers                      4:30 PM ET (Christmas Day)
@@ -304,7 +304,7 @@ Week 18:
   Commanders @ Eagles                  TBD (Flex Scheduling - Nighttime)
   Bengals @ Ravens                     TBD (Flex Scheduling - Nighttime)
   Colts @ Texans                       TBD (Flex Scheduling - Nighttime)
-  Chiefs @ Broncos                     TBD (Flex Scheduling - Nighttime)
+  Chargers @ Chiefs                    TBD (Flex Scheduling - Nighttime)
   Vikings @ Bears                      TBD (Flex Scheduling - Nighttime)
   Dolphins @ Bills                     TBD (Flex Scheduling - Nighttime)
   Packers @ Lions                      TBD (Flex Scheduling - Nighttime)
