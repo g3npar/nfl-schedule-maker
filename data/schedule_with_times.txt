@@ -5,7 +5,7 @@ Week 1:
   49ers @ Rams                         8:35 PM ET (Thursday Night Football in Melbourne)
   Jaguars @ Bengals                    1:00 PM ET
   Cowboys @ Texans                     1:00 PM ET
-  Falcons @ Saints                     1:00 PM ET
+  Saints @ Falcons                     1:00 PM ET
   Raiders @ Browns                     1:00 PM ET
   Colts @ Titans                       4:05 PM ET
   Vikings @ Buccaneers                 1:00 PM ET
@@ -138,7 +138,7 @@ Week 8:
   49ers @ Seahawks                     4:25 PM ET
   Broncos @ Chargers                   4:05 PM ET
   Colts @ Jaguars                      9:30 AM ET (London, UK)
-  Saints @ Falcons                     8:15 PM ET (Thursday Night Football)
+  Falcons @ Saints                     8:15 PM ET (Thursday Night Football)
   Browns @ Giants                      8:15 PM ET (Monday Night Football)
   Bye: Jets, Ravens
 
