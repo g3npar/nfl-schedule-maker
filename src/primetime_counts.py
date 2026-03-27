@@ -6,34 +6,31 @@ FNF_KEYWORDS          = ["Friday Night Football"]
 SNF_KEYWORDS          = ["Sunday Night Football"]
 MNF_KEYWORDS          = ["Monday Night Football"]
 THANKSGIVING_KEYWORDS = ["Thanksgiving Night Football", "Thanksgiving"]
-CHRISTMAS_KEYWORDS    = ["Christmas Day Night Football", "Christmas Day Afternoon Football"]
+CHRISTMAS_KEYWORDS    = ["Christmas Day"]
 
 ALL_KEYWORDS = TNF_KEYWORDS + FNF_KEYWORDS + SNF_KEYWORDS + MNF_KEYWORDS + THANKSGIVING_KEYWORDS + CHRISTMAS_KEYWORDS
 
 pattern = re.compile(
-    r'^\s+(\w+)\s+@\s+(\w+)\s+.*?(' + '|'.join(re.escape(k) for k in ALL_KEYWORDS) + ')',
+    r'^\s+([\w]+)\s+@\s+([\w]+)\s+.*?(' + '|'.join(re.escape(k) for k in ALL_KEYWORDS) + ')',
     re.IGNORECASE
 )
 
 def categorize(slot):
-    for k in CHRISTMAS_KEYWORDS:
-        if k.lower() in slot.lower():
-            return "XMAS"
-    for k in THANKSGIVING_KEYWORDS:
-        if k.lower() in slot.lower():
-            return "TDAY"
-    for k in TNF_KEYWORDS:
-        if k.lower() in slot.lower():
-            return "TNF"
-    for k in FNF_KEYWORDS:
-        if k.lower() in slot.lower():
-            return "FNF"
-    for k in SNF_KEYWORDS:
-        if k.lower() in slot.lower():
-            return "SNF"
-    for k in MNF_KEYWORDS:
-        if k.lower() in slot.lower():
-            return "MNF"
+    s = slot.lower()
+    if "christmas" in s:
+        return "XMAS"
+    if "thanksgiving night" in s:
+        return "TDAY"
+    if "thanksgiving" in s:
+        return "TDAY"
+    if any(k.lower() in s for k in TNF_KEYWORDS):
+        return "TNF"
+    if any(k.lower() in s for k in FNF_KEYWORDS):
+        return "FNF"
+    if any(k.lower() in s for k in SNF_KEYWORDS):
+        return "SNF"
+    if any(k.lower() in s for k in MNF_KEYWORDS):
+        return "MNF"
     return "OTHER"
 
 ALL_TEAMS = [
