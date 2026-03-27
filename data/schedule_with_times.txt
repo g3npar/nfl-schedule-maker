@@ -38,7 +38,7 @@ Week 2:
 
 Week 3:
   Bills @ Jets                         8:15 PM ET (Thursday Night Football)
-  Patriots @ Lions                     9:30 AM ET (Munich, Germany)
+  Patriots @ Lions                     4:25 PM ET
   Cardinals @ Saints                   1:00 PM ET
   Buccaneers @ Panthers                1:00 PM ET
   Vikings @ 49ers                      1:00 PM ET
@@ -52,7 +52,7 @@ Week 3:
   Bengals @ Ravens                     8:20 PM ET (Sunday Night Football)
   Falcons @ Commanders                 1:00 PM ET
   Jaguars @ Cowboys                    8:15 PM ET (Monday Night Football)
-  Bears @ Packers                      4:25 PM ET
+  Bears @ Packers                      1:00 PM ET
 
 Week 4:
   Broncos @ Steelers                   8:15 PM ET (Thursday Night Football)
@@ -92,7 +92,7 @@ Week 5:
 Week 6:
   Chiefs @ Chargers                    8:15 PM ET (Thursday Night Football)
   Cowboys @ Commanders                 1:00 PM ET
-  Titans @ Lions                       1:00 PM ET
+  Titans @ Lions                       9:30 PM ET (Munich, Germany)
   Bengals @ Dolphins                   1:00 PM ET
   Vikings @ Jets                       1:00 PM ET
   49ers @ Falcons                      1:00 PM ET
@@ -181,7 +181,7 @@ Week 11:
   Colts @ Commanders                   1:00 PM ET
   Buccaneers @ Ravens                  1:00 PM ET
   Vikings @ Saints                     1:00 PM ET
-  Jaguars @ Titans                     1:00 PM ET
+  Titans @ Jaguars                     1:00 PM ET
   Raiders @ Jets                       1:00 PM ET
   Giants @ Texans                      1:00 PM ET
   Bills @ Dolphins                     1:00 PM ET
