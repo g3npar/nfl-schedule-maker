@@ -25,13 +25,13 @@ Week 2:
   Browns @ Jaguars                     1:00 PM ET
   Cardinals @ Giants                   1:00 PM ET
   Chiefs @ Broncos                     4:25 PM ET
+  Chargers @ Raiders                   4:05 PM ET
   Titans @ Ravens                      1:00 PM ET
   Saints @ Bears                       1:00 PM ET
   Packers @ Vikings                    1:00 PM ET
-  Broncos @ Raiders                    4:25 PM ET
   Eagles @ Cowboys                     8:15 PM ET (Thursday Night Football)
   Bengals @ Panthers                   1:00 PM ET
-  Seahawks @ 49ers                     4:05 PM ET
+  Seahawks @ 49ers                     4:25 PM ET
   Dolphins @ Colts                     1:00 PM ET
   Lions @ Bills                        8:20 PM ET (Sunday Night Football)
   Rams @ Commanders                    8:15 PM ET (Monday Night Football)
@@ -305,6 +305,7 @@ Week 18:
   Bengals @ Ravens                     TBD (Flex Scheduling - Nighttime)
   Colts @ Texans                       TBD (Flex Scheduling - Nighttime)
   Chargers @ Chiefs                    TBD (Flex Scheduling - Nighttime)
+  Broncos @ Raiders                    TBD (Flex Scheduling - Nighttime)
   Vikings @ Bears                      TBD (Flex Scheduling - Nighttime)
   Dolphins @ Bills                     TBD (Flex Scheduling - Nighttime)
   Packers @ Lions                      TBD (Flex Scheduling - Nighttime)
@@ -314,6 +315,5 @@ Week 18:
   Titans @ Jaguars                     TBD (Flex Scheduling - Nighttime)
   Browns @ Steelers                    TBD (Flex Scheduling - Nighttime)
   Buccaneers @ Saints                  TBD (Flex Scheduling - Nighttime)
-  Chargers @ Raiders                   TBD (Flex Scheduling - Nighttime)
   Cowboys @ Giants                     TBD (Flex Scheduling - Nighttime)
 
