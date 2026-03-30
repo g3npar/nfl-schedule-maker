@@ -28,3 +28,8 @@ I use **integer linear programming** (ILP) via the [PuLP](https://coin-or.github
 Once the weeks are set, each game gets a kickoff time. The program picks one primetime game each for Thursday, Sunday, and Monday nights, prioritizing good matchups between winning teams. It tries up to 500 different arrangements (per instance of the program) to find one where no team gets the same primetime slot two weeks in a row.
 
 I can control how many primetime games each team gets by editing their weight in `src/primetime_weights.py` - popular teams get a higher number, rebuilding teams get a lower one.
+
+
+## Credit
+Parin Raizada
+David Pidugu
