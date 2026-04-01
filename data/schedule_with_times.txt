@@ -99,11 +99,11 @@ Week 6:
   Seahawks @ Panthers                  1:00 PM ET
   Steelers @ Ravens                    1:00 PM ET
   Giants @ Colts                       1:00 PM ET
-  Saints @ Buccaneers                  1:00 PM ET
+  Saints @ Buccaneers                  1:00 PM ET (Thursday Night Football)
   Patriots @ Bears                     4:25 PM ET (Monday Night Football)
   Packers @ Rams                       4:25 PM ET
   Texans @ Eagles                      1:00 PM ET (Sunday Night Football)
-  Bills @ Broncos                      1:00 PM ET (Thursday Night Football)
+  Bills @ Broncos                      1:00 PM ET
   Bye: Browns, Cardinals, Jaguars, Raiders
 
 Week 7:
@@ -222,9 +222,9 @@ Week 13:
   Cowboys @ Colts                      1:00 PM ET
   Rams @ Buccaneers                    1:00 PM ET
   Chiefs @ Raiders                     4:05 PM ET
-  Patriots @ Seahawks                  4:25 PM ET (Monday Night Football)
+  Patriots @ Seahawks                  4:25 PM ET 
   Dolphins @ Broncos                   8:15 PM ET
-  Bears @ Bills                        1:00 PM ET
+  Bears @ Bills                        1:00 PM ET (Monday Night Football)
   Panthers @ Falcons                   1:00 PM ET (Thursday Night Football)
   Bye: Chargers, Packers, Texans, Vikings
 
