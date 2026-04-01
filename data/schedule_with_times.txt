@@ -215,14 +215,14 @@ Week 13:
   Cardinals @ 49ers                    4:05 PM ET
   Eagles @ Giants                      1:00 PM ET (Sunday Night Football)
   Ravens @ Browns                      1:00 PM ET
-  Saints @ Bengals                     1:00 PM ET (Monday Night Football)
+  Saints @ Bengals                     1:00 PM ET
   Commanders @ Titans                  1:00 PM ET
   Jets @ Lions                         1:00 PM ET
   Steelers @ Jaguars                   1:00 PM ET
   Cowboys @ Colts                      1:00 PM ET
   Rams @ Buccaneers                    1:00 PM ET
   Chiefs @ Raiders                     4:05 PM ET
-  Patriots @ Seahawks                  4:25 PM ET
+  Patriots @ Seahawks                  4:25 PM ET (Monday Night Football)
   Dolphins @ Broncos                   8:15 PM ET
   Bears @ Bills                        1:00 PM ET
   Panthers @ Falcons                   1:00 PM ET (Thursday Night Football)
@@ -241,9 +241,9 @@ Week 14:
   Saints @ Panthers                    1:00 PM ET
   Lions @ Packers                      1:00 PM ET
   Chargers @ Ravens                    4:25 PM ET (Sunday Night Football)
-  Jaguars @ Broncos                    1:00 PM ET (Thursday Night Football)
+  Jaguars @ Broncos                    1:00 PM ET 
   Bills @ Rams                         4:25 PM ET
-  Colts @ Chiefs                       1:00 PM ET
+  Colts @ Chiefs                       1:00 PM ET (Thursday Night Football)
   Bye: 49ers, Cowboys
 
 Week 15:
