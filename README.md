@@ -6,6 +6,7 @@ I built this to predict what the 2026 NFL regular season schedule might look lik
 
 ![Homepage](homepage.png)
 ![Example Schedule](example.png)
+![Example Primetime](primetime.png)
 
 ---
 

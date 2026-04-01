@@ -335,15 +335,15 @@ def generate_html(team, schedule, bye_weeks):
 
 SLUG = TEAM_FULL_NAMES  # alias for use in primetime generator
 
-def _logo(team):
-    return f"../logos/{SLUG.get(team, team.lower())}.png"
+def _logo(team, prefix="../logos/"):
+    return f"{prefix}{SLUG.get(team, team.lower())}.png"
 
-def _game_card(away, home, time_et, note, css_class, badge_label):
+def _game_card(away, home, time_et, note, css_class, badge_label, logo_prefix="../logos/"):
     away_slug = SLUG.get(away, away.lower())
     home_slug = SLUG.get(home, home.lower())
     note_html = f'\n          <div class="game-note">{note}</div>' if note else ""
     return f"""      <div class="game-card {css_class}">
-        <div class="team-logos"><img src="../logos/{away_slug}.png" alt="{away}"><span class="vs-sep">@</span><img src="../logos/{home_slug}.png" alt="{home}"></div>
+        <div class="team-logos"><img src="{logo_prefix}{away_slug}.png" alt="{away}"><span class="vs-sep">@</span><img src="{logo_prefix}{home_slug}.png" alt="{home}"></div>
         <div class="game-info">
           <div class="matchup">{away} @ {home}</div>
           <div class="game-meta">{time_et}</div>{note_html}
@@ -432,7 +432,7 @@ def generate_primetime_html():
                     disp_note = "Friday Night Football"
                 elif "melbourne" in slot.lower():
                     disp_note = "Melbourne, Australia"
-                html += _game_card(away, home, time_et, disp_note, css_class, badge_label) + "\n"
+                html += _game_card(away, home, time_et, disp_note, css_class, badge_label, logo_prefix="logos/") + "\n"
             html += "    </div>\n"
         return html
 
