@@ -90,7 +90,7 @@ Week 5:
   Bye: Buccaneers, Chiefs, Colts, Rams
 
 Week 6:
-  Chiefs @ Chargers                    1:00 PM ET (Thursday Night Football)
+  Chiefs @ Chargers                    1:00 PM ET
   Cowboys @ Commanders                 1:00 PM ET
   Titans @ Lions                       9:30 PM ET (Munich, Germany)
   Bengals @ Dolphins                   1:00 PM ET
@@ -98,7 +98,7 @@ Week 6:
   49ers @ Falcons                      4:05 PM ET
   Seahawks @ Panthers                  1:00 PM ET
   Steelers @ Ravens                    1:00 PM ET
-  Giants @ Colts                       1:00 PM ET
+  Giants @ Colts                       1:00 PM ET (Thursday Night Football)
   Saints @ Buccaneers                  1:00 PM ET
   Patriots @ Bears                     4:25 PM ET (Monday Night Football)
   Packers @ Rams                       4:25 PM ET
