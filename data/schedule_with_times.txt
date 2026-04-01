@@ -59,7 +59,7 @@ Week 4:
   Texans @ Jaguars                     1:00 PM ET
   Bengals @ Falcons                    9:30 AM ET (Madrid, Spain)
   Eagles @ Titans                      1:00 PM ET
-  Commanders @ Vikings                 1:00 PM ET (Sunday Night Football)
+  Commanders @ Vikings                 1:00 PM ET
   Panthers @ Packers                   1:00 PM ET
   Ravens @ Colts                       1:00 PM ET
   Dolphins @ Raiders                   1:00 PM ET
@@ -68,7 +68,7 @@ Week 4:
   Saints @ Giants                      4:25 PM ET
   Patriots @ Bills                     1:00 PM ET
   Jets @ Chiefs                        1:00 PM ET
-  Browns @ Buccaneers                  4:25 PM ET
+  Browns @ Buccaneers                  4:25 PM ET (Sunday Night Football)
   49ers @ Chargers                     1:00 PM ET
   Cowboys @ Seahawks                   1:00 PM ET (Monday Night Football)
 
@@ -150,12 +150,12 @@ Week 9:
   Browns @ Ravens                      1:00 PM ET
   Raiders @ 49ers                      4:05 PM ET
   Bills @ Patriots                     1:00 PM ET (Thursday Night Football)
-  Bengals @ Colts                      1:00 PM ET
+  Bengals @ Colts                      1:00 PM ET (Monday Night Football)
   Panthers @ Saints                    1:00 PM ET
   Packers @ Jets                       1:00 PM ET
   Cardinals @ Chargers                 4:05 PM ET
   Chiefs @ Falcons                     4:25 PM ET (Sunday Night Football)
-  Jaguars @ Texans                     4:25 PM ET (Monday Night Football)
+  Jaguars @ Texans                     4:25 PM ET
   Rams @ Broncos                       1:00 PM ET
   Bye: Commanders, Giants, Seahawks, Titans
 
@@ -221,9 +221,9 @@ Week 13:
   Steelers @ Jaguars                   1:00 PM ET
   Cowboys @ Colts                      1:00 PM ET
   Rams @ Buccaneers                    1:00 PM ET
-  Chiefs @ Raiders                     4:05 PM ET (Monday Night Football)
+  Chiefs @ Raiders                     4:05 PM ET
   Patriots @ Seahawks                  4:25 PM ET
-  Bears @ Bills                        1:00 PM ET
+  Bears @ Bills                        1:00 PM ET (Monday Night Football)
   Panthers @ Falcons                   1:00 PM ET (Thursday Night Football)
   Bye: Broncos, Chargers, Dolphins, Packers, Texans, Vikings
 
