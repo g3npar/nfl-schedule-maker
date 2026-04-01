@@ -54,11 +54,31 @@
       border-bottom: 3px solid #A5ACAF;
     }
     .back-btn:hover { filter: brightness(1.15); }
+    .team-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .team-header img {
+      height: 72px;
+      width: 72px;
+      object-fit: contain;
+    }
+    .team-header h2 {
+      margin: 0;
+      color: #000000;
+      border-left: 6px solid #A5ACAF;
+      padding-left: 12px;
+    }
   </style>
 </head>
 <body>
   <a class="back-btn" href="../index.html">← All Teams</a>
-  <h2>2026 Raiders Schedule</h2>
+  <div class="team-header">
+    <img src="../logos/las-vegas-raiders.png" alt="Raiders logo">
+    <h2>2026 Raiders Schedule</h2>
+  </div>
   <table>
     <thead>
       <tr>
@@ -143,9 +163,9 @@
         </tr>
         <tr class="divisional">
           <td>13</td>
-          <td>December 6</td>
+          <td>December 7</td>
           <td class="opponent"><span class="opp-name">Chiefs</span></td>
-          <td>4:05 PM ET</td>
+          <td>4:05 PM ET (Monday Night Football)</td>
         </tr>
         <tr class="">
           <td>14</td>

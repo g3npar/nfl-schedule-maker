@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /schedules/
+Disallow: /primetime.html

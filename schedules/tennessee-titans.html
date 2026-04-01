@@ -13,8 +13,8 @@
     }
     h2 {
       margin-bottom: 10px;
-      color: #0C2340;
-      border-left: 6px solid #4B92DB;
+      color: #4495D2;
+      border-left: 6px solid #D50A0A;
       padding-left: 12px;
     }
     table {
@@ -24,41 +24,61 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     }
     th {
-      background-color: #0C2340;
+      background-color: #4495D2;
       color: white;
       padding: 10px 14px;
       text-align: center;
-      border-bottom: 3px solid #4B92DB;
+      border-bottom: 3px solid #D50A0A;
     }
     td {
       padding: 8px 14px;
       border-bottom: 1px solid #ddd;
       text-align: center;
     }
-    tr:nth-child(even) { background-color: rgba(12,35,64,0.08); }
+    tr:nth-child(even) { background-color: rgba(68,149,210,0.08); }
     tr:nth-child(odd)  { background-color: #ffffff; }
     tr.bye-row td { background-color: #f0f0f0; color: #888; }
     tr.divisional td { font-weight: bold; }
     .opponent { text-align: left; }
-    .opp-name { color: #0C2340; }
+    .opp-name { color: #4495D2; }
     .back-btn {
       display: inline-block;
       margin-bottom: 16px;
       padding: 7px 16px;
-      background: #0C2340;
+      background: #4495D2;
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
       font-size: 0.85rem;
       font-weight: bold;
-      border-bottom: 3px solid #4B92DB;
+      border-bottom: 3px solid #D50A0A;
     }
     .back-btn:hover { filter: brightness(1.15); }
+    .team-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .team-header img {
+      height: 72px;
+      width: 72px;
+      object-fit: contain;
+    }
+    .team-header h2 {
+      margin: 0;
+      color: #4495D2;
+      border-left: 6px solid #D50A0A;
+      padding-left: 12px;
+    }
   </style>
 </head>
 <body>
   <a class="back-btn" href="../index.html">← All Teams</a>
-  <h2>2026 Titans Schedule</h2>
+  <div class="team-header">
+    <img src="../logos/tennessee-titans.png" alt="Titans logo">
+    <h2>2026 Titans Schedule</h2>
+  </div>
   <table>
     <thead>
       <tr>
@@ -149,9 +169,9 @@
         </tr>
         <tr class="">
           <td>14</td>
-          <td>December 14</td>
+          <td>December 13</td>
           <td class="opponent">at <span class="opp-name">Giants</span></td>
-          <td>8:15 PM ET (Monday Night Football)</td>
+          <td>1:00 PM ET</td>
         </tr>
         <tr class="divisional">
           <td>15</td>

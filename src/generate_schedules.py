@@ -38,7 +38,7 @@ TEAM_COLORS = {
     "Chargers":   {"primary": "#0080C6", "secondary": "#FFC20E"},
     "Chiefs":     {"primary": "#E31837", "secondary": "#FFB81C"},
     "Colts":      {"primary": "#002C5F", "secondary": "#A2AAAD"},
-    "Cowboys":    {"primary": "#003594", "secondary": "#869397"},
+    "Cowboys":    {"primary": "#001532", "secondary": "#869397"},
     "Commanders": {"primary": "#5A1414", "secondary": "#FFB612"},
     "Dolphins":   {"primary": "#008E97", "secondary": "#FC4C02"},
     "Eagles":     {"primary": "#004C54", "secondary": "#A5ACAF"},
@@ -57,7 +57,7 @@ TEAM_COLORS = {
     "Seahawks":   {"primary": "#002244", "secondary": "#69BE28"},
     "Steelers":   {"primary": "#101820", "secondary": "#FFB612"},
     "Texans":     {"primary": "#03202F", "secondary": "#A71930"},
-    "Titans":     {"primary": "#0C2340", "secondary": "#4B92DB"},
+    "Titans":     {"primary": "#4495D2", "secondary": "#D50A0A"},
     "Vikings":    {"primary": "#4F2683", "secondary": "#FFC62F"},
     "49ers":      {"primary": "#AA0000", "secondary": "#B3995D"},
 }
@@ -291,11 +291,31 @@ def generate_html(team, schedule, bye_weeks):
       border-bottom: 3px solid {secondary};
     }}
     .back-btn:hover {{ filter: brightness(1.15); }}
+    .team-header {{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }}
+    .team-header img {{
+      height: 72px;
+      width: 72px;
+      object-fit: contain;
+    }}
+    .team-header h2 {{
+      margin: 0;
+      color: {primary};
+      border-left: 6px solid {secondary};
+      padding-left: 12px;
+    }}
   </style>
 </head>
 <body>
   <a class="back-btn" href="../index.html">← All Teams</a>
-  <h2>2026 {team} Schedule</h2>
+  <div class="team-header">
+    <img src="../logos/{TEAM_FULL_NAMES.get(team, team.lower())}.png" alt="{team} logo">
+    <h2>2026 {team} Schedule</h2>
+  </div>
   <table>
     <thead>
       <tr>
@@ -312,6 +332,308 @@ def generate_html(team, schedule, bye_weeks):
 </body>
 </html>"""
     return html
+
+SLUG = TEAM_FULL_NAMES  # alias for use in primetime generator
+
+def _logo(team):
+    return f"../logos/{SLUG.get(team, team.lower())}.png"
+
+def _game_card(away, home, time_et, note, css_class, badge_label):
+    away_slug = SLUG.get(away, away.lower())
+    home_slug = SLUG.get(home, home.lower())
+    note_html = f'\n          <div class="game-note">{note}</div>' if note else ""
+    return f"""      <div class="game-card {css_class}">
+        <div class="team-logos"><img src="../logos/{away_slug}.png" alt="{away}"><span class="vs-sep">@</span><img src="../logos/{home_slug}.png" alt="{home}"></div>
+        <div class="game-info">
+          <div class="matchup">{away} @ {home}</div>
+          <div class="game-meta">{time_et}</div>{note_html}
+        </div>
+        <span class="badge {css_class}">{badge_label}</span>
+      </div>"""
+
+def _panel(panel_id, count_id, week_groups_html):
+    active = " active" if panel_id == "panel-tnf" else ""
+    return f"""
+  <div class="tab-panel{active}" id="{panel_id}">
+    <p class="count-label" id="{count_id}"></p>
+{week_groups_html}
+  </div><!-- /{panel_id} -->
+"""
+
+def generate_primetime_html():
+    INTL_PATTERN = re.compile(
+        r"\b(Melbourne|Munich|London|Paris|Madrid|Mexico|Brazil|Rio)\b",
+        re.IGNORECASE,
+    )
+    # Parse schedule into categorised game lists
+    mnf, tnf, snf, tday, xmas, intl = [], [], [], [], [], []
+
+    current_week = ""
+    with open(SCHEDULE_FILE) as f:
+        for line in f:
+            wm = re.match(r"^(Week \d+):", line)
+            if wm:
+                current_week = wm.group(1)
+                continue
+            gm = re.match(r"^\s{2}(\w[\w\s]+?)\s+@\s+(\w[\w\s]+?)\s{2,}(.+)$", line)
+            if not gm:
+                continue
+            away  = gm.group(1).strip()
+            home  = gm.group(2).strip()
+            slot  = gm.group(3).strip()
+            tl    = slot.lower()
+
+            # Extract note from parentheses
+            note_m = re.search(r"\(([^)]+)\)", slot)
+            note   = note_m.group(1) if note_m else ""
+
+            # Classify — intl is independent so a game can appear in both intl AND broadcast tab
+            is_intl = bool(INTL_PATTERN.search(slot))
+            if is_intl:
+                intl.append((current_week, away, home, slot, note))
+
+            if "christmas" in tl:
+                xmas.append((current_week, away, home, slot, note))
+            elif "thanksgiving night" in tl:
+                tday.append((current_week, away, home, slot, note))
+                snf.append((current_week, away, home, slot, note))
+            elif "thanksgiving" in tl:
+                tday.append((current_week, away, home, slot, note))
+            elif "monday night" in tl:
+                mnf.append((current_week, away, home, slot, note))
+            elif ("thursday night" in tl or "friday night" in tl) and not is_intl:
+                tnf.append((current_week, away, home, slot, note))
+            elif "sunday night" in tl:
+                snf.append((current_week, away, home, slot, note))
+            elif "wednesday" in tl:
+                snf.append((current_week, away, home, slot, note))
+
+    def build_panel(games, css_class, badge_label):
+        # Group by week
+        from collections import OrderedDict
+        weeks = OrderedDict()
+        for week, away, home, slot, note in games:
+            weeks.setdefault(week, []).append((away, home, slot, note))
+        html = ""
+        for week, entries in weeks.items():
+            # Annotate week label for special weeks
+            label = week
+            if any("thanksgiving" in e[2].lower() for e in entries):
+                label = f"{week} \u2014 Thanksgiving"
+            elif any("christmas" in e[2].lower() for e in entries):
+                label = f"{week} \u2014 Christmas Day"
+            html += f'    <div class="week-group">\n      <div class="week-label">{label}</div>\n'
+            for away, home, slot, note in entries:
+                # Extract just the time portion (before the parenthesis)
+                time_et = slot.split("(")[0].strip()
+                # Override note for special slots
+                disp_note = note
+                if "friday night football" in slot.lower():
+                    disp_note = "Friday Night Football"
+                elif "melbourne" in slot.lower():
+                    disp_note = "Melbourne, Australia"
+                html += _game_card(away, home, time_et, disp_note, css_class, badge_label) + "\n"
+            html += "    </div>\n"
+        return html
+
+    mnf_html  = build_panel(mnf,  "mnf",  "MNF")
+    tnf_html  = build_panel(tnf,  "tnf",  "TNF")
+    snf_html  = build_panel(snf,  "snf",  "SNF")
+    tday_html = build_panel(tday, "tday", "T-Day")
+    xmas_html = build_panel(xmas, "xmas", "Xmas")
+    intl_html = build_panel(intl, "intl", "Intl")
+
+    counts = dict(mnf=len(mnf), tnf=len(tnf), snf=len(snf), tday=len(tday), xmas=len(xmas), intl=len(intl))
+
+    panels = (
+        _panel("panel-tnf",  "count-tnf",  tnf_html)  +
+        _panel("panel-snf",  "count-snf",  snf_html)  +
+        _panel("panel-mnf",  "count-mnf",  mnf_html)  +
+        _panel("panel-tday", "count-tday", tday_html) +
+        _panel("panel-xmas", "count-xmas", xmas_html) +
+        _panel("panel-intl", "count-intl", intl_html)
+    )
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 NFL Primetime Schedule</title>
+  <style>
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #222;
+      min-height: 100vh;
+      padding: 16px 20px;
+    }}
+    h1 {{
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #111;
+      letter-spacing: 1px;
+    }}
+    p.subtitle {{
+      text-align: center;
+      color: #666;
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }}
+    .back-btn {{
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 16px;
+      background: #111;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border-bottom: 3px solid #555;
+    }}
+    .back-btn:hover {{ filter: brightness(1.3); }}
+    .tabs {{
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }}
+    .tab-btn {{
+      flex: 1;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: bold;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: filter 0.15s, transform 0.1s;
+      color: #fff;
+      border-bottom: 4px solid rgba(0,0,0,0.25);
+    }}
+    .tab-btn:hover {{ filter: brightness(1.15); transform: translateY(-2px); }}
+    .tab-btn.active {{ filter: brightness(1.0); transform: none; outline: 3px solid #111; outline-offset: 2px; }}
+    .tab-btn[data-tab="mnf"]  {{ background: #1a1aff; }}
+    .tab-btn[data-tab="tnf"]  {{ background: #0d7c3b; }}
+    .tab-btn[data-tab="snf"]  {{ background: #b8000d; }}
+    .tab-btn[data-tab="tday"] {{ background: #c45e00; }}
+    .tab-btn[data-tab="xmas"] {{ background: #b8000d; }}
+    .tab-btn[data-tab="intl"] {{ background: #2a7a7a; }}
+    .tab-panel {{ display: none; max-width: 680px; margin: 0 auto; }}
+    .tab-panel.active {{ display: block; }}
+    .week-group {{ margin-bottom: 26px; }}
+    .week-label {{
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #999;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #eee;
+    }}
+    .game-card {{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      background: #f5f5f5;
+      border-left: 5px solid #ccc;
+    }}
+    .game-card.mnf  {{ border-left-color: #1a1aff; }}
+    .game-card.tnf  {{ border-left-color: #0d7c3b; }}
+    .game-card.snf  {{ border-left-color: #b8000d; }}
+    .game-card.tday {{ border-left-color: #c45e00; }}
+    .game-card.xmas {{ border-left-color: #b8000d; }}
+    .game-card.intl {{ border-left-color: #2a7a7a; }}
+    .team-logos {{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }}
+    .team-logos img {{ height: 36px; width: 36px; object-fit: contain; }}
+    .vs-sep {{ font-size: 0.75rem; color: #aaa; font-weight: bold; }}
+    .game-info {{ flex: 1; min-width: 0; }}
+    .matchup {{
+      font-size: 1rem;
+      font-weight: bold;
+      color: #111;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }}
+    .game-meta {{ font-size: 0.8rem; color: #666; margin-top: 2px; }}
+    .game-note {{ font-size: 0.75rem; color: #999; font-style: italic; margin-top: 1px; }}
+    .badge {{
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #fff;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }}
+    .badge.mnf  {{ background: #1a1aff; }}
+    .badge.tnf  {{ background: #0d7c3b; }}
+    .badge.snf  {{ background: #b8000d; }}
+    .badge.tday {{ background: #c45e00; }}
+    .badge.xmas {{ background: #b8000d; }}
+    .badge.intl {{ background: #2a7a7a; }}
+    .count-label {{ text-align: center; color: #888; font-size: 0.82rem; margin-bottom: 18px; }}
+  </style>
+</head>
+<body>
+  <div style="max-width:680px; margin:0 auto;">
+    <a class="back-btn" href="index.html">\u2190 Back to Schedule Home</a>
+  </div>
+  <h1>\U0001f319 2026 NFL Primetime Schedule</h1>
+  <p class="subtitle">Toggle between MNF, TNF, SNF, Thanksgiving, Christmas, and International games</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tnf">Thursday Night Football</button>
+    <button class="tab-btn" data-tab="snf">Sunday Night Football</button>
+    <button class="tab-btn" data-tab="mnf">Monday Night Football</button>
+    <button class="tab-btn" data-tab="tday">Thanksgiving</button>
+    <button class="tab-btn" data-tab="xmas">Christmas</button>
+    <button class="tab-btn" data-tab="intl">International</button>
+  </div>
+
+{panels}
+  <script>
+    const counts = {counts};
+    const labels = {{
+      mnf: "Monday Night Football", tnf: "Thursday Night Football",
+      snf: "Sunday Night Football", tday: "Thanksgiving", xmas: "Christmas",
+      intl: "International Games"
+    }};
+    document.querySelectorAll(".tab-btn").forEach(btn => {{
+      btn.addEventListener("click", () => {{
+        const tab = btn.dataset.tab;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("panel-" + tab).classList.add("active");
+      }});
+    }});
+    Object.keys(counts).forEach(tab => {{
+      document.getElementById("count-" + tab).textContent =
+        counts[tab] + " " + labels[tab] + " games";
+    }});
+  </script>
+</body>
+</html>"""
+    return html
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -340,6 +662,13 @@ if __name__ == "__main__":
             generated.append(filename)
             print(f"  {filename}")
         print(f"\nGenerated {len(generated)} schedules in '{out_dir}/'.")
+
+        # Regenerate primetime.html
+        primetime_path = os.path.join(os.path.dirname(__file__), "..", "primetime.html")
+        with open(primetime_path, "w") as f:
+            f.write(generate_primetime_html())
+        print(f"  {os.path.normpath(primetime_path)}")
+        print("Regenerated primetime.html.")
         sys.exit(0)
 
     team = " ".join(sys.argv[1:])

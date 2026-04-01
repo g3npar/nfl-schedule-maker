@@ -5,7 +5,7 @@ I built this to predict what the 2026 NFL regular season schedule might look lik
 🔗 **Live site:** https://g3npar.github.io/nfl-schedule-maker/
 
 ![Homepage](homepage.png)
-![Example Schedule](lions.png)
+![Example Schedule](example.png)
 
 ---
 

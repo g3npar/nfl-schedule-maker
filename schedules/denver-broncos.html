@@ -54,11 +54,31 @@
       border-bottom: 3px solid #002244;
     }
     .back-btn:hover { filter: brightness(1.15); }
+    .team-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .team-header img {
+      height: 72px;
+      width: 72px;
+      object-fit: contain;
+    }
+    .team-header h2 {
+      margin: 0;
+      color: #FB4F14;
+      border-left: 6px solid #002244;
+      padding-left: 12px;
+    }
   </style>
 </head>
 <body>
   <a class="back-btn" href="../index.html">← All Teams</a>
-  <h2>2026 Broncos Schedule</h2>
+  <div class="team-header">
+    <img src="../logos/denver-broncos.png" alt="Broncos logo">
+    <h2>2026 Broncos Schedule</h2>
+  </div>
   <table>
     <thead>
       <tr>
@@ -86,13 +106,13 @@
           <td>3</td>
           <td>September 27</td>
           <td class="opponent"><span class="opp-name">Seahawks</span></td>
-          <td>4:05 PM ET</td>
+          <td>4:05 PM ET (Sunday Night Football)</td>
         </tr>
         <tr class="">
           <td>4</td>
-          <td>October 1</td>
+          <td>October 4</td>
           <td class="opponent">at <span class="opp-name">Steelers</span></td>
-          <td>8:15 PM ET (Thursday Night Football)</td>
+          <td>1:00 PM ET</td>
         </tr>
         <tr class="">
           <td>5</td>
@@ -102,9 +122,9 @@
         </tr>
         <tr class="">
           <td>6</td>
-          <td>October 19</td>
+          <td>October 15</td>
           <td class="opponent"><span class="opp-name">Bills</span></td>
-          <td>8:15 PM ET (Monday Night Football)</td>
+          <td>1:00 PM ET (Thursday Night Football)</td>
         </tr>
         <tr class="">
           <td>7</td>
@@ -122,7 +142,7 @@
           <td>9</td>
           <td>November 8</td>
           <td class="opponent"><span class="opp-name">Rams</span></td>
-          <td>8:20 PM ET (Sunday Night Football)</td>
+          <td>1:00 PM ET</td>
         </tr>
         <tr class="divisional">
           <td>10</td>
@@ -138,9 +158,9 @@
         </tr>
         <tr class="">
           <td>12</td>
-          <td>November 29</td>
+          <td>November 26</td>
           <td class="opponent">at <span class="opp-name">Panthers</span></td>
-          <td>1:00 PM ET</td>
+          <td>1:00 PM ET (Thanksgiving Night Football)</td>
         </tr>
         <tr class="bye-row">
           <td>13</td>
@@ -149,9 +169,9 @@
         </tr>
         <tr class="">
           <td>14</td>
-          <td>December 13</td>
+          <td>December 10</td>
           <td class="opponent"><span class="opp-name">Jaguars</span></td>
-          <td>8:20 PM ET (Sunday Night Football)</td>
+          <td>1:00 PM ET (Thursday Night Football)</td>
         </tr>
         <tr class="divisional">
           <td>15</td>
@@ -161,9 +181,9 @@
         </tr>
         <tr class="divisional">
           <td>16</td>
-          <td>December 27</td>
-          <td class="opponent"><span class="opp-name">Chiefs</span></td>
-          <td>1:00 PM ET</td>
+          <td>December 28</td>
+          <td class="opponent">at <span class="opp-name">Chiefs</span></td>
+          <td>1:00 PM ET (Monday Night Football)</td>
         </tr>
         <tr class="">
           <td>17</td>

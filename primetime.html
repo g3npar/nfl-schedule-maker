@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 NFL Primetime Schedule</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #222;
+      min-height: 100vh;
+      padding: 16px 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #111;
+      letter-spacing: 1px;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 16px;
+      background: #111;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border-bottom: 3px solid #555;
+    }
+    .back-btn:hover { filter: brightness(1.3); }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: bold;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: filter 0.15s, transform 0.1s;
+      color: #fff;
+      border-bottom: 4px solid rgba(0,0,0,0.25);
+    }
+    .tab-btn:hover { filter: brightness(1.15); transform: translateY(-2px); }
+    .tab-btn.active { filter: brightness(1.0); transform: none; outline: 3px solid #111; outline-offset: 2px; }
+    .tab-btn[data-tab="mnf"]  { background: #1a1aff; }
+    .tab-btn[data-tab="tnf"]  { background: #0d7c3b; }
+    .tab-btn[data-tab="snf"]  { background: #b8000d; }
+    .tab-btn[data-tab="tday"] { background: #c45e00; }
+    .tab-btn[data-tab="xmas"] { background: #b8000d; }
+    .tab-btn[data-tab="intl"] { background: #2a7a7a; }
+    .tab-panel { display: none; max-width: 680px; margin: 0 auto; }
+    .tab-panel.active { display: block; }
+    .week-group { margin-bottom: 26px; }
+    .week-label {
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #999;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #eee;
+    }
+    .game-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      background: #f5f5f5;
+      border-left: 5px solid #ccc;
+    }
+    .game-card.mnf  { border-left-color: #1a1aff; }
+    .game-card.tnf  { border-left-color: #0d7c3b; }
+    .game-card.snf  { border-left-color: #b8000d; }
+    .game-card.tday { border-left-color: #c45e00; }
+    .game-card.xmas { border-left-color: #b8000d; }
+    .game-card.intl { border-left-color: #2a7a7a; }
+    .team-logos {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .team-logos img { height: 36px; width: 36px; object-fit: contain; }
+    .vs-sep { font-size: 0.75rem; color: #aaa; font-weight: bold; }
+    .game-info { flex: 1; min-width: 0; }
+    .matchup {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #111;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .game-meta { font-size: 0.8rem; color: #666; margin-top: 2px; }
+    .game-note { font-size: 0.75rem; color: #999; font-style: italic; margin-top: 1px; }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #fff;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge.mnf  { background: #1a1aff; }
+    .badge.tnf  { background: #0d7c3b; }
+    .badge.snf  { background: #b8000d; }
+    .badge.tday { background: #c45e00; }
+    .badge.xmas { background: #b8000d; }
+    .badge.intl { background: #2a7a7a; }
+    .count-label { text-align: center; color: #888; font-size: 0.82rem; margin-bottom: 18px; }
+  </style>
+</head>
+<body>
+  <div style="max-width:680px; margin:0 auto;">
+    <a class="back-btn" href="index.html">← Back to Schedule Home</a>
+  </div>
+  <h1>🌙 2026 NFL Primetime Schedule</h1>
+  <p class="subtitle">Toggle between MNF, TNF, SNF, Thanksgiving, Christmas, and International games</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tnf">Thursday Night Football</button>
+    <button class="tab-btn" data-tab="snf">Sunday Night Football</button>
+    <button class="tab-btn" data-tab="mnf">Monday Night Football</button>
+    <button class="tab-btn" data-tab="tday">Thanksgiving</button>
+    <button class="tab-btn" data-tab="xmas">Christmas</button>
+    <button class="tab-btn" data-tab="intl">International</button>
+  </div>
+
+
+  <div class="tab-panel active" id="panel-tnf">
+    <p class="count-label" id="count-tnf"></p>
+    <div class="week-group">
+      <div class="week-label">Week 2</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/philadelphia-eagles.png" alt="Eagles"><span class="vs-sep">@</span><img src="../logos/dallas-cowboys.png" alt="Cowboys"></div>
+        <div class="game-info">
+          <div class="matchup">Eagles @ Cowboys</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 3</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/cincinnati-bengals.png" alt="Bengals"><span class="vs-sep">@</span><img src="../logos/baltimore-ravens.png" alt="Ravens"></div>
+        <div class="game-info">
+          <div class="matchup">Bengals @ Ravens</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 4</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/chicago-bears.png" alt="Bears"><span class="vs-sep">@</span><img src="../logos/detroit-lions.png" alt="Lions"></div>
+        <div class="game-info">
+          <div class="matchup">Bears @ Lions</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 5</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/pittsburgh-steelers.png" alt="Steelers"><span class="vs-sep">@</span><img src="../logos/new-orleans-saints.png" alt="Saints"></div>
+        <div class="game-info">
+          <div class="matchup">Steelers @ Saints</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 6</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/buffalo-bills.png" alt="Bills"><span class="vs-sep">@</span><img src="../logos/denver-broncos.png" alt="Broncos"></div>
+        <div class="game-info">
+          <div class="matchup">Bills @ Broncos</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 7</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/los-angeles-chargers.png" alt="Chargers"><span class="vs-sep">@</span><img src="../logos/seattle-seahawks.png" alt="Seahawks"></div>
+        <div class="game-info">
+          <div class="matchup">Chargers @ Seahawks</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 8</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/los-angeles-rams.png" alt="Rams"><span class="vs-sep">@</span><img src="../logos/philadelphia-eagles.png" alt="Eagles"></div>
+        <div class="game-info">
+          <div class="matchup">Rams @ Eagles</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 9</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/buffalo-bills.png" alt="Bills"><span class="vs-sep">@</span><img src="../logos/new-england-patriots.png" alt="Patriots"></div>
+        <div class="game-info">
+          <div class="matchup">Bills @ Patriots</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 10</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/new-york-jets.png" alt="Jets"><span class="vs-sep">@</span><img src="../logos/chicago-bears.png" alt="Bears"></div>
+        <div class="game-info">
+          <div class="matchup">Jets @ Bears</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 11</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/dallas-cowboys.png" alt="Cowboys"><span class="vs-sep">@</span><img src="../logos/green-bay-packers.png" alt="Packers"></div>
+        <div class="game-info">
+          <div class="matchup">Cowboys @ Packers</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 12</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/san-francisco-49ers.png" alt="49ers"><span class="vs-sep">@</span><img src="../logos/kansas-city-chiefs.png" alt="Chiefs"></div>
+        <div class="game-info">
+          <div class="matchup">49ers @ Chiefs</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Friday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 13</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/carolina-panthers.png" alt="Panthers"><span class="vs-sep">@</span><img src="../logos/atlanta-falcons.png" alt="Falcons"></div>
+        <div class="game-info">
+          <div class="matchup">Panthers @ Falcons</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 14</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/jacksonville-jaguars.png" alt="Jaguars"><span class="vs-sep">@</span><img src="../logos/denver-broncos.png" alt="Broncos"></div>
+        <div class="game-info">
+          <div class="matchup">Jaguars @ Broncos</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 15</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/pittsburgh-steelers.png" alt="Steelers"><span class="vs-sep">@</span><img src="../logos/new-england-patriots.png" alt="Patriots"></div>
+        <div class="game-info">
+          <div class="matchup">Steelers @ Patriots</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 16</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/houston-texans.png" alt="Texans"><span class="vs-sep">@</span><img src="../logos/indianapolis-colts.png" alt="Colts"></div>
+        <div class="game-info">
+          <div class="matchup">Texans @ Colts</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 17</div>
+      <div class="game-card tnf">
+        <div class="team-logos"><img src="../logos/minnesota-vikings.png" alt="Vikings"><span class="vs-sep">@</span><img src="../logos/green-bay-packers.png" alt="Packers"></div>
+        <div class="game-info">
+          <div class="matchup">Vikings @ Packers</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thursday Night Football</div>
+        </div>
+        <span class="badge tnf">TNF</span>
+      </div>
+    </div>
+
+  </div><!-- /panel-tnf -->
+
+  <div class="tab-panel" id="panel-snf">
+    <p class="count-label" id="count-snf"></p>
+    <div class="week-group">
+      <div class="week-label">Week 1</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/chicago-bears.png" alt="Bears"><span class="vs-sep">@</span><img src="../logos/seattle-seahawks.png" alt="Seahawks"></div>
+        <div class="game-info">
+          <div class="matchup">Bears @ Seahawks</div>
+          <div class="game-meta">8:15 PM ET</div>
+          <div class="game-note">Wednesday Night Kickoff</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/denver-broncos.png" alt="Broncos"><span class="vs-sep">@</span><img src="../logos/new-england-patriots.png" alt="Patriots"></div>
+        <div class="game-info">
+          <div class="matchup">Broncos @ Patriots</div>
+          <div class="game-meta">8:20 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 2</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/detroit-lions.png" alt="Lions"><span class="vs-sep">@</span><img src="../logos/buffalo-bills.png" alt="Bills"></div>
+        <div class="game-info">
+          <div class="matchup">Lions @ Bills</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 3</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/seattle-seahawks.png" alt="Seahawks"><span class="vs-sep">@</span><img src="../logos/denver-broncos.png" alt="Broncos"></div>
+        <div class="game-info">
+          <div class="matchup">Seahawks @ Broncos</div>
+          <div class="game-meta">4:05 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 4</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/washington-commanders.png" alt="Commanders"><span class="vs-sep">@</span><img src="../logos/minnesota-vikings.png" alt="Vikings"></div>
+        <div class="game-info">
+          <div class="matchup">Commanders @ Vikings</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 5</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/green-bay-packers.png" alt="Packers"><span class="vs-sep">@</span><img src="../logos/new-england-patriots.png" alt="Patriots"></div>
+        <div class="game-info">
+          <div class="matchup">Packers @ Patriots</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 6</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/houston-texans.png" alt="Texans"><span class="vs-sep">@</span><img src="../logos/philadelphia-eagles.png" alt="Eagles"></div>
+        <div class="game-info">
+          <div class="matchup">Texans @ Eagles</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 7</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/kansas-city-chiefs.png" alt="Chiefs"><span class="vs-sep">@</span><img src="../logos/los-angeles-rams.png" alt="Rams"></div>
+        <div class="game-info">
+          <div class="matchup">Chiefs @ Rams</div>
+          <div class="game-meta">4:05 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 8</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/chicago-bears.png" alt="Bears"><span class="vs-sep">@</span><img src="../logos/carolina-panthers.png" alt="Panthers"></div>
+        <div class="game-info">
+          <div class="matchup">Bears @ Panthers</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 9</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/kansas-city-chiefs.png" alt="Chiefs"><span class="vs-sep">@</span><img src="../logos/atlanta-falcons.png" alt="Falcons"></div>
+        <div class="game-info">
+          <div class="matchup">Chiefs @ Falcons</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 10</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/washington-commanders.png" alt="Commanders"><span class="vs-sep">@</span><img src="../logos/jacksonville-jaguars.png" alt="Jaguars"></div>
+        <div class="game-info">
+          <div class="matchup">Commanders @ Jaguars</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 11</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/pittsburgh-steelers.png" alt="Steelers"><span class="vs-sep">@</span><img src="../logos/philadelphia-eagles.png" alt="Eagles"></div>
+        <div class="game-info">
+          <div class="matchup">Steelers @ Eagles</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 12 — Thanksgiving</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/denver-broncos.png" alt="Broncos"><span class="vs-sep">@</span><img src="../logos/carolina-panthers.png" alt="Panthers"></div>
+        <div class="game-info">
+          <div class="matchup">Broncos @ Panthers</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thanksgiving Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/buffalo-bills.png" alt="Bills"><span class="vs-sep">@</span><img src="../logos/minnesota-vikings.png" alt="Vikings"></div>
+        <div class="game-info">
+          <div class="matchup">Bills @ Vikings</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 13</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/philadelphia-eagles.png" alt="Eagles"><span class="vs-sep">@</span><img src="../logos/new-york-giants.png" alt="Giants"></div>
+        <div class="game-info">
+          <div class="matchup">Eagles @ Giants</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 14</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/los-angeles-chargers.png" alt="Chargers"><span class="vs-sep">@</span><img src="../logos/baltimore-ravens.png" alt="Ravens"></div>
+        <div class="game-info">
+          <div class="matchup">Chargers @ Ravens</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 15</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/los-angeles-rams.png" alt="Rams"><span class="vs-sep">@</span><img src="../logos/seattle-seahawks.png" alt="Seahawks"></div>
+        <div class="game-info">
+          <div class="matchup">Rams @ Seahawks</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 16</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/san-francisco-49ers.png" alt="49ers"><span class="vs-sep">@</span><img src="../logos/dallas-cowboys.png" alt="Cowboys"></div>
+        <div class="game-info">
+          <div class="matchup">49ers @ Cowboys</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 17</div>
+      <div class="game-card snf">
+        <div class="team-logos"><img src="../logos/kansas-city-chiefs.png" alt="Chiefs"><span class="vs-sep">@</span><img src="../logos/seattle-seahawks.png" alt="Seahawks"></div>
+        <div class="game-info">
+          <div class="matchup">Chiefs @ Seahawks</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Sunday Night Football</div>
+        </div>
+        <span class="badge snf">SNF</span>
+      </div>
+    </div>
+
+  </div><!-- /panel-snf -->
+
+  <div class="tab-panel" id="panel-mnf">
+    <p class="count-label" id="count-mnf"></p>
+    <div class="week-group">
+      <div class="week-label">Week 1</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/new-york-giants.png" alt="Giants"><span class="vs-sep">@</span><img src="../logos/detroit-lions.png" alt="Lions"></div>
+        <div class="game-info">
+          <div class="matchup">Giants @ Lions</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 2</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/los-angeles-rams.png" alt="Rams"><span class="vs-sep">@</span><img src="../logos/washington-commanders.png" alt="Commanders"></div>
+        <div class="game-info">
+          <div class="matchup">Rams @ Commanders</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 3</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/minnesota-vikings.png" alt="Vikings"><span class="vs-sep">@</span><img src="../logos/san-francisco-49ers.png" alt="49ers"></div>
+        <div class="game-info">
+          <div class="matchup">Vikings @ 49ers</div>
+          <div class="game-meta">8:15 PM ET</div>
+          <div class="game-note">Monday Night Football in Mexico</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 4</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/dallas-cowboys.png" alt="Cowboys"><span class="vs-sep">@</span><img src="../logos/seattle-seahawks.png" alt="Seahawks"></div>
+        <div class="game-info">
+          <div class="matchup">Cowboys @ Seahawks</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 5</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/jacksonville-jaguars.png" alt="Jaguars"><span class="vs-sep">@</span><img src="../logos/baltimore-ravens.png" alt="Ravens"></div>
+        <div class="game-info">
+          <div class="matchup">Jaguars @ Ravens</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 6</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/new-england-patriots.png" alt="Patriots"><span class="vs-sep">@</span><img src="../logos/chicago-bears.png" alt="Bears"></div>
+        <div class="game-info">
+          <div class="matchup">Patriots @ Bears</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 7</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/washington-commanders.png" alt="Commanders"><span class="vs-sep">@</span><img src="../logos/new-york-giants.png" alt="Giants"></div>
+        <div class="game-info">
+          <div class="matchup">Commanders @ Giants</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 8</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/san-francisco-49ers.png" alt="49ers"><span class="vs-sep">@</span><img src="../logos/seattle-seahawks.png" alt="Seahawks"></div>
+        <div class="game-info">
+          <div class="matchup">49ers @ Seahawks</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 9</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/jacksonville-jaguars.png" alt="Jaguars"><span class="vs-sep">@</span><img src="../logos/houston-texans.png" alt="Texans"></div>
+        <div class="game-info">
+          <div class="matchup">Jaguars @ Texans</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 10</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/atlanta-falcons.png" alt="Falcons"><span class="vs-sep">@</span><img src="../logos/pittsburgh-steelers.png" alt="Steelers"></div>
+        <div class="game-info">
+          <div class="matchup">Falcons @ Steelers</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 11</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/los-angeles-chargers.png" alt="Chargers"><span class="vs-sep">@</span><img src="../logos/los-angeles-rams.png" alt="Rams"></div>
+        <div class="game-info">
+          <div class="matchup">Chargers @ Rams</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 12</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/green-bay-packers.png" alt="Packers"><span class="vs-sep">@</span><img src="../logos/chicago-bears.png" alt="Bears"></div>
+        <div class="game-info">
+          <div class="matchup">Packers @ Bears</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 13</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/kansas-city-chiefs.png" alt="Chiefs"><span class="vs-sep">@</span><img src="../logos/las-vegas-raiders.png" alt="Raiders"></div>
+        <div class="game-info">
+          <div class="matchup">Chiefs @ Raiders</div>
+          <div class="game-meta">4:05 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 14</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/seattle-seahawks.png" alt="Seahawks"><span class="vs-sep">@</span><img src="../logos/philadelphia-eagles.png" alt="Eagles"></div>
+        <div class="game-info">
+          <div class="matchup">Seahawks @ Eagles</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 15</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/tampa-bay-buccaneers.png" alt="Buccaneers"><span class="vs-sep">@</span><img src="../logos/dallas-cowboys.png" alt="Cowboys"></div>
+        <div class="game-info">
+          <div class="matchup">Buccaneers @ Cowboys</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 16</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/denver-broncos.png" alt="Broncos"><span class="vs-sep">@</span><img src="../logos/kansas-city-chiefs.png" alt="Chiefs"></div>
+        <div class="game-info">
+          <div class="matchup">Broncos @ Chiefs</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 17</div>
+      <div class="game-card mnf">
+        <div class="team-logos"><img src="../logos/baltimore-ravens.png" alt="Ravens"><span class="vs-sep">@</span><img src="../logos/buffalo-bills.png" alt="Bills"></div>
+        <div class="game-info">
+          <div class="matchup">Ravens @ Bills</div>
+          <div class="game-meta">4:25 PM ET</div>
+          <div class="game-note">Monday Night Football</div>
+        </div>
+        <span class="badge mnf">MNF</span>
+      </div>
+    </div>
+
+  </div><!-- /panel-mnf -->
+
+  <div class="tab-panel" id="panel-tday">
+    <p class="count-label" id="count-tday"></p>
+    <div class="week-group">
+      <div class="week-label">Week 12 — Thanksgiving</div>
+      <div class="game-card tday">
+        <div class="team-logos"><img src="../logos/denver-broncos.png" alt="Broncos"><span class="vs-sep">@</span><img src="../logos/carolina-panthers.png" alt="Panthers"></div>
+        <div class="game-info">
+          <div class="matchup">Broncos @ Panthers</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Thanksgiving Night Football</div>
+        </div>
+        <span class="badge tday">T-Day</span>
+      </div>
+      <div class="game-card tday">
+        <div class="team-logos"><img src="../logos/arizona-cardinals.png" alt="Cardinals"><span class="vs-sep">@</span><img src="../logos/dallas-cowboys.png" alt="Cowboys"></div>
+        <div class="game-info">
+          <div class="matchup">Cardinals @ Cowboys</div>
+          <div class="game-meta">4:30 PM ET</div>
+          <div class="game-note">Thanksgiving</div>
+        </div>
+        <span class="badge tday">T-Day</span>
+      </div>
+      <div class="game-card tday">
+        <div class="team-logos"><img src="../logos/tampa-bay-buccaneers.png" alt="Buccaneers"><span class="vs-sep">@</span><img src="../logos/detroit-lions.png" alt="Lions"></div>
+        <div class="game-info">
+          <div class="matchup">Buccaneers @ Lions</div>
+          <div class="game-meta">12:30 PM ET</div>
+          <div class="game-note">Thanksgiving</div>
+        </div>
+        <span class="badge tday">T-Day</span>
+      </div>
+    </div>
+
+  </div><!-- /panel-tday -->
+
+  <div class="tab-panel" id="panel-xmas">
+    <p class="count-label" id="count-xmas"></p>
+    <div class="week-group">
+      <div class="week-label">Week 16 — Christmas Day</div>
+      <div class="game-card xmas">
+        <div class="team-logos"><img src="../logos/philadelphia-eagles.png" alt="Eagles"><span class="vs-sep">@</span><img src="../logos/jacksonville-jaguars.png" alt="Jaguars"></div>
+        <div class="game-info">
+          <div class="matchup">Eagles @ Jaguars</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">Christmas Day</div>
+        </div>
+        <span class="badge xmas">Xmas</span>
+      </div>
+      <div class="game-card xmas">
+        <div class="team-logos"><img src="../logos/buffalo-bills.png" alt="Bills"><span class="vs-sep">@</span><img src="../logos/green-bay-packers.png" alt="Packers"></div>
+        <div class="game-info">
+          <div class="matchup">Bills @ Packers</div>
+          <div class="game-meta">4:30 PM ET</div>
+          <div class="game-note">Christmas Day</div>
+        </div>
+        <span class="badge xmas">Xmas</span>
+      </div>
+    </div>
+
+  </div><!-- /panel-xmas -->
+
+  <div class="tab-panel" id="panel-intl">
+    <p class="count-label" id="count-intl"></p>
+    <div class="week-group">
+      <div class="week-label">Week 1</div>
+      <div class="game-card intl">
+        <div class="team-logos"><img src="../logos/san-francisco-49ers.png" alt="49ers"><span class="vs-sep">@</span><img src="../logos/los-angeles-rams.png" alt="Rams"></div>
+        <div class="game-info">
+          <div class="matchup">49ers @ Rams</div>
+          <div class="game-meta">8:35 PM ET</div>
+          <div class="game-note">Melbourne, Australia</div>
+        </div>
+        <span class="badge intl">Intl</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 3</div>
+      <div class="game-card intl">
+        <div class="team-logos"><img src="../logos/minnesota-vikings.png" alt="Vikings"><span class="vs-sep">@</span><img src="../logos/san-francisco-49ers.png" alt="49ers"></div>
+        <div class="game-info">
+          <div class="matchup">Vikings @ 49ers</div>
+          <div class="game-meta">8:15 PM ET</div>
+          <div class="game-note">Monday Night Football in Mexico</div>
+        </div>
+        <span class="badge intl">Intl</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 4</div>
+      <div class="game-card intl">
+        <div class="team-logos"><img src="../logos/cincinnati-bengals.png" alt="Bengals"><span class="vs-sep">@</span><img src="../logos/atlanta-falcons.png" alt="Falcons"></div>
+        <div class="game-info">
+          <div class="matchup">Bengals @ Falcons</div>
+          <div class="game-meta">9:30 AM ET</div>
+          <div class="game-note">Madrid, Spain</div>
+        </div>
+        <span class="badge intl">Intl</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 5</div>
+      <div class="game-card intl">
+        <div class="team-logos"><img src="../logos/seattle-seahawks.png" alt="Seahawks"><span class="vs-sep">@</span><img src="../logos/washington-commanders.png" alt="Commanders"></div>
+        <div class="game-info">
+          <div class="matchup">Seahawks @ Commanders</div>
+          <div class="game-meta">1:00 PM ET</div>
+          <div class="game-note">London, UK</div>
+        </div>
+        <span class="badge intl">Intl</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 6</div>
+      <div class="game-card intl">
+        <div class="team-logos"><img src="../logos/tennessee-titans.png" alt="Titans"><span class="vs-sep">@</span><img src="../logos/detroit-lions.png" alt="Lions"></div>
+        <div class="game-info">
+          <div class="matchup">Titans @ Lions</div>
+          <div class="game-meta">9:30 PM ET</div>
+          <div class="game-note">Munich, Germany</div>
+        </div>
+        <span class="badge intl">Intl</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 7</div>
+      <div class="game-card intl">
+        <div class="team-logos"><img src="../logos/new-england-patriots.png" alt="Patriots"><span class="vs-sep">@</span><img src="../logos/jacksonville-jaguars.png" alt="Jaguars"></div>
+        <div class="game-info">
+          <div class="matchup">Patriots @ Jaguars</div>
+          <div class="game-meta">9:30 AM ET</div>
+          <div class="game-note">London, UK</div>
+        </div>
+        <span class="badge intl">Intl</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 8</div>
+      <div class="game-card intl">
+        <div class="team-logos"><img src="../logos/indianapolis-colts.png" alt="Colts"><span class="vs-sep">@</span><img src="../logos/jacksonville-jaguars.png" alt="Jaguars"></div>
+        <div class="game-info">
+          <div class="matchup">Colts @ Jaguars</div>
+          <div class="game-meta">9:30 AM ET</div>
+          <div class="game-note">London, UK</div>
+        </div>
+        <span class="badge intl">Intl</span>
+      </div>
+    </div>
+    <div class="week-group">
+      <div class="week-label">Week 12</div>
+      <div class="game-card intl">
+        <div class="team-logos"><img src="../logos/cleveland-browns.png" alt="Browns"><span class="vs-sep">@</span><img src="../logos/new-orleans-saints.png" alt="Saints"></div>
+        <div class="game-info">
+          <div class="matchup">Browns @ Saints</div>
+          <div class="game-meta">9:30 AM ET</div>
+          <div class="game-note">Paris, France</div>
+        </div>
+        <span class="badge intl">Intl</span>
+      </div>
+    </div>
+
+  </div><!-- /panel-intl -->
+
+  <script>
+    const counts = {'mnf': 17, 'tnf': 16, 'snf': 19, 'tday': 3, 'xmas': 2, 'intl': 8};
+    const labels = {
+      mnf: "Monday Night Football", tnf: "Thursday Night Football",
+      snf: "Sunday Night Football", tday: "Thanksgiving", xmas: "Christmas",
+      intl: "International Games"
+    };
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tab = btn.dataset.tab;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("panel-" + tab).classList.add("active");
+      });
+    });
+    Object.keys(counts).forEach(tab => {
+      document.getElementById("count-" + tab).textContent =
+        counts[tab] + " " + labels[tab] + " games";
+    });
+  </script>
+</body>
+</html>
