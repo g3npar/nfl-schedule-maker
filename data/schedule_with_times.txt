@@ -90,7 +90,7 @@ Week 5:
   Bye: Buccaneers, Chiefs, Colts, Rams
 
 Week 6:
-  Chiefs @ Chargers                    1:00 PM ET
+  Chiefs @ Chargers                    1:00 PM ET (Thursday Night Football)
   Cowboys @ Commanders                 1:00 PM ET
   Titans @ Lions                       9:30 PM ET (Munich, Germany)
   Bengals @ Dolphins                   1:00 PM ET
@@ -103,7 +103,7 @@ Week 6:
   Patriots @ Bears                     4:25 PM ET (Monday Night Football)
   Packers @ Rams                       4:25 PM ET
   Texans @ Eagles                      1:00 PM ET (Sunday Night Football)
-  Bills @ Broncos                      1:00 PM ET (Thursday Night Football)
+  Bills @ Broncos                      1:00 PM ET
   Bye: Browns, Cardinals, Jaguars, Raiders
 
 Week 7:
@@ -112,7 +112,6 @@ Week 7:
   Chiefs @ Rams                        4:05 PM ET (Sunday Night Football)
   Raiders @ Saints                     1:00 PM ET
   Jets @ Bills                         1:00 PM ET
-  Dolphins @ Broncos                   1:00 PM ET
   Colts @ Steelers                     1:00 PM ET
   Panthers @ Buccaneers                1:00 PM ET
   Titans @ Cowboys                     1:00 PM ET
@@ -123,6 +122,7 @@ Week 7:
   Falcons @ Packers                    4:25 PM ET
   Chargers @ Seahawks                  1:00 PM ET (Thursday Night Football)
   Bengals @ Browns                     1:00 PM ET
+  Bye: Broncos, Dolphins
 
 Week 8:
   Bears @ Panthers                     1:00 PM ET (Sunday Night Football)
@@ -223,9 +223,10 @@ Week 13:
   Rams @ Buccaneers                    1:00 PM ET
   Chiefs @ Raiders                     4:05 PM ET
   Patriots @ Seahawks                  4:25 PM ET
-  Bears @ Bills                        1:00 PM ET (Monday Night Football)
+  Dolphins @ Broncos                   8:15 PM ET (Monday Night Football)
+  Bears @ Bills                        1:00 PM ET
   Panthers @ Falcons                   1:00 PM ET (Thursday Night Football)
-  Bye: Broncos, Chargers, Dolphins, Packers, Texans, Vikings
+  Bye: Chargers, Packers, Texans, Vikings
 
 Week 14:
   Seahawks @ Eagles                    1:00 PM ET (Monday Night Football)
