@@ -127,7 +127,7 @@ Week 7:
 Week 8:
   Bears @ Panthers                     1:00 PM ET (Sunday Night Football)
   Commanders @ Cowboys                 1:00 PM ET
-  Texans @ Packers                     1:00 PM ET
+  Texans @ Packers                     1:00 PM ET (Monday Night Football)
   Steelers @ Titans                    1:00 PM ET
   Lions @ Dolphins                     1:00 PM ET
   Cardinals @ Chiefs                   1:00 PM ET
@@ -135,7 +135,7 @@ Week 8:
   Bills @ Raiders                      1:00 PM ET
   Browns @ Giants                      1:00 PM ET
   Buccaneers @ Bengals                 1:00 PM ET
-  49ers @ Seahawks                     4:25 PM ET (Monday Night Football)
+  49ers @ Seahawks                     4:25 PM ET
   Broncos @ Chargers                   4:05 PM ET
   Colts @ Jaguars                      9:30 AM ET (London, UK)
   Falcons @ Saints                     1:00 PM ET
@@ -184,11 +184,11 @@ Week 11:
   Titans @ Jaguars                     1:00 PM ET
   Raiders @ Jets                       1:00 PM ET
   Giants @ Texans                      1:00 PM ET
-  Bills @ Dolphins                     1:00 PM ET
+  Bills @ Dolphins                     1:00 PM ET (Thursday Night Football)
   Panthers @ Browns                    1:00 PM ET
   Broncos @ 49ers                      4:05 PM ET
   Seahawks @ Cardinals                 4:05 PM ET
-  Cowboys @ Packers                    4:25 PM ET (Thursday Night Football)
+  Cowboys @ Packers                    4:25 PM ET
   Patriots @ Chiefs                    1:00 PM ET
   Steelers @ Eagles                    1:00 PM ET (Sunday Night Football)
   Bye: Bears, Bengals, Falcons, Lions
@@ -215,7 +215,7 @@ Week 13:
   Cardinals @ 49ers                    4:05 PM ET
   Eagles @ Giants                      1:00 PM ET (Sunday Night Football)
   Ravens @ Browns                      1:00 PM ET
-  Saints @ Bengals                     1:00 PM ET
+  Saints @ Bengals                     1:00 PM ET (Monday Night Football)
   Commanders @ Titans                  1:00 PM ET
   Jets @ Lions                         1:00 PM ET
   Steelers @ Jaguars                   1:00 PM ET
@@ -223,7 +223,7 @@ Week 13:
   Rams @ Buccaneers                    1:00 PM ET
   Chiefs @ Raiders                     4:05 PM ET
   Patriots @ Seahawks                  4:25 PM ET
-  Dolphins @ Broncos                   8:15 PM ET (Monday Night Football)
+  Dolphins @ Broncos                   8:15 PM ET
   Bears @ Bills                        1:00 PM ET
   Panthers @ Falcons                   1:00 PM ET (Thursday Night Football)
   Bye: Chargers, Packers, Texans, Vikings
@@ -269,7 +269,7 @@ Week 16:
   Panthers @ Vikings                   1:00 PM ET
   Steelers @ Bengals                   4:25 PM ET
   Giants @ Commanders                  1:00 PM ET
-  Texans @ Colts                       1:00 PM ET (Thursday Night Football)
+  Colts @ Texans                       1:00 PM ET (Thursday Night Football)
   Jets @ Dolphins                      1:00 PM ET
   Cardinals @ Rams                     4:05 PM ET
   Saints @ Ravens                      1:00 PM ET
@@ -304,7 +304,7 @@ Week 18:
   Rams @ 49ers                         TBD (Flex Scheduling - Nighttime)
   Commanders @ Eagles                  TBD (Flex Scheduling - Nighttime)
   Ravens @ Bengals                     TBD (Flex Scheduling - Nighttime)
-  Colts @ Texans                       TBD (Flex Scheduling - Nighttime)
+  Texans @ Colts                       TBD (Flex Scheduling - Nighttime)
   Chargers @ Chiefs                    TBD (Flex Scheduling - Nighttime)
   Broncos @ Raiders                    TBD (Flex Scheduling - Nighttime)
   Vikings @ Bears                      TBD (Flex Scheduling - Nighttime)
