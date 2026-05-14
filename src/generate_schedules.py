@@ -29,12 +29,12 @@ DIVISIONS = {team: div for div in _DIVISION_GROUPS for team in div}
 # Primary and secondary colors for each NFL team
 TEAM_COLORS = {
     "Bears":      {"primary": "#0B162A", "secondary": "#C83803"},
-    "Bengals":    {"primary": "#FB4F14", "secondary": "#000000"},
+    "Bengals":    {"primary": "#FB4F14", "secondary": "#FFFFFF"},
     "Bills":      {"primary": "#00338D", "secondary": "#C60C30"},
-    "Broncos":    {"primary": "#FB4F14", "secondary": "#002244"},
+    "Broncos":    {"primary": "#FB4F14", "secondary": "#FFFFFF"},
     "Browns":     {"primary": "#311D00", "secondary": "#FF3C00"},
-    "Buccaneers": {"primary": "#D50A0A", "secondary": "#34302B"},
-    "Cardinals":  {"primary": "#97233F", "secondary": "#000000"},
+    "Buccaneers": {"primary": "#D50A0A", "secondary": "#B1BABF"},
+    "Cardinals":  {"primary": "#97233F", "secondary": "#FFFFFF"},
     "Chargers":   {"primary": "#0080C6", "secondary": "#FFC20E"},
     "Chiefs":     {"primary": "#E31837", "secondary": "#FFB81C"},
     "Colts":      {"primary": "#002C5F", "secondary": "#A2AAAD"},
@@ -42,16 +42,16 @@ TEAM_COLORS = {
     "Commanders": {"primary": "#5A1414", "secondary": "#FFB612"},
     "Dolphins":   {"primary": "#008E97", "secondary": "#FC4C02"},
     "Eagles":     {"primary": "#004C54", "secondary": "#A5ACAF"},
-    "Falcons":    {"primary": "#A71930", "secondary": "#000000"},
+    "Falcons":    {"primary": "#A71930", "secondary": "#A5ACAF"},
     "Giants":     {"primary": "#0B2265", "secondary": "#A71930"},
     "Jaguars":    {"primary": "#006778", "secondary": "#D7A22A"},
-    "Jets":       {"primary": "#125740", "secondary": "#000000"},
+    "Jets":       {"primary": "#125740", "secondary": "#FFFFFF"},
     "Lions":      {"primary": "#0076B6", "secondary": "#B0B7BC"},
     "Packers":    {"primary": "#203731", "secondary": "#FFB612"},
-    "Panthers":   {"primary": "#0085CA", "secondary": "#101820"},
+    "Panthers":   {"primary": "#0085CA", "secondary": "#BFC0BF"},
     "Patriots":   {"primary": "#002244", "secondary": "#C60C30"},
     "Raiders":    {"primary": "#000000", "secondary": "#A5ACAF"},
-    "Rams":       {"primary": "#003594", "secondary": "#FFA300"},
+    "Rams":       {"primary": "#003594", "secondary": "#FFD100"},
     "Ravens":     {"primary": "#241773", "secondary": "#9E7C0C"},
     "Saints":     {"primary": "#101820", "secondary": "#D3BC8D"},
     "Seahawks":   {"primary": "#002244", "secondary": "#69BE28"},
@@ -154,6 +154,25 @@ def _hex_to_rgb(h: str) -> tuple:
     h = h.lstrip("#")
     return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
 
+def _darken(r, g, b, factor, floor=12):
+    """Mix color toward black. factor=0 → original, factor=1 → black."""
+    return (max(floor, int(r * (1 - factor))),
+            max(floor, int(g * (1 - factor))),
+            max(floor, int(b * (1 - factor))))
+
+def _to_hex(r, g, b):
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+def _blend_rgb(base, team, ratio):
+    """Blend team color into a neutral dark base at given ratio."""
+    return tuple(int(b * (1 - ratio) + t * ratio) for b, t in zip(base, team))
+
+def _relative_luminance(r, g, b):
+    def _chan(c):
+        c /= 255
+        return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    return 0.2126 * _chan(r) + 0.7152 * _chan(g) + 0.0722 * _chan(b)
+
 def get_team_schedule(team_name):
     matched = next((t for t in NFL_TEAMS if t.lower() == team_name.strip().lower()), None)
     if not matched:
@@ -235,6 +254,19 @@ def generate_html(team, schedule, bye_weeks):
     r, g, b = _hex_to_rgb(primary)
     tint = f"rgba({r},{g},{b},0.08)"
 
+    # Dark mode palette: blend team primary into neutral darks.
+    # Base neutrals ensure rows are always distinguishable regardless of team color.
+    team_rgb = (r, g, b)
+    dark_body    = _to_hex(*_blend_rgb((15, 15, 15), team_rgb, 0.18))
+    dark_surface = _to_hex(*_blend_rgb((28, 28, 28), team_rgb, 0.14))
+    dark_even    = _to_hex(*_blend_rgb((46, 46, 46), team_rgb, 0.14))
+    dark_divider = _to_hex(*_blend_rgb((36, 36, 36), team_rgb, 0.14))
+    # th/btn text: white unless primary is very light
+    th_text = "#ffffff" if _relative_luminance(r, g, b) < 0.30 else "#111111"
+    # opp-name color: use secondary only if it's bright enough to read on dark bg
+    sr, sg, sb = _hex_to_rgb(secondary)
+    dark_opp_color = secondary if _relative_luminance(sr, sg, sb) >= 0.05 else "#c8c8c8"
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -309,21 +341,20 @@ def generate_html(team, schedule, bye_weeks):
       padding-left: 12px;
     }}
     /* ── Dark mode ── */
-    html.dark body {{ background: #0f0f0f; color: #e5e5e5; }}
+    html.dark body {{ background: {dark_body}; color: #e8e8e8; }}
     html.dark h2 {{ color: #fff; }}
-    html.dark .team-header h2 {{ color: #fff; border-left-color: {secondary}; }}
-    html.dark table {{ background: #1a1a1a; box-shadow: 0 2px 8px rgba(0,0,0,0.6); }}
-    html.dark th {{ background-color: #111; color: #fff; border-bottom-color: {secondary}; }}
-    html.dark td {{ border-bottom-color: #2a2a2a; color: #e5e5e5; }}
-    html.dark tr:nth-child(even) {{ background-color: #212121; }}
-    html.dark tr:nth-child(odd)  {{ background-color: #1a1a1a; }}
-    html.dark tr:hover td {{ background-color: #2a2a2a; }}
-    html.dark tr.bye-row td {{ background-color: #161616; color: #777; font-style: italic; }}
+    html.dark .team-header h2 {{ color: #fff; border-left-color: {primary}; }}
+    html.dark table {{ background: {dark_surface}; box-shadow: 0 2px 12px rgba(0,0,0,0.8); }}
+    html.dark th {{ background-color: {primary}; color: {th_text}; border-bottom: 2px solid {secondary}; }}
+    html.dark td {{ border-bottom: 1px solid {dark_divider}; color: #e8e8e8; }}
+    html.dark tr:nth-child(even) {{ background-color: {dark_even}; }}
+    html.dark tr:nth-child(odd)  {{ background-color: {dark_surface}; }}
+    html.dark tr.bye-row td {{ color: #888; font-style: italic; }}
     html.dark tr.divisional td {{ color: #fff; font-weight: bold; }}
-    html.dark .opp-name {{ color: {secondary}; filter: brightness(1.4); }}
-    html.dark .opponent {{ color: #e5e5e5; }}
-    html.dark .back-btn {{ background: #1a1a1a; color: #e5e5e5; border-bottom-color: {secondary}; }}
-    html.dark .back-btn:hover {{ background: #252525; }}
+    html.dark .opp-name {{ color: {dark_opp_color}; }}
+    html.dark .opponent {{ color: #e8e8e8; }}
+    html.dark .back-btn {{ background: {primary}; color: {th_text}; border-bottom: 3px solid {secondary}; }}
+    html.dark .back-btn:hover {{ filter: brightness(1.2); }}
     html.dark .result-w {{ color: #4ade80; }}
     html.dark .result-l {{ color: #f87171; }}
     html.dark .result-t {{ color: #facc15; }}
