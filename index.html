@@ -72,13 +72,55 @@
       filter: brightness(1.15);
       transform: translateY(-2px);
     }
+    /* ── Dark mode ── */
+    html.dark body { background: #0f0f0f; color: #e5e5e5; }
+    html.dark h1 { color: #fff; }
+    html.dark p.subtitle { color: #999; }
+    html.dark .conference h2 { color: #777; border-bottom-color: #2a2a2a; }
+    .primetime-btn {
+      display: inline-block; padding: 10px 24px;
+      background: #111; color: #fff; border-radius: 6px;
+      text-decoration: none; font-weight: bold;
+      font-size: 0.9rem; letter-spacing: 0.5px;
+      border: 2px solid #444;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .primetime-btn:hover { background: #222; border-color: #666; }
+    html.dark .primetime-btn { background: #1e1e1e; border-color: #555; color: #fff; }
+    html.dark .primetime-btn:hover { background: #2a2a2a; border-color: #888; }
+    #theme-toggle {
+      position: fixed; top: 12px; right: 16px;
+      background: #f5f5f5; border: 1px solid #bbb;
+      border-radius: 20px; padding: 4px 12px;
+      cursor: pointer; font-size: 1rem; z-index: 999;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    html.dark #theme-toggle { background: #1a1a1a; border-color: #444; }
   </style>
+  <script>
+    (function(){
+      if (localStorage.getItem('nfl-theme') === 'dark')
+        document.documentElement.classList.add('dark');
+    })();
+  </script>
 </head>
 <body>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+  <script>
+    function toggleTheme() {
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('nfl-theme', dark ? 'dark' : 'light');
+      document.getElementById('theme-toggle').textContent = dark ? '☀️' : '🌙';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('theme-toggle').textContent =
+        document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    });
+  </script>
   <h1>🏈 <span style="color: purple;">g3npar's</span> 2026 NFL Schedule Prediction</h1>
   <p class="subtitle">Predicted schedule with kickoff times — click a team to view their full 18-week schedule!</p>
   <p style="text-align:center; margin-bottom:28px;">
-    <a href="primetime.html" style="display:inline-block; padding:10px 24px; background:#111; color:#fff; border-radius:6px; text-decoration:none; font-weight:bold; font-size:0.9rem; letter-spacing:0.5px;">🌙 View Primetime Schedules (TNF / SNF / MNF)</a>
+    <a href="primetime.html" class="primetime-btn">🌙 View Primetime Schedules (TNF / SNF / MNF)</a>
   </p>
 
   <div class="conference">

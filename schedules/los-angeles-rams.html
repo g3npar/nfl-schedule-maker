@@ -71,9 +71,54 @@
       border-left: 6px solid #FFA300;
       padding-left: 12px;
     }
+    /* ── Dark mode ── */
+    html.dark body { background: #0f0f0f; color: #e5e5e5; }
+    html.dark h2 { color: #fff; }
+    html.dark .team-header h2 { color: #fff; border-left-color: #FFA300; }
+    html.dark table { background: #1a1a1a; box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+    html.dark th { background-color: #111; color: #fff; border-bottom-color: #FFA300; }
+    html.dark td { border-bottom-color: #2a2a2a; color: #e5e5e5; }
+    html.dark tr:nth-child(even) { background-color: #212121; }
+    html.dark tr:nth-child(odd)  { background-color: #1a1a1a; }
+    html.dark tr:hover td { background-color: #2a2a2a; }
+    html.dark tr.bye-row td { background-color: #161616; color: #777; font-style: italic; }
+    html.dark tr.divisional td { color: #fff; font-weight: bold; }
+    html.dark .opp-name { color: #FFA300; filter: brightness(1.4); }
+    html.dark .opponent { color: #e5e5e5; }
+    html.dark .back-btn { background: #1a1a1a; color: #e5e5e5; border-bottom-color: #FFA300; }
+    html.dark .back-btn:hover { background: #252525; }
+    html.dark .result-w { color: #4ade80; }
+    html.dark .result-l { color: #f87171; }
+    html.dark .result-t { color: #facc15; }
+    #theme-toggle {
+      position: fixed; top: 12px; right: 16px;
+      background: #f5f5f5; border: 1px solid #bbb;
+      border-radius: 20px; padding: 4px 12px;
+      cursor: pointer; font-size: 1rem; z-index: 999;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    html.dark #theme-toggle { background: #1a1a1a; border-color: #444; }
   </style>
+  <script>
+    (function(){
+      if (localStorage.getItem('nfl-theme') === 'dark')
+        document.documentElement.classList.add('dark');
+    })();
+  </script>
 </head>
 <body>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+  <script>
+    function toggleTheme() {
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('nfl-theme', dark ? 'dark' : 'light');
+      document.getElementById('theme-toggle').textContent = dark ? '☀️' : '🌙';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('theme-toggle').textContent =
+        document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    });
+  </script>
   <a class="back-btn" href="../index.html">← All Teams</a>
   <div class="team-header">
     <img src="../logos/los-angeles-rams.png" alt="Rams logo">
@@ -92,80 +137,80 @@
       
         <tr class="divisional">
           <td>1</td>
-          <td>September 10</td>
+          <td>September 13</td>
           <td class="opponent"><span class="opp-name">49ers</span></td>
-          <td>8:35 PM ET (Thursday Night Football in Melbourne)</td>
+          <td>8:35 PM ET (Melbourne, Australia)</td>
         </tr>
-        <tr class="">
+        <tr class="divisional">
           <td>2</td>
-          <td>September 21</td>
-          <td class="opponent">at <span class="opp-name">Commanders</span></td>
-          <td>1:00 PM ET (Monday Night Football)</td>
-        </tr>
-        <tr class="">
-          <td>3</td>
-          <td>September 27</td>
-          <td class="opponent"><span class="opp-name">Giants</span></td>
-          <td>4:05 PM ET</td>
-        </tr>
-        <tr class="divisional">
-          <td>4</td>
-          <td>October 4</td>
-          <td class="opponent">at <span class="opp-name">Cardinals</span></td>
-          <td>4:05 PM ET</td>
-        </tr>
-        <tr class="bye-row">
-          <td>5</td>
-          <td>October 11</td>
-          <td colspan="2" style="text-align:center; font-style:italic; color:#666;">Bye</td>
-        </tr>
-        <tr class="">
-          <td>6</td>
-          <td>October 18</td>
-          <td class="opponent"><span class="opp-name">Packers</span></td>
-          <td>4:25 PM ET</td>
-        </tr>
-        <tr class="">
-          <td>7</td>
-          <td>October 25</td>
-          <td class="opponent"><span class="opp-name">Chiefs</span></td>
-          <td>4:05 PM ET (Sunday Night Football)</td>
-        </tr>
-        <tr class="">
-          <td>8</td>
-          <td>October 29</td>
-          <td class="opponent">at <span class="opp-name">Eagles</span></td>
-          <td>4:25 PM ET (Thursday Night Football)</td>
-        </tr>
-        <tr class="">
-          <td>9</td>
-          <td>November 8</td>
-          <td class="opponent">at <span class="opp-name">Broncos</span></td>
-          <td>1:00 PM ET</td>
-        </tr>
-        <tr class="divisional">
-          <td>10</td>
-          <td>November 15</td>
+          <td>September 20</td>
           <td class="opponent"><span class="opp-name">Seahawks</span></td>
           <td>4:25 PM ET</td>
         </tr>
         <tr class="">
-          <td>11</td>
-          <td>November 23</td>
+          <td>3</td>
+          <td>September 27</td>
+          <td class="opponent">at <span class="opp-name">Commanders</span></td>
+          <td>4:25 PM ET</td>
+        </tr>
+        <tr class="">
+          <td>4</td>
+          <td>October 4</td>
+          <td class="opponent"><span class="opp-name">Cowboys</span></td>
+          <td>4:25 PM ET</td>
+        </tr>
+        <tr class="divisional">
+          <td>5</td>
+          <td>October 11</td>
+          <td class="opponent">at <span class="opp-name">Cardinals</span></td>
+          <td>4:05 PM ET</td>
+        </tr>
+        <tr class="">
+          <td>6</td>
+          <td>October 18</td>
+          <td class="opponent">at <span class="opp-name">Eagles</span></td>
+          <td>8:20 PM ET (Sunday Night Football)</td>
+        </tr>
+        <tr class="">
+          <td>7</td>
+          <td>October 25</td>
           <td class="opponent"><span class="opp-name">Chargers</span></td>
-          <td>1:00 PM ET (Monday Night Football)</td>
+          <td>4:05 PM ET</td>
+        </tr>
+        <tr class="divisional">
+          <td>8</td>
+          <td>November 1</td>
+          <td class="opponent">at <span class="opp-name">49ers</span></td>
+          <td>4:05 PM ET</td>
+        </tr>
+        <tr class="">
+          <td>9</td>
+          <td>November 9</td>
+          <td class="opponent"><span class="opp-name">Chiefs</span></td>
+          <td>8:15 PM ET (Monday Night Football)</td>
+        </tr>
+        <tr class="">
+          <td>10</td>
+          <td>November 15</td>
+          <td class="opponent">at <span class="opp-name">Broncos</span></td>
+          <td>4:25 PM ET</td>
+        </tr>
+        <tr class="bye-row">
+          <td>11</td>
+          <td>November 22</td>
+          <td colspan="2" style="text-align:center; font-style:italic; color:#666;">Bye</td>
         </tr>
         <tr class="">
           <td>12</td>
-          <td>November 29</td>
-          <td class="opponent">at <span class="opp-name">Raiders</span></td>
-          <td>4:25 PM ET</td>
+          <td>November 26</td>
+          <td class="opponent"><span class="opp-name">Packers</span></td>
+          <td>8:15 PM ET (Wednesday - Thanksgiving Eve)</td>
         </tr>
         <tr class="">
           <td>13</td>
           <td>December 6</td>
-          <td class="opponent">at <span class="opp-name">Buccaneers</span></td>
-          <td>1:00 PM ET</td>
+          <td class="opponent">at <span class="opp-name">Raiders</span></td>
+          <td>4:05 PM ET</td>
         </tr>
         <tr class="">
           <td>14</td>
@@ -173,28 +218,28 @@
           <td class="opponent"><span class="opp-name">Bills</span></td>
           <td>4:25 PM ET</td>
         </tr>
-        <tr class="divisional">
+        <tr class="">
           <td>15</td>
           <td>December 20</td>
-          <td class="opponent">at <span class="opp-name">Seahawks</span></td>
-          <td>1:00 PM ET (Sunday Night Football)</td>
+          <td class="opponent">at <span class="opp-name">Buccaneers</span></td>
+          <td>4:25 PM ET</td>
         </tr>
         <tr class="divisional">
           <td>16</td>
-          <td>December 27</td>
-          <td class="opponent"><span class="opp-name">Cardinals</span></td>
-          <td>4:05 PM ET</td>
+          <td>December 25</td>
+          <td class="opponent">at <span class="opp-name">Seahawks</span></td>
+          <td>4:30 PM ET (Christmas Afternoon Football)</td>
         </tr>
         <tr class="">
           <td>17</td>
           <td>January 3</td>
-          <td class="opponent"><span class="opp-name">Cowboys</span></td>
+          <td class="opponent"><span class="opp-name">Giants</span></td>
           <td>1:00 PM ET</td>
         </tr>
         <tr class="divisional">
           <td>18</td>
           <td>January 10</td>
-          <td class="opponent">at <span class="opp-name">49ers</span></td>
+          <td class="opponent"><span class="opp-name">Cardinals</span></td>
           <td>TBD (Flex Scheduling - Nighttime)</td>
         </tr>
     </tbody>

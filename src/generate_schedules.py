@@ -308,9 +308,54 @@ def generate_html(team, schedule, bye_weeks):
       border-left: 6px solid {secondary};
       padding-left: 12px;
     }}
+    /* ── Dark mode ── */
+    html.dark body {{ background: #0f0f0f; color: #e5e5e5; }}
+    html.dark h2 {{ color: #fff; }}
+    html.dark .team-header h2 {{ color: #fff; border-left-color: {secondary}; }}
+    html.dark table {{ background: #1a1a1a; box-shadow: 0 2px 8px rgba(0,0,0,0.6); }}
+    html.dark th {{ background-color: #111; color: #fff; border-bottom-color: {secondary}; }}
+    html.dark td {{ border-bottom-color: #2a2a2a; color: #e5e5e5; }}
+    html.dark tr:nth-child(even) {{ background-color: #212121; }}
+    html.dark tr:nth-child(odd)  {{ background-color: #1a1a1a; }}
+    html.dark tr:hover td {{ background-color: #2a2a2a; }}
+    html.dark tr.bye-row td {{ background-color: #161616; color: #777; font-style: italic; }}
+    html.dark tr.divisional td {{ color: #fff; font-weight: bold; }}
+    html.dark .opp-name {{ color: {secondary}; filter: brightness(1.4); }}
+    html.dark .opponent {{ color: #e5e5e5; }}
+    html.dark .back-btn {{ background: #1a1a1a; color: #e5e5e5; border-bottom-color: {secondary}; }}
+    html.dark .back-btn:hover {{ background: #252525; }}
+    html.dark .result-w {{ color: #4ade80; }}
+    html.dark .result-l {{ color: #f87171; }}
+    html.dark .result-t {{ color: #facc15; }}
+    #theme-toggle {{
+      position: fixed; top: 12px; right: 16px;
+      background: #f5f5f5; border: 1px solid #bbb;
+      border-radius: 20px; padding: 4px 12px;
+      cursor: pointer; font-size: 1rem; z-index: 999;
+      transition: background 0.2s, border-color 0.2s;
+    }}
+    html.dark #theme-toggle {{ background: #1a1a1a; border-color: #444; }}
   </style>
+  <script>
+    (function(){{
+      if (localStorage.getItem('nfl-theme') === 'dark')
+        document.documentElement.classList.add('dark');
+    }})();
+  </script>
 </head>
 <body>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+  <script>
+    function toggleTheme() {{
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('nfl-theme', dark ? 'dark' : 'light');
+      document.getElementById('theme-toggle').textContent = dark ? '☀️' : '🌙';
+    }}
+    document.addEventListener('DOMContentLoaded', () => {{
+      document.getElementById('theme-toggle').textContent =
+        document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    }});
+  </script>
   <a class="back-btn" href="../index.html">← All Teams</a>
   <div class="team-header">
     <img src="../logos/{TEAM_FULL_NAMES.get(team, team.lower())}.png" alt="{team} logo">
@@ -397,11 +442,14 @@ def generate_primetime_html():
             elif "thanksgiving night" in tl:
                 tday.append((current_week, away, home, slot, note))
                 snf.append((current_week, away, home, slot, note))
+            elif "thanksgiving eve" in tl:
+                tday.append((current_week, away, home, slot, note))
+                tnf.append((current_week, away, home, slot, note))
             elif "thanksgiving" in tl:
                 tday.append((current_week, away, home, slot, note))
             elif "monday night" in tl:
                 mnf.append((current_week, away, home, slot, note))
-            elif ("thursday night" in tl or "friday night" in tl) and not is_intl:
+            elif ("thursday night" in tl or "black friday" in tl) and not is_intl:
                 tnf.append((current_week, away, home, slot, note))
             elif "sunday night" in tl:
                 snf.append((current_week, away, home, slot, note))
@@ -590,11 +638,49 @@ def generate_primetime_html():
     .badge.xmas {{ background: #b8000d; }}
     .badge.intl {{ background: #2a7a7a; }}
     .count-label {{ text-align: center; color: #888; font-size: 0.82rem; margin-bottom: 18px; }}
+    /* ── Dark mode ── */
+    html.dark body {{ background: #0f0f0f; color: #e5e5e5; }}
+    html.dark h1 {{ color: #fff; }}
+    html.dark p.subtitle {{ color: #999; }}
+    html.dark .back-btn {{ background: #1a1a1a; border-bottom-color: #555; }}
+    html.dark .game-card {{ background: #1a1a1a; }}
+    html.dark .matchup {{ color: #fff; }}
+    html.dark .game-meta {{ color: #aaa; }}
+    html.dark .game-note {{ color: #666; }}
+    html.dark .week-label {{ color: #555; border-bottom-color: #2a2a2a; }}
+    html.dark .count-label {{ color: #666; }}
+    html.dark .tab-btn.active {{ outline-color: #aaa; }}
+    #theme-toggle {{
+      position: fixed; top: 12px; right: 16px;
+      background: #f5f5f5; border: 1px solid #bbb;
+      border-radius: 20px; padding: 4px 12px;
+      cursor: pointer; font-size: 1rem; z-index: 999;
+      transition: background 0.2s, border-color 0.2s;
+    }}
+    html.dark #theme-toggle {{ background: #1a1a1a; border-color: #444; }}
   </style>
+  <script>
+    (function(){{
+      if (localStorage.getItem('nfl-theme') === 'dark')
+        document.documentElement.classList.add('dark');
+    }})();
+  </script>
 </head>
 <body>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+  <script>
+    function toggleTheme() {{
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('nfl-theme', dark ? 'dark' : 'light');
+      document.getElementById('theme-toggle').textContent = dark ? '☀️' : '🌙';
+    }}
+    document.addEventListener('DOMContentLoaded', () => {{
+      document.getElementById('theme-toggle').textContent =
+        document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    }});
+  </script>
   <div style="max-width:680px; margin:0 auto;">
-    <a class="back-btn" href="index.html">\u2190 Back to Schedule Home</a>
+    <a class="back-btn" href="index.html">← Back to Schedule Home</a>
   </div>
   <h1>\U0001f319 2026 NFL Primetime Schedule</h1>
   <p class="subtitle">Toggle between MNF, TNF, SNF, Thanksgiving, Christmas, and International games</p>
@@ -623,8 +709,17 @@ def generate_primetime_html():
         document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
         btn.classList.add("active");
         document.getElementById("panel-" + tab).classList.add("active");
+        localStorage.setItem("primetime_tab", tab);
       }});
     }});
+    // Restore last active tab on page load
+    const savedTab = localStorage.getItem("primetime_tab");
+    if (savedTab && document.getElementById("panel-" + savedTab)) {{
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`.tab-btn[data-tab="${{savedTab}}"]`).classList.add("active");
+      document.getElementById("panel-" + savedTab).classList.add("active");
+    }}
     Object.keys(counts).forEach(tab => {{
       document.getElementById("count-" + tab).textContent =
         counts[tab] + " " + labels[tab] + " games";

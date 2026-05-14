@@ -1,0 +1,272 @@
+[
+  {
+    "away": "Patriots",
+    "home": "Seahawks",
+    "week": 1,
+    "slot": "8:20 PM ET (Wednesday Kickoff Game)"
+  },
+  {
+    "away": "49ers",
+    "home": "Rams",
+    "week": 1,
+    "slot": "8:35 PM ET (Melbourne, Australia)"
+  },
+  {
+    "away": "Cowboys",
+    "home": "Giants",
+    "week": 1,
+    "slot": "8:20 PM ET (Sunday Night Football)"
+  },
+  {
+    "away": "Broncos",
+    "home": "Chiefs",
+    "week": 1,
+    "slot": "8:15 PM ET (Monday Night Football)"
+  },
+  {
+    "away": "Bears",
+    "home": "Panthers",
+    "week": 1,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Dolphins",
+    "home": "Raiders",
+    "week": 1,
+    "slot": "4:25 PM ET"
+  },
+  {
+    "away": "Falcons",
+    "home": "Steelers",
+    "week": 1,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Browns",
+    "home": "Jaguars",
+    "week": 1,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Lions",
+    "home": "Bills",
+    "week": 2,
+    "slot": "8:15 PM ET (Thursday Night Football)"
+  },
+  {
+    "away": "Ravens",
+    "home": "Cowboys",
+    "week": 3,
+    "slot": "4:25 PM ET (Rio de Janeiro, Brazil)"
+  },
+  {
+    "away": "Bengals",
+    "home": "Steelers",
+    "week": 3,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Colts",
+    "home": "Commanders",
+    "week": 4,
+    "slot": "9:30 AM ET (London, England)"
+  },
+  {
+    "away": "Cardinals",
+    "home": "Giants",
+    "week": 4,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Eagles",
+    "home": "Jaguars",
+    "week": 5,
+    "slot": "9:30 AM ET (London, England)"
+  },
+  {
+    "away": "Texans",
+    "home": "Jaguars",
+    "week": 6,
+    "slot": "9:30 AM ET (London, England)"
+  },
+  {
+    "away": "Steelers",
+    "home": "Saints",
+    "week": 7,
+    "slot": "9:30 AM ET (Paris, France)"
+  },
+  {
+    "away": "Patriots",
+    "home": "Bears",
+    "week": 7,
+    "slot": "8:15 PM ET (Thursday Night Football)"
+  },
+  {
+    "away": "Dolphins",
+    "home": "Jets",
+    "week": 7,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Eagles",
+    "home": "Commanders",
+    "week": 8,
+    "slot": "8:20 PM ET (Sunday Night Football)"
+  },
+  {
+    "away": "Bengals",
+    "home": "Falcons",
+    "week": 9,
+    "slot": "9:30 PM ET (Madrid, Spain)"
+  },
+  {
+    "away": "Patriots",
+    "home": "Lions",
+    "week": 10,
+    "slot": "9:30 AM ET (Munich, Germany)"
+  },
+  {
+    "away": "Commanders",
+    "home": "Giants",
+    "week": 10,
+    "slot": "8:15 PM ET (Thursday Night Football)"
+  },
+  {
+    "away": "Bills",
+    "home": "Jets",
+    "week": 10,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Vikings",
+    "home": "49ers",
+    "week": 11,
+    "slot": "8:15 PM ET (Sunday Night Football - Mexico City, Mexico)"
+  },
+  {
+    "away": "Bears",
+    "home": "Lions",
+    "week": 12,
+    "slot": "12:30 PM ET (Thanksgiving)"
+  },
+  {
+    "away": "Eagles",
+    "home": "Cowboys",
+    "week": 12,
+    "slot": "4:30 PM ET (Thanksgiving)"
+  },
+  {
+    "away": "Packers",
+    "home": "Rams",
+    "week": 12,
+    "slot": "8:00 PM ET (Thanksgiving Eve)"
+  },
+  {
+    "away": "Broncos",
+    "home": "Steelers",
+    "week": 12,
+    "slot": "3:00 PM ET (Black Friday)"
+  },
+  {
+    "away": "Chiefs",
+    "home": "Bills",
+    "week": 12,
+    "slot": "8:20 PM ET (Thanksgiving Night Football)"
+  },
+  {
+    "away": "Steelers",
+    "home": "Jaguars",
+    "week": 14,
+    "slot": "8:15 PM ET (Monday Night Football)"
+  },
+  {
+    "away": "Rams",
+    "home": "Seahawks",
+    "week": 16,
+    "slot": "4:30 PM ET (Christmas Afternoon Football)"
+  },
+  {
+    "away": "Packers",
+    "home": "Jets",
+    "week": 2,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Titans",
+    "home": "Giants",
+    "week": 3,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Eagles",
+    "home": "Bears",
+    "week": 3,
+    "slot": "8:15 PM ET (Monday Night Football)"
+  },
+  {
+    "away": "Bills",
+    "home": "Raiders",
+    "week": 6,
+    "slot": "4:25 PM ET"
+  },
+  {
+    "away": "Buccaneers",
+    "home": "Bears",
+    "week": 9,
+    "slot": "8:20 PM ET (Sunday Night Football)"
+  },
+  {
+    "away": "Saints",
+    "home": "Bears",
+    "week": 11,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Titans",
+    "home": "Jaguars",
+    "week": 12,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Texans",
+    "home": "Steelers",
+    "week": 13,
+    "slot": "8:20 PM ET (Sunday Night Football)"
+  },
+  {
+    "away": "49ers",
+    "home": "Giants",
+    "week": 13,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Chargers",
+    "home": "Raiders",
+    "week": 14,
+    "slot": "4:05 PM ET"
+  },
+  {
+    "away": "Patriots",
+    "home": "Jets",
+    "week": 16,
+    "slot": "1:00 PM ET"
+  },
+  {
+    "away": "Titans",
+    "home": "Raiders",
+    "week": 16,
+    "slot": "4:05 PM ET"
+  },
+  {
+    "away": "Lions",
+    "home": "Bears",
+    "week": 17,
+    "slot": "4:25 PM ET"
+  },
+  {
+    "away": "Bears",
+    "home": "Vikings",
+    "week": 18,
+    "slot": "TBD (Flex Scheduling - Nighttime)"
+  }
+]

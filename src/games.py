@@ -1,5 +1,5 @@
 import random
-from opponents import teams
+from data.opponents import teams
 
 team_names = [
     "Bears", "Lions", "Packers", "Vikings",

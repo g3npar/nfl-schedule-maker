@@ -1,86 +1,61 @@
 import re
 import random
+import json
+import os
 import pulp
 from itertools import cycle
 from collections import defaultdict
-from primetime_weights import PRIMETIME_WEIGHTS, WEIGHT_TO_TARGET
 
 EARLY_WINDOW       = "1:00 PM ET"
 LATE_WINDOW_1      = "4:05 PM ET"
 LATE_WINDOW_2      = "4:25 PM ET"
-SNF_SLOT           = "8:20 PM ET (Sunday Night Football)"
-TNF_SLOT           = "8:15 PM ET (Thursday Night Football)"
-MNF_SLOT           = "8:15 PM ET (Monday Night Football)"
-MNF_SLOT_2         = "10:00 PM ET (Monday Night Football)"
-MNF_SLOT_EARLY     = "7:00 PM ET (Monday Night Football)"
-KICKOFF_SLOT       = "8:20 PM ET (Thursday Kickoff Game)"
+KICKOFF_SLOT       = "8:20 PM ET (Wednesday Kickoff Game)"
 FLEX_SLOT          = "TBD (Flex Scheduling - Nighttime)"
+SUNDAY_NIGHT       = "8:20 PM ET (Sunday Night Football)"
+MONDAY_NIGHT       = "8:15 PM ET (Monday Night Football)"
+THURSDAY_NIGHT     = "8:15 PM ET (Thursday Night Football)"
+THANKSGIVING_EVE   = "8:00 PM ET (Thanksgiving Eve)"
 THANKSGIVING_EARLY = "12:30 PM ET (Thanksgiving)"
 THANKSGIVING_MID   = "4:30 PM ET (Thanksgiving)"
 THANKSGIVING_NIGHT = "8:20 PM ET (Thanksgiving Night Football)"
+BLACK_FRIDAY       = "3:00 PM ET (Black Friday)"
 CHRISTMAS_SLOT     = "8:20 PM ET (Christmas Night Football)"
 CHRISTMAS_SLOT_2   = "4:30 PM ET (Christmas Afternoon Football)"
+CHRISTMAS_SLOT_3   = "1:00 PM ET (Christmas Day Football)"
 CHRISTMAS_WEEK     = 16
 
-# International game slots by week (week -> label)
+# International game slots by week (week -> label) — confirmed games only
 INTERNATIONAL_SLOTS = {
-    1:  "8:15 PM ET (Melbourne, Australia)",
-    3:  "9:30 PM ET (Munich, Germany)",
-    4:  "9:30 AM ET (London, UK)",
-    5:  "9:30 PM ET (Paris, France)",
-    6:  "9:30 AM ET (London, UK)",
-    7:  "9:30 AM ET (London, UK)",
-    8:  "9:30 PM ET (Rio de Janiero, Brazil)",
-    9:  "9:30 AM ET (Madrid, Spain)",
-    15: "9:30 PM ET (Mexico City, Mexico)",
-}
-
-# International home teams by week — the team listed as "home" for that game
-INTERNATIONAL_HOME = {
-    1:  "Rams",
-    3:  "Lions",
-    4:  "Jaguars",
-    5:  "Saints",
-    6:  "Commanders",
-    7:  "Jaguars",
-    8:  "Cowboys",
-    9:  "Falcons",
-    15: "49ers",
+  1:  "8:35 PM ET (Melbourne, Australia)",
+  3:  "4:25 PM ET (Rio de Janeiro, Brazil)",
+  4:  "9:30 AM ET (London, England)",
+  5:  "9:30 AM ET (London, England)",
+  6:  "9:30 AM ET (London, England)",
+  7:  "9:30 AM ET (Paris, France)",
+  9:  "9:30 PM ET (Madrid, Spain)",
+  10: "9:30 AM ET (Munich, Germany)",
+  11: "8:15 PM ET (Sunday Night Football - Mexico City, Mexico)",
 }
 
 INTL_WEEKS = set(INTERNATIONAL_SLOTS.keys())
 
-# Pinned games: { (away, home): (week, slot_label) }
-PINNED_GAMES = {
-    ("Bears", "Seahawks"): (1, KICKOFF_SLOT),
-    ("49ers",  "Rams"):    (1, INTERNATIONAL_SLOTS[1]),
-}
+# Load confirmed (pinned) games from data/confirmed_games.json
+_CG_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "confirmed_games.json")
 
-# Matchups that always get a fixed kickoff time regardless of week.
-FIXED_SLOT_GAMES = {
-    frozenset(["Seahawks", "Patriots"]): LATE_WINDOW_2,  # must be 4:25 PM ET
-}
+def _load_pinned():
+    if not os.path.exists(_CG_PATH):
+        return {}
+    with open(_CG_PATH, encoding="utf-8") as _f:
+        _games = json.load(_f)
+    return {(g["away"], g["home"]): (g["week"], g["slot"]) for g in _games}
 
-# Weeks with double-header MNF — dynamically selected from W2–W17.
-# Picks `n` evenly-spaced weeks across the range, then groups them into
-# consecutive pairs so they cluster naturally (pairs OK, triples not).
-def _pick_double_header_weeks(n=4, start=2, end=17):
-    pair_count = n // 2
-    segment = (end - start) / pair_count
-    weeks = set()
-    for i in range(pair_count):
-        mid = round(start + segment * i + segment / 2)
-        mid = max(start, min(end - 1, mid))
-        weeks.add(mid)
-        weeks.add(mid + 1)
-    return weeks
+PINNED_GAMES = _load_pinned()
 
-DOUBLE_HEADER_MNF_WEEKS = _pick_double_header_weeks()
-
-MAX_PRIMETIME_PER_TEAM = 7
-
-MIN_PRIMETIME_FLOORS = {
-    "Cowboys": 5,
+# Derive INTERNATIONAL_HOME from PINNED_GAMES (home team for each intl week)
+INTERNATIONAL_HOME = {
+    week: home
+    for (away, home), (week, slot) in PINNED_GAMES.items()
+    if week in INTL_WEEKS
 }
 
 THANKSGIVING_HOSTS = ["Lions", "Cowboys"]
@@ -128,11 +103,6 @@ def load_records(filepath="data/previous_records.txt"):
     return records
 
 TEAM_WINS = load_records()
-
-PRIMETIME_TARGETS = {
-    team: WEIGHT_TO_TARGET.get(PRIMETIME_WEIGHTS.get(team, 3), 4)
-    for team in ALL_TEAMS
-}
 
 def primetime_score(game_str):
     """Combined win total for both teams — higher = more attractive primetime game."""
@@ -254,8 +224,11 @@ def generate_schedule(all_games, divisional_games, previous_schedule, weeks=18):
     for host in THANKSGIVING_HOSTS:
         prob += pulp.lpSum(x[g, 12] for g in all_games if g[0] == host) == 1
 
+    # Build set of (week, home_team) pairs that are already in PINNED_GAMES
+    pinned_international = {(wk, home) for (away, home), (wk, _slot) in PINNED_GAMES.items() if wk in INTL_WEEKS}
+    
     for week, home_team in INTERNATIONAL_HOME.items():
-        if home_team in ("Rams", "Seahawks"):  # already handled by PINNED_GAMES
+        if (week, home_team) in pinned_international:  # already handled by PINNED_GAMES
             continue
         prob += pulp.lpSum(x[g, week] for g in all_games if g[0] == home_team) >= 1
 
@@ -263,6 +236,48 @@ def generate_schedule(all_games, divisional_games, previous_schedule, weeks=18):
         g = (home, away)
         if g in all_games:
             prob += x[g, week] == 1
+
+    # Jets and Bills both have away games in Week 1 (confirmed)
+    for team in ["Jets", "Bills"]:
+        prob += pulp.lpSum(x[g, 1] for g in all_games if g[1] == team) == 1
+    
+    # Bucs have an away game in Week 1 (confirmed)
+    prob += pulp.lpSum(x[g, 1] for g in all_games if g[1] == "Buccaneers") == 1
+    
+    # Cowboys have a home game in Week 2 (confirmed)
+    prob += pulp.lpSum(x[g, 2] for g in all_games if g[0] == "Cowboys") >= 1
+
+    # Specific bye week assignments (confirmed)
+    bye_assignments = {
+        "Commanders": 5,
+        "Jaguars": 7,
+        "Saints": 8,
+        "Falcons": 10,
+        "Packers": 11,
+        "Rams": 11,
+        "49ers": 12,
+    }
+    for team, bye_week in bye_assignments.items():
+        # Team must not play in their bye week
+        prob += pulp.lpSum(x[g, bye_week] for g in all_games if team in g) == 0
+
+    # Bye week constraints (weeks 5–14 only — weeks 1–4 and 15–18 are full):
+    #   • No week has more than 6 teams on bye  (games >= 13)
+    #   • At most ONE week has exactly 6 teams on bye
+    #     (all other bye weeks have <= 4 teams on bye, i.e. games >= 14)
+    # Introduce binary indicator: has6[w] = 1 iff exactly 6 teams on bye in week w
+    has6 = pulp.LpVariable.dicts("Has6Bye", range(5, 15), cat="Binary")
+    for w in range(5, 15):
+        games_in_week = pulp.lpSum(x[g, w] for g in all_games)
+        # Hard cap: never more than 6 on bye  => games >= 13
+        prob += games_in_week >= 13
+        # has6[w] = 1  =>  games_in_week <= 13  (6 on bye)
+        # has6[w] = 0  =>  games_in_week >= 14  (<=4 on bye)
+        # Encode via big-M (M=3 is enough since range is 13–16):
+        prob += games_in_week >= 14 - has6[w]          # if has6=0 → games >= 14
+        prob += games_in_week <= 13 + 3 * (1 - has6[w])  # if has6=1 → games <= 13 (tight); else relaxed
+    # At most one week with 6-team bye
+    prob += pulp.lpSum(has6[w] for w in range(5, 15)) <= 1
 
     div_set_spread = set()
     for home, opponents in divisional_games.items():
@@ -289,14 +304,17 @@ def generate_schedule(all_games, divisional_games, previous_schedule, weeks=18):
                 pulp.lpSum(x[g, w + 2] for g in all_games if g[1] == t)
             ) <= 2
 
+    # Build set of (game, week) pairs that are pinned — exempt from previous-schedule ban
+    pinned_set = {((home, away), week) for (away, home), (week, _) in PINNED_GAMES.items()}
+
     for w, games in previous_schedule.items():
         if w == 18:
             continue
         for g in games:
-            if g in all_games:
+            if g in all_games and (g, w) not in pinned_set:
                 prob += x[g, w] == 0
             rev = (g[1], g[0])
-            if rev in all_games:
+            if rev in all_games and (rev, w) not in pinned_set:
                 prob += x[rev, w] == 0
 
     for g in all_games:
@@ -305,15 +323,9 @@ def generate_schedule(all_games, divisional_games, previous_schedule, weeks=18):
             for w in range(1, weeks):
                 prob += x[g, w] + x[rev, w + 1] <= 1
 
-    scored_games = [(primetime_score(f"{g[1]} @ {g[0]}"), g) for g in all_games]
-    prob += -pulp.lpSum(
-        score * x[g, w]
-        for score, g in scored_games
-        for w in range(1, 17)
-        if score > 20
-    )
+    prob += 0  # no objective — find any feasible solution
 
-    solver = pulp.PULP_CBC_CMD(msg=1, options=["-timeLimit", "300", "-feas"])
+    solver = pulp.PULP_CBC_CMD(msg=True, timeLimit=300, threads=4)
     status = prob.solve(solver)
     print(f"Solver status: {pulp.LpStatus[prob.status]}")
 
@@ -338,27 +350,18 @@ def compute_byes(schedule, weeks=18):
     byes = {}
     for w in range(1, weeks + 1):
         playing = set(t for g in schedule.get(w, []) for t in g)
-        byes[w] = sorted(set(ALL_TEAMS) - playing)
+        on_bye = sorted(set(ALL_TEAMS) - playing)
+        # Only weeks where teams genuinely have a bye (not full 16-game weeks)
+        byes[w] = on_bye if on_bye else []
     return byes
 
-def _snf_mnf_tail(result, snf_slot=SNF_SLOT):
-    """Pull SNF and MNF entries to the end, SNF immediately before MNF."""
-    snf = [r for r in result if r[1] == snf_slot]
-    mnf = [r for r in result if "Monday Night Football" in r[1]]
-    rest = [r for r in result if r[1] != snf_slot and "Monday Night Football" not in r[1]]
-    return rest + snf + mnf
+def _snf_mnf_tail(result, snf_slot=None):
+    return result
 
 
 def _fill_sunday_slots(games, used_indices, result_map):
     # Apply FIXED_SLOT_GAMES overrides before normal filling.
-    for i, game in enumerate(games):
-        if i in used_indices:
-            continue
-        parts = game.split(" @ ")
-        key = frozenset(t.strip() for t in parts)
-        if key in FIXED_SLOT_GAMES:
-            result_map[i] = (game, FIXED_SLOT_GAMES[key])
-            used_indices.add(i)
+    # (FIXED_SLOT_GAMES removed - all fixed slots now handled by PINNED_GAMES)
 
     late_cycle = cycle([LATE_WINDOW_1, LATE_WINDOW_2])
     early_used = sum(1 for i in used_indices if result_map.get(i, ("", ""))[1] == EARLY_WINDOW)
@@ -375,189 +378,25 @@ def _fill_sunday_slots(games, used_indices, result_map):
         used_indices.add(i)
 
 
-def assign_times(games, week, double_header_mnf=False, intl_game=None,
-                 used_primetime_matchups=None, primetime_counts=None,
-                 last_primetime_slot=None, bye_teams=None):
+def assign_times(games, week, intl_game=None, **_kwargs):
     """Assign kickoff times for a standard week."""
-    if used_primetime_matchups is None:
-        used_primetime_matchups = set()
-    if primetime_counts is None:
-        primetime_counts = {}
-    if last_primetime_slot is None:
-        last_primetime_slot = {}
-    if bye_teams is None:
-        bye_teams = set()
     result_map = {}
     used = set()
 
-    def matchup_key(g):
-        parts = g.split(" @ ")
-        return frozenset(parts) if len(parts) == 2 else frozenset([g])
+    # Check for any pinned games in this week (TNF, international, etc.)
+    for (away, home), (wk, slot) in PINNED_GAMES.items():
+        if wk == week:
+            game_str = f"{away} @ {home}"
+            if game_str in games:
+                idx = games.index(game_str)
+                result_map[idx] = (game_str, slot)
+                used.add(idx)
 
-    def is_fresh(g):
-        return matchup_key(g) not in used_primetime_matchups
-
-    def under_cap(g):
-        """Return True if neither team in g has exceeded their per-team primetime target."""
-        parts = g.split(" @ ")
-        return all(
-            primetime_counts.get(t.strip(), 0) < PRIMETIME_TARGETS.get(t.strip(), MAX_PRIMETIME_PER_TEAM)
-            for t in parts
-        )
-
-    def slot_label(slot):
-        """Normalise any MNF variant to 'MNF', TNF to 'TNF', SNF to 'SNF'."""
-        if "Monday" in slot:   return "MNF"
-        if "Thursday" in slot: return "TNF"
-        if "Sunday" in slot or "Thanksgiving" in slot: return "SNF"
-        return slot
-
-    def no_repeat_slot(g, slot):
-        """Return True if neither team had the same slot within the last 2 weeks."""
-        label = slot_label(slot)
-        parts = g.split(" @ ")
-        return all(
-            last_primetime_slot.get(t.strip(), (0, None))[1] != label
-            or week - last_primetime_slot.get(t.strip(), (0, None))[0] > 2
-            for t in parts
-        )
-
-    def primetime_ok(g, slot):
-        return is_fresh(g) and under_cap(g) and no_repeat_slot(g, slot)
-
-    if intl_game and intl_game in games:
-        idx = games.index(intl_game)
-        result_map[idx] = (intl_game, INTERNATIONAL_SLOTS[week])
-        used.add(idx)
-        used_primetime_matchups.add(matchup_key(intl_game))
-
-    def both_had_bye(g):
-        parts = g.split(" @ ")
-        return all(t.strip() in bye_teams for t in parts)
-
-    def one_had_bye(g):
-        parts = g.split(" @ ")
-        return any(t.strip() in bye_teams for t in parts)
-
-    tnf_idx = None
-    for filter_fn, extra_filter in [
-        (both_had_bye,  lambda g: primetime_ok(g, TNF_SLOT)),
-        (one_had_bye,   lambda g: primetime_ok(g, TNF_SLOT)),
-        (lambda g: True, lambda g: primetime_ok(g, TNF_SLOT)),
-        (both_had_bye,  lambda g: is_fresh(g) and under_cap(g)),
-        (one_had_bye,   lambda g: is_fresh(g) and under_cap(g)),
-        (lambda g: True, lambda g: is_fresh(g) and under_cap(g)),
-        (lambda g: True, lambda g: is_fresh(g)),
-        (lambda g: True, lambda g: True),
-    ]:
-        candidates = [(tnf_score(games[j]), j)
-                      for j in range(len(games)) if j not in used
-                      and filter_fn(games[j]) and extra_filter(games[j])]
-        if candidates:
-            candidates.sort(key=lambda t: -t[0])
-            tnf_idx = candidates[0][1]
-            break
-    result_map[tnf_idx] = (games[tnf_idx], TNF_SLOT)
-    used.add(tnf_idx)
-
-    if double_header_mnf:
-        mnf_candidates = [(primetime_score(games[j]), j)
-                          for j in range(len(games)) if j not in used
-                          and primetime_ok(games[j], MNF_SLOT)]
-        if len(mnf_candidates) < 2:
-            mnf_candidates = [(primetime_score(games[j]), j)
-                              for j in range(len(games)) if j not in used
-                              and is_fresh(games[j]) and under_cap(games[j])]
-        if len(mnf_candidates) < 2:
-            mnf_candidates = [(primetime_score(games[j]), j)
-                              for j in range(len(games)) if j not in used
-                              and is_fresh(games[j])]
-        if len(mnf_candidates) < 2:
-            mnf_candidates = [(primetime_score(games[j]), j)
-                              for j in range(len(games)) if j not in used]
-        mnf_candidates.sort(key=lambda t: -t[0])
-        m1_idx = mnf_candidates[0][1]
-        m2_idx = mnf_candidates[1][1]
-        result_map[m1_idx] = (games[m1_idx], MNF_SLOT_EARLY)
-        result_map[m2_idx] = (games[m2_idx], MNF_SLOT_2)
-        used.add(m1_idx)
-        used.add(m2_idx)
-    else:
-        mnf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used
-                     and primetime_ok(games[j], MNF_SLOT)]
-        if not mnf_cands:
-            mnf_cands = [(primetime_score(games[j]), j)
-                         for j in range(len(games)) if j not in used
-                         and is_fresh(games[j]) and under_cap(games[j])]
-        if not mnf_cands:
-            mnf_cands = [(primetime_score(games[j]), j)
-                         for j in range(len(games)) if j not in used
-                         and is_fresh(games[j])]
-        if not mnf_cands:
-            mnf_cands = [(primetime_score(games[j]), j)
-                         for j in range(len(games)) if j not in used]
-        mnf_cands.sort(key=lambda t: -t[0])
-        best_mnf = mnf_cands[0][1]
-        result_map[best_mnf] = (games[best_mnf], MNF_SLOT)
-        used.add(best_mnf)
-
-    snf_candidates = [(primetime_score(games[j]), j)
-                      for j in range(len(games)) if j not in used
-                      and is_primetime_eligible(games[j])
-                      and primetime_ok(games[j], SNF_SLOT)]
-    if not snf_candidates:
-        snf_candidates = [(primetime_score(games[j]), j)
-                          for j in range(len(games)) if j not in used
-                          and is_primetime_eligible(games[j])
-                          and is_fresh(games[j]) and under_cap(games[j])]
-    if not snf_candidates:
-        snf_candidates = [(primetime_score(games[j]), j)
-                          for j in range(len(games)) if j not in used
-                          and primetime_ok(games[j], SNF_SLOT)]
-    if not snf_candidates:
-        snf_candidates = [(primetime_score(games[j]), j)
-                          for j in range(len(games)) if j not in used]
-    snf_candidates.sort(key=lambda t: -t[0])
-    snf_idx = snf_candidates[0][1]
-    result_map[snf_idx] = (games[snf_idx], SNF_SLOT)
-    used.add(snf_idx)
-
-    # -- Fill remaining Sunday slots --
     _fill_sunday_slots(games, used, result_map)
-
-    ordered = [result_map[i] for i in range(len(games))]
-    result = _snf_mnf_tail(ordered)
-
-    for game, slot in result:
-        if any(s in slot for s in ("Night Football", "Kickoff Game")) or slot in INTERNATIONAL_SLOTS.values():
-            used_primetime_matchups.add(matchup_key(game))
-
-    return result
+    return [result_map[i] for i in range(len(games))]
 
 
-def assign_times_week1(games, primetime_counts=None, last_primetime_slot=None):
-    if primetime_counts is None:
-        primetime_counts = {}
-    if last_primetime_slot is None:
-        last_primetime_slot = {}
-
-    def under_cap(g):
-        parts = g.split(" @ ")
-        return all(
-            primetime_counts.get(t.strip(), 0) < PRIMETIME_TARGETS.get(t.strip(), MAX_PRIMETIME_PER_TEAM)
-            for t in parts
-        )
-
-    def no_repeat_slot(g, slot):
-        label = "MNF" if "Monday" in slot else ("TNF" if "Thursday" in slot else "SNF")
-        parts = g.split(" @ ")
-        return all(
-            last_primetime_slot.get(t.strip(), (0, None))[1] != label
-            or 1 - last_primetime_slot.get(t.strip(), (0, None))[0] > 2
-            for t in parts
-        )
-
+def assign_times_week1(games, **_kwargs):
     result_map = {}
     used = set()
 
@@ -568,232 +407,80 @@ def assign_times_week1(games, primetime_counts=None, last_primetime_slot=None):
             result_map[idx] = (game_str, slot)
             used.add(idx)
 
-    mnf_cands = [(primetime_score(games[j]), j)
-                 for j in range(len(games)) if j not in used
-                 and under_cap(games[j]) and no_repeat_slot(games[j], MNF_SLOT)]
-    if not mnf_cands:
-        mnf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used and under_cap(games[j])]
-    if not mnf_cands:
-        mnf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used]
-    mnf_cands.sort(key=lambda t: -t[0])
-    mnf_idx = mnf_cands[0][1]
-    result_map[mnf_idx] = (games[mnf_idx], MNF_SLOT)
-    used.add(mnf_idx)
-
-    snf_cands = [(primetime_score(games[j]), j)
-                 for j in range(len(games)) if j not in used
-                 and under_cap(games[j]) and no_repeat_slot(games[j], SNF_SLOT)]
-    if not snf_cands:
-        snf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used and under_cap(games[j])]
-    if not snf_cands:
-        snf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used]
-    snf_cands.sort(key=lambda t: -t[0])
-    snf_idx = snf_cands[0][1]
-    result_map[snf_idx] = (games[snf_idx], SNF_SLOT)
-    used.add(snf_idx)
-
     _fill_sunday_slots(games, used, result_map)
 
     ordered = [result_map[i] for i in range(len(games))]
     kickoff = [r for r in ordered if r[1] == KICKOFF_SLOT]
     intl    = [r for r in ordered if r[1] == INTERNATIONAL_SLOTS[1]]
-    snf     = [r for r in ordered if r[1] == SNF_SLOT]
-    mnf     = [r for r in ordered if "Monday Night Football" in r[1]]
-    rest    = [r for r in ordered if r not in kickoff + intl + snf + mnf]
-    return kickoff + intl + rest + snf + mnf
+    rest    = [r for r in ordered if r not in kickoff + intl]
+    return kickoff + intl + rest
 
 
-def assign_times_thanksgiving(games, primetime_counts=None, last_primetime_slot=None):
-    if primetime_counts is None:
-        primetime_counts = {}
-    if last_primetime_slot is None:
-        last_primetime_slot = {}
-
-    def under_cap(g):
-        parts = g.split(" @ ")
-        return all(
-            primetime_counts.get(t.strip(), 0) < PRIMETIME_TARGETS.get(t.strip(), MAX_PRIMETIME_PER_TEAM)
-            for t in parts
-        )
-
-    def no_repeat_slot(g, slot):
-        label = "MNF" if "Monday" in slot else ("TNF" if "Thursday" in slot else "SNF")
-        parts = g.split(" @ ")
-        return all(
-            last_primetime_slot.get(t.strip(), (0, None))[1] != label
-            or 12 - last_primetime_slot.get(t.strip(), (0, None))[0] > 2
-            for t in parts
-        )
-
+def assign_times_thanksgiving(games, **_kwargs):
     result_map = {}
     used = set()
-    tg_candidates = []
 
     for i, g in enumerate(games):
-        if "Lions" in g and not g.startswith("Lions"):
-            tg_candidates.append((primetime_score(g), i, THANKSGIVING_EARLY))
+        if g.startswith("Bears @ Lions"):
+            result_map[i] = (g, THANKSGIVING_EARLY)
+            used.add(i)
             break
+    if not used:
+        for i, g in enumerate(games):
+            if "Lions" in g and not g.startswith("Lions"):
+                result_map[i] = (g, THANKSGIVING_EARLY)
+                used.add(i)
+                break
 
     for i, g in enumerate(games):
-        if "Cowboys" in g and not g.startswith("Cowboys"):
-            tg_candidates.append((primetime_score(g), i, THANKSGIVING_MID))
+        if i not in used and "Cowboys" in g and not g.startswith("Cowboys"):
+            result_map[i] = (g, THANKSGIVING_MID)
+            used.add(i)
             break
 
-    tg_candidates.sort(key=lambda t: -t[0])
-    slot_order = [THANKSGIVING_NIGHT, THANKSGIVING_MID, THANKSGIVING_EARLY]
-    for rank, (score, idx, _orig_slot) in enumerate(tg_candidates[:2]):
-        result_map[idx] = (games[idx], slot_order[rank])
-        used.add(idx)
-
-    night_cands = [(primetime_score(games[j]), j)
-                   for j in range(len(games)) if j not in used]
-    night_cands.sort(key=lambda t: -t[0])
-    night_idx = night_cands[0][1]
-    result_map[night_idx] = (games[night_idx], slot_order[2])
+    night_cands = [j for j in range(len(games)) if j not in used]
+    night_idx = night_cands[0]
+    result_map[night_idx] = (games[night_idx], THANKSGIVING_NIGHT)
     used.add(night_idx)
-
-    mnf_cands = [(primetime_score(games[j]), j)
-                 for j in range(len(games)) if j not in used
-                 and under_cap(games[j]) and no_repeat_slot(games[j], MNF_SLOT)]
-    if not mnf_cands:
-        mnf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used and under_cap(games[j])]
-    if not mnf_cands:
-        mnf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used]
-    mnf_cands.sort(key=lambda t: -t[0])
-    mnf_idx = mnf_cands[0][1]
-    result_map[mnf_idx] = (games[mnf_idx], MNF_SLOT)
-    used.add(mnf_idx)
-
-    snf_cands = [(primetime_score(games[j]), j)
-                 for j in range(len(games)) if j not in used
-                 and under_cap(games[j]) and no_repeat_slot(games[j], SNF_SLOT)]
-    if not snf_cands:
-        snf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used and under_cap(games[j])]
-    if not snf_cands:
-        snf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used]
-    snf_cands.sort(key=lambda t: -t[0])
-    snf_idx = snf_cands[0][1]
-    result_map[snf_idx] = (games[snf_idx], SNF_SLOT)
-    used.add(snf_idx)
 
     _fill_sunday_slots(games, used, result_map)
 
     ordered = [result_map[i] for i in range(len(games))]
     tg_slots = (THANKSGIVING_EARLY, THANKSGIVING_MID, THANKSGIVING_NIGHT)
-    tg      = sorted([r for r in ordered if r[1] in tg_slots],
-                     key=lambda r: tg_slots.index(r[1]))
-    snf_e   = [r for r in ordered if r[1] == SNF_SLOT]
-    mnf_e   = [r for r in ordered if "Monday Night Football" in r[1]]
-    rest    = [r for r in ordered if r[1] not in tg_slots + (SNF_SLOT,)
-               and "Monday Night Football" not in r[1]]
-    return tg + rest + snf_e + mnf_e
+    tg   = sorted([r for r in ordered if r[1] in tg_slots], key=lambda r: tg_slots.index(r[1]))
+    rest = [r for r in ordered if r[1] not in tg_slots]
+    return tg + rest
 
 
 def assign_times_flex(games, primetime_counts=None):
     if primetime_counts is None:
         primetime_counts = {}
 
-    def under_cap(g):
-        parts = g.split(" @ ")
-        return all(
-            primetime_counts.get(t.strip(), 0) < PRIMETIME_TARGETS.get(t.strip(), MAX_PRIMETIME_PER_TEAM)
-            for t in parts
-        )
-
-    scored = sorted(games, key=lambda g: (-under_cap(g), -primetime_score(g)))
+    scored = sorted(games, key=lambda g: (-primetime_score(g)))
     return [(g, FLEX_SLOT) for g in scored]
 
 
-def assign_times_christmas(games, primetime_counts=None, last_primetime_slot=None):
-    if primetime_counts is None:
-        primetime_counts = {}
-    if last_primetime_slot is None:
-        last_primetime_slot = {}
-
-    def under_cap(g):
-        parts = g.split(" @ ")
-        return all(
-            primetime_counts.get(t.strip(), 0) < PRIMETIME_TARGETS.get(t.strip(), MAX_PRIMETIME_PER_TEAM)
-            for t in parts
-        )
-
-    def no_repeat_slot(g, slot):
-        label = "MNF" if "Monday" in slot else ("TNF" if "Thursday" in slot else "SNF")
-        parts = g.split(" @ ")
-        return all(
-            last_primetime_slot.get(t.strip(), (0, None))[1] != label
-            or CHRISTMAS_WEEK - last_primetime_slot.get(t.strip(), (0, None))[0] > 2
-            for t in parts
-        )
-
+def assign_times_christmas(games, **_kwargs):
     result_map = {}
     used = set()
 
-    xmas_cands = [(primetime_score(games[j]), j)
-                  for j in range(len(games)) if j not in used
-                  and is_primetime_eligible(games[j]) and under_cap(games[j])]
-    if not xmas_cands:
-        xmas_cands = [(primetime_score(games[j]), j)
-                      for j in range(len(games)) if j not in used]
-    xmas_cands.sort(key=lambda t: -t[0])
-    xmas_idx  = xmas_cands[0][1]
-    xmas2_idx = xmas_cands[1][1] if len(xmas_cands) > 1 else xmas_cands[0][1]
+    indices = list(range(len(games)))
+    xmas_idx  = indices[0]
+    xmas2_idx = indices[1] if len(indices) > 1 else indices[0]
+    xmas3_idx = indices[2] if len(indices) > 2 else indices[0]
     result_map[xmas_idx]  = (games[xmas_idx],  CHRISTMAS_SLOT)
     result_map[xmas2_idx] = (games[xmas2_idx], CHRISTMAS_SLOT_2)
-    used.add(xmas_idx)
-    used.add(xmas2_idx)
-
-    tnf_cands = [(tnf_score(games[j]), j)
-                 for j in range(len(games)) if j not in used
-                 and is_primetime_eligible(games[j]) and under_cap(games[j])]
-    if not tnf_cands:
-        tnf_cands = [(tnf_score(games[j]), j)
-                     for j in range(len(games)) if j not in used]
-    tnf_cands.sort(key=lambda t: -t[0])
-    tnf_idx = tnf_cands[0][1]
-    result_map[tnf_idx] = (games[tnf_idx], TNF_SLOT)
-    used.add(tnf_idx)
-
-    mnf_cands = [(primetime_score(games[j]), j)
-                 for j in range(len(games)) if j not in used
-                 and under_cap(games[j]) and no_repeat_slot(games[j], MNF_SLOT)]
-    if not mnf_cands:
-        mnf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used]
-    mnf_cands.sort(key=lambda t: -t[0])
-    mnf_idx = mnf_cands[0][1]
-    result_map[mnf_idx] = (games[mnf_idx], MNF_SLOT)
-    used.add(mnf_idx)
-
-    snf_cands = [(primetime_score(games[j]), j)
-                 for j in range(len(games)) if j not in used
-                 and is_primetime_eligible(games[j]) and under_cap(games[j])]
-    if not snf_cands:
-        snf_cands = [(primetime_score(games[j]), j)
-                     for j in range(len(games)) if j not in used]
-    snf_cands.sort(key=lambda t: -t[0])
-    snf_idx = snf_cands[0][1]
-    result_map[snf_idx] = (games[snf_idx], SNF_SLOT)
-    used.add(snf_idx)
+    result_map[xmas3_idx] = (games[xmas3_idx], CHRISTMAS_SLOT_3)
+    used.update([xmas_idx, xmas2_idx, xmas3_idx])
 
     _fill_sunday_slots(games, used, result_map)
 
     ordered = [result_map[i] for i in range(len(games))]
+    xmas_m  = [r for r in ordered if r[1] == CHRISTMAS_SLOT_3]
     xmas_e  = [r for r in ordered if r[1] == CHRISTMAS_SLOT_2]
     xmas_n  = [r for r in ordered if r[1] == CHRISTMAS_SLOT]
-    snf_e   = [r for r in ordered if r[1] == SNF_SLOT]
-    mnf_e   = [r for r in ordered if "Monday Night Football" in r[1]]
-    rest    = [r for r in ordered if r[1] not in (CHRISTMAS_SLOT, CHRISTMAS_SLOT_2, SNF_SLOT)
-               and "Monday Night Football" not in r[1]]
-    return xmas_e + xmas_n + rest + snf_e + mnf_e
+    rest    = [r for r in ordered if r[1] not in (CHRISTMAS_SLOT, CHRISTMAS_SLOT_2, CHRISTMAS_SLOT_3)]
+    return xmas_m + xmas_e + xmas_n + rest
 
 def get_team_primetime_map(schedule_lines):
     team_map = defaultdict(list)
@@ -853,10 +540,6 @@ def write_schedule(schedule, byes, output_file=None, seed=None):
     lines = []
     lines.append("2026 NFL Schedule with Kickoff Times:\n\n")
 
-    used_primetime_matchups = set()
-    primetime_counts: dict = {}
-    last_primetime_slot: dict = {}
-
     for week in sorted(schedule.keys()):
         games_raw = list(schedule[week])
         rng.shuffle(games_raw)
@@ -864,52 +547,26 @@ def write_schedule(schedule, byes, output_file=None, seed=None):
 
         lines.append(f"Week {week}:\n")
 
-        double_mnf = week in DOUBLE_HEADER_MNF_WEEKS
-        intl_game  = None
-
+        # Find the pinned intl game for this week if applicable
+        intl_game = None
         if week in INTL_WEEKS:
-            home_team = INTERNATIONAL_HOME[week]
-            for g_str in games:
-                parts = g_str.split(" @ ")
-                if len(parts) == 2 and parts[1].strip() == home_team:
-                    intl_game = g_str
-                    break
-            if intl_game is None:
-                pinned_strs = {f"{a} @ {h}" for (a, h) in PINNED_GAMES
-                               if PINNED_GAMES[(a, h)][0] == week}
-                candidates = sorted(games, key=lambda g: primetime_score(g))
-                for g in candidates:
-                    if g not in pinned_strs:
-                        intl_game = g
+            for (away, home), (wk, _slot) in PINNED_GAMES.items():
+                if wk == week:
+                    candidate = f"{away} @ {home}"
+                    if candidate in games:
+                        intl_game = candidate
                         break
 
         if week == 1:
-            timed = assign_times_week1(games, primetime_counts=primetime_counts,
-                                       last_primetime_slot=last_primetime_slot)
+            timed = assign_times_week1(games)
         elif week == 12:
-            timed = assign_times_thanksgiving(games, primetime_counts=primetime_counts,
-                                              last_primetime_slot=last_primetime_slot)
+            timed = assign_times_thanksgiving(games)
         elif week == CHRISTMAS_WEEK:
-            timed = assign_times_christmas(games, primetime_counts=primetime_counts,
-                                           last_primetime_slot=last_primetime_slot)
+            timed = assign_times_christmas(games)
         elif week in (17, 18):
-            timed = assign_times_flex(games, primetime_counts=primetime_counts)
+            timed = assign_times_flex(games)
         else:
-            timed = assign_times(games, week,
-                                 double_header_mnf=double_mnf,
-                                 intl_game=intl_game,
-                                 used_primetime_matchups=used_primetime_matchups,
-                                 primetime_counts=primetime_counts,
-                                 last_primetime_slot=last_primetime_slot,
-                                 bye_teams=set(byes.get(week - 1, [])))
-
-        for game, slot in timed:
-            if any(s in slot for s in ("Night Football", "Kickoff Game", "Thanksgiving", "Christmas")):
-                label = "MNF" if "Monday" in slot else ("TNF" if "Thursday" in slot else "SNF")
-                for team in game.split(" @ "):
-                    team = team.strip()
-                    primetime_counts[team] = primetime_counts.get(team, 0) + 1
-                    last_primetime_slot[team] = (week, label)
+            timed = assign_times(games, week, intl_game=intl_game)
 
         for game, slot in timed:
             lines.append(f"  {game:<35}  {slot}\n")
@@ -920,54 +577,7 @@ def write_schedule(schedule, byes, output_file=None, seed=None):
 
         lines.append("\n")
 
-    primetime_matchups_seen = {}
-    duplicate_matchup_violations = []
-    current_week = 0
-    for line in lines:
-        wm = re.match(r'^\s*Week (\d+):', line.strip())
-        if wm:
-            current_week = int(wm.group(1))
-        elif any(s in line for s in ("Night Football", "Kickoff Game", "Christmas")):
-            m = re.search(r'(\w+) @ (\w+)', line)
-            if m:
-                key = frozenset([m.group(1), m.group(2)])
-                if key in primetime_matchups_seen:
-                    duplicate_matchup_violations.append(
-                        f"  {m.group(1)} vs {m.group(2)}: W{primetime_matchups_seen[key]} and W{current_week}"
-                    )
-                else:
-                    primetime_matchups_seen[key] = current_week
-    if duplicate_matchup_violations:
-        print(f"WARNING: {len(duplicate_matchup_violations)} duplicate primetime matchup(s):")
-        for v in duplicate_matchup_violations:
-            print(v)
-    else:
-        print("✓ No duplicate primetime matchups.")
-
-    consecutive, triples = has_consecutive_double_mnf(lines)
-    if consecutive:
-        for w1, w2, w3 in triples:
-            print(f"WARNING: 3 consecutive double-header MNF weeks: W{w1}, W{w2}, W{w3}")
-
-    team_map = get_team_primetime_map(lines)
-    slot_viol = []
-    for team, tgames in team_map.items():
-        for i in range(len(tgames) - 1):
-            if tgames[i][1] == tgames[i + 1][1] and tgames[i + 1][0] - tgames[i][0] <= 2:
-                slot_viol.append(
-                    f"  {team}: {tgames[i][1]} W{tgames[i][0]} -> W{tgames[i+1][0]}"
-                )
-
-    floor_violations = []
-    for team, floor in MIN_PRIMETIME_FLOORS.items():
-        actual = primetime_counts.get(team, 0)
-        if actual < floor:
-            floor_violations.append(
-                f"  {team}: needs >= {floor} primetime appearances, got {actual}"
-            )
-
-    n_violations = len(duplicate_matchup_violations) + len(slot_viol) + len(floor_violations)
-    return lines, n_violations
+    return lines
 
 def main():
     games_file    = "data/games.txt"
@@ -988,59 +598,10 @@ def main():
     byes = compute_byes(schedule)
 
     print("Assigning kickoff times...")
-    MAX_TIME_ATTEMPTS = 500
-    best_lines: list = []
-    best_violations = float("inf")
-    for t_attempt in range(1, MAX_TIME_ATTEMPTS + 1):
-        lines, n_violations = write_schedule(schedule, byes)
-        if n_violations < best_violations:
-            best_violations = n_violations
-            best_lines = lines
-        if n_violations == 0:
-            print(f"  Clean schedule found on attempt {t_attempt}.")
-            break
-        if t_attempt % 25 == 0:
-            print(f"  Attempt {t_attempt}: best so far has {best_violations} violation(s)...")
-    else:
-        print(f"  Could not eliminate all violations after {MAX_TIME_ATTEMPTS} attempts."
-              f" Writing best result ({best_violations} violation(s)).")
-
-    team_map = get_team_primetime_map(best_lines)
-    slot_violations = []
-    for team, tgames in team_map.items():
-        for i in range(len(tgames) - 1):
-            if tgames[i][1] == tgames[i + 1][1] and tgames[i + 1][0] - tgames[i][0] <= 2:
-                slot_violations.append(
-                    f"  {team}: {tgames[i][1]} W{tgames[i][0]} -> W{tgames[i+1][0]}"
-                )
-    if slot_violations:
-        print(f"WARNING: {len(slot_violations)} consecutive same-slot primetime violations:")
-        for v in slot_violations:
-            print(v)
-    else:
-        print("\u2713 No consecutive same-slot primetime violations.")
-
-    best_primetime_counts: dict = {}
-    for line in best_lines:
-        if any(s in line for s in ("Night Football", "Kickoff Game", "Thanksgiving", "Christmas")):
-            m = re.search(r'(\w+) @ (\w+)', line)
-            if m:
-                for team in (m.group(1), m.group(2)):
-                    best_primetime_counts[team] = best_primetime_counts.get(team, 0) + 1
-    floor_violations = []
-    for team, floor in MIN_PRIMETIME_FLOORS.items():
-        actual = best_primetime_counts.get(team, 0)
-        if actual < floor:
-            floor_violations.append(f"  {team}: needs >= {floor}, got {actual}")
-    if floor_violations:
-        print(f"WARNING: {len(floor_violations)} primetime floor violation(s):")
-        for v in floor_violations:
-            print(v)
-    else:
-        print("\u2713 All primetime floor requirements met.")
+    lines = write_schedule(schedule, byes)
 
     with open(output_file, "w") as f:
-        f.writelines(best_lines)
+        f.writelines(lines)
     print(f"Schedule written to '{output_file}'.")
 
 

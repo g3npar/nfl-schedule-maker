@@ -1,5 +1,8 @@
 __pycache__/
 *.py[cod]
 .env
-.venv
-src/schedule_analysis.py
+.venv/
+.DS_Store
+*.log
+/src/editor_server.py
+/editor.html
