@@ -4,8 +4,9 @@ A full 18-week NFL schedule prediction built with integer linear programming. Ev
 
 🔗 **Live site:** https://g3npar.github.io/nfl-schedule-maker/
 
-![Example Schedule](example.png)
-![Primetime Page](primetime.png)
+<img src="homepage.png" width="700" alt="Homepage">
+<img src="example.png" width="700" alt="Example Team Schedule">
+<img src="primetime.png" width="700" alt="Primetime Page">
 
 ---
 

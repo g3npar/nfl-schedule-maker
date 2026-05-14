@@ -252,8 +252,8 @@ Week 15:
   49ers @ Cardinals                    4:05 PM ET
   Rams @ Buccaneers                    4:25 PM ET
   Dolphins @ Patriots                  1:00 PM ET
-  Jaguars @ Bears                      1:00 PM ET
-  Bengals @ Texans                     1:00 PM ET
+  Jaguars @ Bears                      8:00 PM ET (Saturday Night Football)
+  Bengals @ Texans                     4:30 PM ET (Saturday)
   Colts @ Eagles                       8:15 PM ET (Monday Night Football)
   Saints @ Ravens                      1:00 PM ET
   Broncos @ Chargers                   4:25 PM ET
@@ -266,12 +266,12 @@ Week 15:
 Week 16:
   Buccaneers @ Lions                   8:15 PM ET (Monday Night Football)
   Titans @ Raiders                     4:05 PM ET
-  Patriots @ Jets                      8:20 PM ET (Christmas Night Football)
-  Colts @ Vikings                      1:00 PM ET
+  Patriots @ Jets                      1:00 PM ET
+  Colts @ Vikings                      8:00 PM ET (Saturday Night Football)
   Commanders @ Cardinals               4:25 PM ET
   Ravens @ Bengals                     1:00 PM ET (Christmas Day Football)
   Browns @ Saints                      1:00 PM ET
-  Panthers @ Steelers                  1:00 PM ET
+  Panthers @ Steelers                  4:30 PM ET (Saturday)
   Rams @ Seahawks                      4:30 PM ET (Christmas Afternoon Football)
   Jaguars @ Giants                     8:15 PM ET (Thursday Night Football)
   Chiefs @ Chargers                    4:25 PM ET
@@ -283,7 +283,7 @@ Week 16:
 
 Week 17:
   Patriots @ Jaguars                   8:20 PM ET (Sunday Night Football)
-  Chargers @ Bills                     1:00 PM ET
+  Chargers @ Bills                     8:00 PM ET (Saturday Night Football)
   Lions @ Bears                        4:25 PM ET
   Texans @ Colts                       1:00 PM ET
   Seahawks @ Commanders                1:00 PM ET
@@ -292,12 +292,12 @@ Week 17:
   Steelers @ Buccaneers                1:00 PM ET
   Broncos @ Jets                       4:05 PM ET
   Ravens @ Falcons                     1:00 PM ET
-  Giants @ Rams                        1:00 PM ET
+  Giants @ Rams                        4:05 PM ET
   Panthers @ Saints                    1:00 PM ET
   Eagles @ Titans                      1:00 PM ET
   Bengals @ Dolphins                   8:15 PM ET (Monday Night Football)
-  Cardinals @ Cowboys                  4:25 PM ET
-  Raiders @ Browns                     4:05 PM ET
+  Cardinals @ Cowboys                  4:30 PM ET (Saturday)
+  Raiders @ Browns                     1:00 PM ET
 
 Week 18:
   Bills @ Patriots                     TBD (Flex Scheduling - Nighttime)
